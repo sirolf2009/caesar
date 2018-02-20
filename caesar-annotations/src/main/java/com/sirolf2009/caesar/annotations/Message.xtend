@@ -10,7 +10,6 @@ import javax.management.openmbean.CompositeDataSupport
 import javax.management.openmbean.CompositeType
 import javax.management.openmbean.OpenDataException
 import javax.management.openmbean.OpenType
-import javax.management.openmbean.SimpleType
 import org.eclipse.xtend.lib.macro.AbstractClassProcessor
 import org.eclipse.xtend.lib.macro.Active
 import org.eclipse.xtend.lib.macro.TransformationContext
@@ -26,7 +25,6 @@ annotation Message {
 
 			annotatedClass.addMethod("createCompositeType") [
 				val compositeType = newTypeReference(CompositeType)
-				val simpleType = newTypeReference(SimpleType)
 				val fieldNames = annotatedClass.declaredFields.map[simpleName].map['''"«it»"'''].reduce[a, b|a + "," + b]
 				val fieldTypes = annotatedClass.declaredFields.map['''javax.management.openmbean.SimpleType.«context.getSimpleType(type)»'''].reduce[a, b|a + "," + b]
 				static = true
