@@ -1,12 +1,11 @@
 package com.sirolf2009.caesar.server
 
 import akka.actor.ActorSystem
-import javax.management.remote.JMXServiceURL
 import akka.actor.Props
 import com.sirolf2009.caesar.server.actor.JMXActor
+import com.sirolf2009.caesar.server.actor.JMXActor.GetBeans
 import com.sirolf2009.caesar.server.actor.PrintActor
-import com.sirolf2009.caesar.server.actor.JMXActor.Subscribe
-import java.time.Duration
+import javax.management.remote.JMXServiceURL
 
 class JMXServer {
 	
@@ -15,7 +14,7 @@ class JMXServer {
 		val system = ActorSystem.create("CaesarJMXServer")
 		val jmxActor = system.actorOf(Props.create(JMXActor, url))
 		val printActor = system.actorOf(PrintActor.props)
-		jmxActor.tell(new Subscribe("com.sirolf2009:type=Test", "Number", Duration.ofSeconds(1).toMillis()), printActor)
+		jmxActor.tell(new GetBeans(), printActor)
 	}
 	
 }

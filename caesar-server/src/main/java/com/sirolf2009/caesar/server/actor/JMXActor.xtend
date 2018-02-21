@@ -6,9 +6,9 @@ import akka.actor.Cancellable
 import com.sirolf2009.caesar.annotations.Expose
 import com.sirolf2009.caesar.annotations.JMXBean
 import com.sirolf2009.caesar.annotations.Match
-import com.sirolf2009.caesar.annotations.Message
 import com.sirolf2009.util.akka.ActorHelper
 import java.io.IOException
+import java.util.Collection
 import java.util.HashMap
 import java.util.List
 import java.util.Map
@@ -22,7 +22,6 @@ import javax.management.remote.JMXConnectorFactory
 import javax.management.remote.JMXServiceURL
 import org.eclipse.xtend.lib.annotations.Data
 import scala.concurrent.duration.FiniteDuration
-import java.util.Collection
 
 @JMXBean
 class JMXActor extends AbstractActor {
@@ -53,20 +52,23 @@ class JMXActor extends AbstractActor {
 		if(!subscriptions.containsKey(sender())) {
 			val delay = FiniteDuration.Zero
 			val interval = FiniteDuration.create(updateInterval, TimeUnit.MILLISECONDS)
-			val msg = new SendTo(sender(), name, attribute) as Object
+			val msg = new SendTo(sender(), attributes) as Object
 			val cancellable = context().system.scheduler.schedule(delay, interval, self(), msg, context().system.dispatcher, self())
 			subscriptions.put(sender(), cancellable)
 		}
 	}
 
 	@Match def onUnsubscribe(Unsubscribe it) {
-		subscriptions.remove(sender())
+		val subscription = subscriptions.get(sender())
+		if(subscription !== null) {
+			subscription.cancel
+			subscriptions.remove(sender())
+		}
 	}
 
 	@Match def onSendTo(SendTo it) {
 		try {
-			val value = connection.getAttribute(beans.get(name).name, attribute)
-			receiver.tell(new NewValue(name, attribute, value))
+			receiver.tell(new NewValues(attributes.toMap([it], [getValue(it)])))
 		} catch(Exception e) {
 			error("Failed to retrieve attribute for " + it, e)
 		}
@@ -81,10 +83,19 @@ class JMXActor extends AbstractActor {
 	}
 
 	def scanObjects() {
-		beans = queryNames(null, null).filter[toString.startsWith("com.sirolf2009")].map [
-			val info = MBeanInfo
-			new MBean(it, info.attributes, info.operations)
+		beans = queryNames(null, null).map [bean|
+			val info = getMBeanInfo(bean)
+			val attributes = info.attributes.map[attr| new Attribute(bean, attr)]
+			new MBean(bean, attributes, info.operations)
 		].toMap[name.toString]
+	}
+	
+	def getValue(Attribute attribute) {
+		return getValue(attribute.name, attribute.attributeInfo)
+	}
+	
+	def getValue(ObjectName objectName, MBeanAttributeInfo attributeInfo) {
+		return connection.getAttribute(objectName, attributeInfo.name)
 	}
 
 	static class Update {
@@ -93,9 +104,8 @@ class JMXActor extends AbstractActor {
 	static class GetBeans {
 	}
 
-	@Message static class Subscribe {
-		val String name
-		val String attribute
+	@Data static class Subscribe {
+		val List<Attribute> attributes
 		val long updateInterval
 	}
 
@@ -106,22 +116,24 @@ class JMXActor extends AbstractActor {
 		val Collection<MBean> beans
 	}
 
-	@Data static class NewValue {
-		val String name
-		val String attribute
-		val Object value
+	@Data static class NewValues {
+		val Map<Attribute, Object> values
 	}
 
 	@Data static class SendTo {
-		ActorRef receiver
-		val String name
-		val String attribute
+		val ActorRef receiver
+		val List<Attribute> attributes
 	}
 
 	@Data static class MBean {
 		val ObjectName name
-		val List<MBeanAttributeInfo> attributeInfo
+		val List<Attribute> attributes
 		val List<MBeanOperationInfo> operationInfo
+	}
+
+	@Data static class Attribute {
+		val ObjectName name
+		val MBeanAttributeInfo attributeInfo
 	}
 
 }
