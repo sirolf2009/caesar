@@ -25,8 +25,8 @@ annotation Message {
 
 			annotatedClass.addMethod("createCompositeType") [
 				val compositeType = newTypeReference(CompositeType)
-				val fieldNames = annotatedClass.declaredFields.map[simpleName].map['''"«it»"'''].reduce[a, b|a + "," + b]
-				val fieldTypes = annotatedClass.declaredFields.map['''javax.management.openmbean.SimpleType.«context.getSimpleType(type)»'''].reduce[a, b|a + "," + b]
+				val fieldNames = annotatedClass.declaredFields.map[simpleName].map['''"«it»"'''].join(",")
+				val fieldTypes = annotatedClass.declaredFields.map['''javax.management.openmbean.SimpleType.«context.getSimpleType(type)»'''].join(",")
 				static = true
 				returnType = compositeType
 				body = '''
@@ -45,7 +45,7 @@ annotation Message {
 					addParameter(field.simpleName, field.type)
 				]
 				val map = newTypeReference(Map, newTypeReference(String), anyType)
-				val entries = annotatedClass.declaredFields.map['''map.put("«simpleName»", «simpleName»);'''].reduce[a, b|a + "\n" + b]
+				val entries = annotatedClass.declaredFields.map['''map.put("«simpleName»", «simpleName»);'''].join("\n")
 				static = true
 				returnType = map
 				body = '''
@@ -59,7 +59,7 @@ annotation Message {
 				annotatedClass.declaredFields.forEach [ field |
 					addParameter(field.simpleName, field.type)
 				]
-				val mapParams = annotatedClass.declaredFields.map['''«simpleName»'''].reduce[a, b|a + ", " + b]
+				val mapParams = annotatedClass.declaredFields.map['''«simpleName»'''].join(",")
 				exceptions = #[newTypeReference(OpenDataException)]
 				body = '''
 				super(createCompositeType(), createCompositeMap(«mapParams»));'''

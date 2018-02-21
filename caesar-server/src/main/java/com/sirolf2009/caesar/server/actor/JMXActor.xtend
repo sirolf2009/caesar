@@ -6,6 +6,9 @@ import akka.actor.Cancellable
 import com.sirolf2009.caesar.annotations.Expose
 import com.sirolf2009.caesar.annotations.JMXBean
 import com.sirolf2009.caesar.annotations.Match
+import com.sirolf2009.caesar.server.model.Attribute
+import com.sirolf2009.caesar.server.model.MBean
+import com.sirolf2009.caesar.server.model.NewValues
 import com.sirolf2009.util.akka.ActorHelper
 import java.io.IOException
 import java.util.Collection
@@ -14,7 +17,6 @@ import java.util.List
 import java.util.Map
 import java.util.concurrent.TimeUnit
 import javax.management.MBeanAttributeInfo
-import javax.management.MBeanOperationInfo
 import javax.management.MBeanServerConnection
 import javax.management.ObjectName
 import javax.management.remote.JMXConnector
@@ -45,15 +47,14 @@ class JMXActor extends AbstractActor {
 	}
 	
 	@Match def onGetBeans(GetBeans it) {
+		println(it)
 		sender().tell(new Beans(beans.values))
 	}
 
 	@Match def onSubscribe(Subscribe it) {
 		if(!subscriptions.containsKey(sender())) {
-			val delay = FiniteDuration.Zero
 			val interval = FiniteDuration.create(updateInterval, TimeUnit.MILLISECONDS)
-			val msg = new SendTo(sender(), attributes) as Object
-			val cancellable = context().system.scheduler.schedule(delay, interval, self(), msg, context().system.dispatcher, self())
+			val cancellable = context().system.scheduler.schedule(FiniteDuration.Zero, interval, self(), new SendTo(sender(), attributes), context().dispatcher, null)
 			subscriptions.put(sender(), cancellable)
 		}
 	}
@@ -116,24 +117,9 @@ class JMXActor extends AbstractActor {
 		val Collection<MBean> beans
 	}
 
-	@Data static class NewValues {
-		val Map<Attribute, Object> values
-	}
-
 	@Data static class SendTo {
 		val ActorRef receiver
 		val List<Attribute> attributes
-	}
-
-	@Data static class MBean {
-		val ObjectName name
-		val List<Attribute> attributes
-		val List<MBeanOperationInfo> operationInfo
-	}
-
-	@Data static class Attribute {
-		val ObjectName name
-		val MBeanAttributeInfo attributeInfo
 	}
 
 }
