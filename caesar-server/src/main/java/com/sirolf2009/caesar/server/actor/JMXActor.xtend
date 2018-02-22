@@ -34,7 +34,7 @@ class JMXActor extends AbstractActor {
 	var Map<String, MBean> beans
 
 	new(JMXServiceURL url) throws IOException {
-		this(JMXConnectorFactory.connect(url))
+		this(JMXConnectorFactory.connect(url).MBeanServerConnection)
 	}
 
 	new(JMXConnector connector) throws IOException {
@@ -44,10 +44,10 @@ class JMXActor extends AbstractActor {
 	new(MBeanServerConnection connection) {
 		this.connection = connection
 		scanObjects()
+		registerAs("com.sirolf2009.caesar:type=JMXActor")
 	}
 	
 	@Match def onGetBeans(GetBeans it) {
-		println(it)
 		sender().tell(new Beans(beans.values))
 	}
 
@@ -81,6 +81,10 @@ class JMXActor extends AbstractActor {
 	
 	@Expose override void rescanObjects() {
 		self().tell(new Update(), self())
+	}
+	
+	@Expose override int getSubscriberCount() {
+		return subscriptions.size
 	}
 
 	def scanObjects() {

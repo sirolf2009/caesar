@@ -1,56 +1,91 @@
 package com.sirolf2009.caesar.server.actor
 
 import akka.actor.AbstractActor
+import akka.actor.ActorRef
+import com.sirolf2009.caesar.annotations.Expose
 import com.sirolf2009.caesar.annotations.JMXBean
 import com.sirolf2009.caesar.annotations.Match
 import com.sirolf2009.caesar.server.model.Attribute
 import com.sirolf2009.caesar.server.model.NewValues
+import java.io.StringWriter
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneId
+import java.util.ArrayList
+import java.util.Date
 import java.util.HashMap
+import java.util.List
 import java.util.Map
-import tech.tablesaw.api.Table
-import tech.tablesaw.columns.Column
+import java.util.function.Supplier
+import org.eclipse.xtend.lib.annotations.Data
 import tech.tablesaw.api.BooleanColumn
 import tech.tablesaw.api.CategoryColumn
 import tech.tablesaw.api.DateColumn
-import java.util.Date
 import tech.tablesaw.api.DateTimeColumn
 import tech.tablesaw.api.DoubleColumn
 import tech.tablesaw.api.FloatColumn
 import tech.tablesaw.api.IntColumn
 import tech.tablesaw.api.LongColumn
 import tech.tablesaw.api.ShortColumn
+import tech.tablesaw.api.Table
 import tech.tablesaw.api.TimeColumn
-import java.time.LocalTime
-import org.eclipse.xtend.lib.annotations.Data
+import tech.tablesaw.columns.Column
 
 @JMXBean class TableActor extends AbstractActor {
 		
-	val Table table
+	val String name
 	val Map<Attribute, Column> columnMap
+	val List<Supplier<Column>> mappingColumns
+	val List<ActorRef> subscribtions
 	
 	new(String name) {
-		this(Table.create(name))
-	}
-	
-	new(Table table) {
-		this.table = table
+		this.name = name
+		registerAs("com.sirolf2009.caesar:type=TableActor,table="+name)
 		columnMap = new HashMap()
+		mappingColumns = new ArrayList()
+		subscribtions = new ArrayList()
 	}
 	
 	@Match def void onNewValues(NewValues it) {
 		values.forEach[attribute,value|
 			columnMap.get(attribute).append(value)
 		]
-		table.write.csv(System.out)
-	}
-	
-	@Match def void addColumn(Column it) {
-		table.addColumn(it)
+		val table = getTable()
+		subscribtions.forEach[tell(table, self())]
 	}
 	
 	@Match def void addColumn(AddColumn it) {
 		columnMap.put(attribute, column)
-		table.addColumn(column)
+	}
+	
+	@Match def void addMappingColumn(AddMappingColumn it) {
+		mappingColumns.add(supplier)
+	}
+	
+	@Match def void getTable(GetTable get) {
+		sender().tell(getTable(), self())
+	}
+	
+	@Match def void onSubscribe(Subscribe subscribe) {
+		subscribtions.add(sender())
+	}
+	
+	@Match def void onUnsubscribe(Unsubscribe subscribe) {
+		subscribtions.remove(sender())
+	}
+	
+	@Expose override String csvTable() {
+		val writer = new StringWriter()
+		table.write.csv(writer)
+		writer.close()
+		return writer.buffer.toString
+	}
+	
+	def getTable() {
+		return Table.create(name, columnMap.values) => [
+			mappingColumns.forEach[col| addColumn(col.get())]
+		]
 	}
 	
 	def static void append(Column column, Object object) {
@@ -68,12 +103,16 @@ import org.eclipse.xtend.lib.annotations.Data
 			}
 		} else if(column instanceof DateColumn) {
 			if(object instanceof Date) {
+				column.append(object.toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
+			} else if(object instanceof LocalDate) {
 				column.append(object)
 			} else {
 				throw new IllegalArgumentException('''The value «object» cannot be added to the date column «column»''')
 			}
 		} else if(column instanceof DateTimeColumn) {
 			if(object instanceof Date) {
+				column.append(object.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
+			} else if(object instanceof LocalDateTime) {
 				column.append(object)
 			} else {
 				throw new IllegalArgumentException('''The value «object» cannot be added to the datetime column «column»''')
@@ -119,9 +158,18 @@ import org.eclipse.xtend.lib.annotations.Data
 		}
 	}
 	
+	@Data static class Subscribe {
+	}
+	@Data static class Unsubscribe {
+	}
+	@Data static class GetTable {
+	}
 	@Data static class AddColumn {
 		val Attribute attribute
 		val Column column
+	}
+	@Data static class AddMappingColumn {
+		val Supplier<Column> supplier
 	}
 	
 }
