@@ -42,7 +42,8 @@ class JMXServer {
 	}
 	
 	def createNewTable(String tableName) {
-		system.actorOf(Props.create(TableActor, tableName), "table-"+tableName)
+		val tableActor = system.actorOf(Props.create(TableActor, tableName), "table-"+tableName)
+		return new CaesarTable(jmxActor, tableActor)
 	}
 	
 	def private ask(ActorRef actor, Object msg, long timeout) {

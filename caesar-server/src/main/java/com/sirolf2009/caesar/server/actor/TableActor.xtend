@@ -53,6 +53,7 @@ import tech.tablesaw.columns.Column
 		]
 		val table = getTable()
 		subscribtions.forEach[tell(table, self())]
+		println(csvTable)
 	}
 	
 	@Match def void addColumn(AddColumn it) {
@@ -89,6 +90,10 @@ import tech.tablesaw.columns.Column
 	}
 	
 	def static void append(Column column, Object object) {
+		if(object === null) {
+			println("null")
+			return
+		}
 		if(column instanceof BooleanColumn) {
 			if(object instanceof Boolean) {
 				column.append(object)
@@ -154,7 +159,7 @@ import tech.tablesaw.columns.Column
 				throw new IllegalArgumentException('''The value «object» cannot be added to the time column «column»''')
 			}
 		} else {
-			throw new IllegalArgumentException('''Unknown column type «column»''')
+			throw new IllegalArgumentException('''Unknown column type «column.class»''')
 		}
 	}
 	

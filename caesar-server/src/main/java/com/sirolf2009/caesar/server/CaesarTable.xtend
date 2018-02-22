@@ -2,6 +2,8 @@ package com.sirolf2009.caesar.server
 
 import akka.actor.ActorRef
 import com.sirolf2009.caesar.server.model.Attribute
+import com.sirolf2009.caesar.server.actor.JMXActor.Subscribe
+import java.util.Arrays
 
 class CaesarTable {
 	
@@ -14,6 +16,7 @@ class CaesarTable {
 	}
 	
 	def subcribeToAttribute(Attribute attribute) {
+		jmxActor.tell(new Subscribe(Arrays.asList(attribute), 1000), tableActor)
 	}
 	
 }
