@@ -1,32 +1,21 @@
 package com.sirolf2009.controller;
 
-import akka.actor.ActorRef;
-import com.sirolf2009.caesar.server.CaesarTable;
 import com.sirolf2009.caesar.server.JMXServer;
 import com.sirolf2009.caesar.server.model.Attribute;
 import com.sirolf2009.caesar.server.model.MBean;
-import com.sirolf2009.caesar.server.model.NewValues;
+import com.sirolf2009.component.TableTab;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
-import jfxtras.scene.control.window.CloseIcon;
-import jfxtras.scene.control.window.Window;
-import org.w3c.dom.Attr;
 
-import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanServerConnection;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Objects;
 import java.util.Optional;
 
 public class ConnectionController extends VBox {
@@ -36,11 +25,11 @@ public class ConnectionController extends VBox {
     @FXML
     TreeView<Object> mBeans;
     @FXML
-    AnchorPane dashboard;
+    TabPane visualizations;
 
     public ConnectionController(MBeanServerConnection connection) {
         this.connection = connection;
-        this.server = new JMXServer(connection);
+        this.server = new JMXServer("", connection);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/connection.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -107,22 +96,21 @@ public class ConnectionController extends VBox {
             }
         });
 
-        dashboard.setOnDragOver(new EventHandler<DragEvent>() {
+        visualizations.setOnDragOver(new EventHandler<DragEvent>() {
             public void handle(DragEvent event) {
-                if (event.getGestureSource() != dashboard && event.getDragboard().hasString()) {
+                if (event.getGestureSource() != visualizations && event.getDragboard().hasString()) {
                     event.acceptTransferModes(TransferMode.LINK);
                 }
                 event.consume();
             }
         });
-        dashboard.setOnDragDropped(new EventHandler<DragEvent>() {
+        visualizations.setOnDragDropped(new EventHandler<DragEvent>() {
             public void handle(DragEvent event) {
                 Dragboard db = event.getDragboard();
                 boolean success = false;
                 if (db.hasString()) {
                     Attribute attribute = (Attribute) mBeans.getSelectionModel().getSelectedItem().getValue();
-                    CaesarTableWindow table = new CaesarTableWindow(mBeans, server, attribute);
-                    dashboard.getChildren().add(table);
+                    visualizations.getTabs().add(new TableTab(mBeans, server, attribute));
                     success = true;
                 }
                 event.setDropCompleted(success);
@@ -153,5 +141,7 @@ public class ConnectionController extends VBox {
     public Optional<TreeItem<Object>> findTreeChild(TreeItem<Object> treeItem, Object value) {
         return treeItem.getChildren().stream().filter(item -> item.getValue().equals(value)).findAny();
     }
+
+
 
 }

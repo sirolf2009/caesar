@@ -15,19 +15,22 @@ import java.util.function.Consumer
 import javax.management.MBeanServerConnection
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
+import org.eclipse.xtend.lib.annotations.Accessors
 
-class JMXServer {
+@Accessors class JMXServer {
 
+	val String name
 	val MBeanServerConnection connection
 	val ActorSystem system
 	val ActorRef jmxActor
 
-	new(MBeanServerConnection connection) {
+	new(String name, MBeanServerConnection connection) {
+		this.name = name
 		this.connection = connection
-		system = ActorSystem.create("CaesarJMXServer")
+		system = ActorSystem.create(name)
 		jmxActor = system.actorOf(Props.create(JMXActor, connection))
 	}
-
+	
 	def getBeans() {
 		return (jmxActor.ask(new GetBeans(), 1000) as Beans).beans
 	}
@@ -39,6 +42,10 @@ class JMXServer {
 	
 	def private ask(ActorRef actor, Object msg, long timeout) {
 		return Await.result(Patterns.ask(actor, msg, timeout), Duration.apply(timeout, TimeUnit.MILLISECONDS))
+	}
+	
+	override toString() {
+		return name
 	}
 
 }

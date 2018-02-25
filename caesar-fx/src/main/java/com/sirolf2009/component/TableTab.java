@@ -1,40 +1,36 @@
-package com.sirolf2009.controller;
+package com.sirolf2009.component;
 
 import com.sirolf2009.caesar.server.CaesarTable;
 import com.sirolf2009.caesar.server.JMXServer;
 import com.sirolf2009.caesar.server.model.Attribute;
 import com.sirolf2009.caesar.server.model.NewValues;
-import com.sirolf2009.component.HeaderlessTableView;
-import com.sun.javafx.scene.control.skin.TableHeaderRow;
-import com.sun.javafx.scene.control.skin.TableViewSkinBase;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.input.*;
-import jfxtras.scene.control.window.CloseIcon;
-import jfxtras.scene.control.window.Window;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 
-import javax.management.openmbean.*;
-import java.io.IOException;
+import javax.management.openmbean.CompositeData;
+import javax.management.openmbean.CompositeType;
+import javax.management.openmbean.OpenMBeanAttributeInfoSupport;
 import java.util.UUID;
 
-public class CaesarTableWindow extends Window {
-
+public class TableTab extends Tab {
     private final ObservableList<NewValues> values = FXCollections.observableArrayList();
     private final TreeView<Object> mBeans;
     private final JMXServer server;
     private final CaesarTable facade;
     private final TableView<NewValues> table;
 
-    public CaesarTableWindow(TreeView<Object> mBeans, JMXServer server, Attribute attribute) {
+    public TableTab(TreeView<Object> mBeans, JMXServer server, Attribute attribute) {
+        super("New Table");
         this.mBeans = mBeans;
         this.server = server;
-        getContentPane().setPadding(new Insets(4));
 
         table = new TableView<>(values);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -44,11 +40,7 @@ public class CaesarTableWindow extends Window {
             values.add(newValues);
         });
 
-        setTitle(attribute.getAttributeInfo().getName().toString());
-        setPrefWidth(300);
-        setPrefHeight(300);
-        getRightIcons().add(new CloseIcon(this));
-        getContentPane().getChildren().add(table);
+        setContent(table);
 
         table.setOnDragOver(event1 -> {
             if (event1.getGestureSource() != table && event1.getDragboard().hasString()) {
@@ -131,16 +123,6 @@ public class CaesarTableWindow extends Window {
             TableColumn<NewValues, String> column = new CaesarTableColumn(name);
             column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValues().getOrDefault(attribute, "").toString()));
             return column;
-        }
-    }
-
-    @Override
-    public void close() {
-        super.close();
-        try {
-            facade.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

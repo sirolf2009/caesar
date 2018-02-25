@@ -7,4 +7,8 @@ import org.eclipse.xtend.lib.annotations.Data
 @Data class Attribute {
 	val ObjectName name
 	val MBeanAttributeInfo attributeInfo
+	
+	override toString() {
+		return attributeInfo.name
+	}
 }
