@@ -1,22 +1,30 @@
 package com.sirolf2009.caesar.server
 
 import akka.actor.ActorRef
+import akka.actor.ActorSystem
+import com.sirolf2009.caesar.server.actor.TableActor.AddColumn
+import com.sirolf2009.caesar.server.actor.TableActor.Stop
 import com.sirolf2009.caesar.server.model.Attribute
-import com.sirolf2009.caesar.server.actor.JMXActor.Subscribe
-import java.util.Arrays
+import java.io.Closeable
+import java.io.IOException
 
-class CaesarTable {
+class CaesarTable implements Closeable {
 	
-	val ActorRef jmxActor
+	val ActorSystem system
 	val ActorRef tableActor
 	
-	new(ActorRef jmxActor, ActorRef tableActor) {
-		this.jmxActor = jmxActor
+	new(ActorSystem system, ActorRef tableActor) {
+		this.system = system
 		this.tableActor = tableActor
 	}
 	
-	def subcribeToAttribute(Attribute attribute) {
-		jmxActor.tell(new Subscribe(Arrays.asList(attribute), 1000), tableActor)
+	def void add(Attribute attribute) {
+		tableActor.tell(new AddColumn(attribute), ActorRef.noSender)
+	}
+	
+	override close() throws IOException {
+		tableActor.tell(new Stop(), ActorRef.noSender)
+		system.stop(tableActor)
 	}
 	
 }
