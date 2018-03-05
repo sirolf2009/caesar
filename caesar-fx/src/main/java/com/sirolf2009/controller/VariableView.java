@@ -8,13 +8,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.time.Duration;
 import java.util.Collection;
 import java.util.function.Function;
 
-public class VariableView extends VBox {
+public class VariableView extends HBox {
 
     private final Attribute attribute;
 

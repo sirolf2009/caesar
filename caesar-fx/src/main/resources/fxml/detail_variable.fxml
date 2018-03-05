@@ -5,15 +5,15 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 
-<fx:root prefHeight="600.0" prefWidth="800.0" spacing="8.0" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="200.0" prefWidth="1600.0" spacing="8.0" type="javafx.scene.layout.HBox" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-      <TitledPane text="Properties">
-         <VBox.margin>
+      <TitledPane text="Properties" HBox.hgrow="ALWAYS">
+         <HBox.margin>
             <Insets />
-         </VBox.margin>
+         </HBox.margin>
          <content>
             <GridPane>
               <columnConstraints>

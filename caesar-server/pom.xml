@@ -18,10 +18,5 @@
 			<artifactId>caesar-annotations</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>tech.tablesaw</groupId>
-			<artifactId>tablesaw-core</artifactId>
-			<version>0.11.9</version>
-		</dependency>
 	</dependencies>
 </project>

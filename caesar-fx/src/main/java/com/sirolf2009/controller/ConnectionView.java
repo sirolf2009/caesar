@@ -1,6 +1,5 @@
 package com.sirolf2009.controller;
 
-import com.sirolf2009.caesar.server.JMXServer;
 import com.sirolf2009.caesar.server.model.MBean;
 import com.sirolf2009.model.Connection;
 import com.sirolf2009.util.ControllerUtil;
@@ -8,19 +7,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 
-import javax.management.AttributeNotFoundException;
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanException;
-import javax.management.ReflectionException;
-import java.io.IOException;
 import java.time.Duration;
 import java.util.Collection;
-import java.util.List;
 import java.util.function.Function;
 
-public class ConnectionView extends VBox {
+public class ConnectionView extends HBox {
 
     private final Connection connection;
 

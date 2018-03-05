@@ -2,48 +2,56 @@ package com.sirolf2009.caesar.server
 
 import akka.actor.ActorRef
 import akka.actor.ActorSystem
+import akka.actor.Inbox
 import akka.actor.Props
 import akka.pattern.Patterns
-import com.sirolf2009.caesar.server.actor.JMXActor
-import com.sirolf2009.caesar.server.actor.JMXActor.Beans
-import com.sirolf2009.caesar.server.actor.JMXActor.GetBeans
 import com.sirolf2009.caesar.server.actor.TableActor
-import com.sirolf2009.caesar.server.model.Attribute
-import com.sirolf2009.caesar.server.model.NewValues
+import com.sirolf2009.caesar.server.actor.jmx.JMXConnectionActor.ObjectInstances
+import com.sirolf2009.caesar.server.actor.jmx.JMXConnectionActor.QueryBeans
+import com.sirolf2009.caesar.server.actor.jmx.JMXConnectorActor
+import com.sirolf2009.caesar.server.model.Attributes
+import java.util.HashMap
+import java.util.Map
 import java.util.concurrent.TimeUnit
-import java.util.function.Consumer
-import javax.management.MBeanServerConnection
+import javafx.collections.ObservableList
+import javax.management.remote.JMXConnector
+import org.eclipse.xtend.lib.annotations.Accessors
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
-import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors class JMXServer {
 
+	val Map<String, CaesarTable> tables = new HashMap()
 	val String name
-	val MBeanServerConnection connection
 	val ActorSystem system
-	val ActorRef jmxActor
+	val ActorRef connectorActor
 
-	new(String name, MBeanServerConnection connection) {
+	new(String name, JMXConnector connector) {
 		this.name = name
-		this.connection = connection
 		system = ActorSystem.create(name)
-		jmxActor = system.actorOf(Props.create(JMXActor, connection))
+		connectorActor = system.actorOf(Props.create(JMXConnectorActor, [new JMXConnectorActor(connector)]))
 	}
-	
+
 	def getBeans() {
-		return (jmxActor.ask(new GetBeans(), 1000) as Beans).beans
+		val inbox = Inbox.create(system)
+		return (connectorActor.ask(new QueryBeans(inbox.ref, null, null), 1000) as ObjectInstances).objectInstances
 	}
-	
-	def createNewTable(String tableName, Attribute initialAttribute, Consumer<NewValues> onNewValues) {
-		val tableActor = system.actorOf(Props.create(TableActor, [new TableActor(connection, tableName, initialAttribute, onNewValues)]), "table-"+tableName)
-		return new CaesarTable(system, tableActor)
+
+	def createNewTable(String tableName, ObservableList<Attributes> attributes) {
+		if(!tables.containsKey(name)) {
+			val tableActor = system.actorOf(Props.create(TableActor, [new TableActor(attributes)]), "table-" + tableName)
+			val table = new CaesarTable(system, tableActor)
+			tables.put(tableName, table)
+			return table
+		} else {
+			throw new IllegalArgumentException('''A table named «tableName» already exists''')
+		}
 	}
-	
+
 	def private ask(ActorRef actor, Object msg, long timeout) {
 		return Await.result(Patterns.ask(actor, msg, timeout), Duration.apply(timeout, TimeUnit.MILLISECONDS))
 	}
-	
+
 	override toString() {
 		return name
 	}

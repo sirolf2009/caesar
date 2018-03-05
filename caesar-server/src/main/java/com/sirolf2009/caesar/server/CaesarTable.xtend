@@ -2,29 +2,23 @@ package com.sirolf2009.caesar.server
 
 import akka.actor.ActorRef
 import akka.actor.ActorSystem
-import com.sirolf2009.caesar.server.actor.TableActor.AddColumn
-import com.sirolf2009.caesar.server.actor.TableActor.Stop
-import com.sirolf2009.caesar.server.model.Attribute
-import java.io.Closeable
-import java.io.IOException
+import javafx.beans.property.BooleanProperty
+import javafx.beans.property.SimpleBooleanProperty
+import javax.management.ObjectName
 
-class CaesarTable implements Closeable {
+class CaesarTable  {
 	
 	val ActorSystem system
 	val ActorRef tableActor
+	val BooleanProperty isUpdating
 	
 	new(ActorSystem system, ActorRef tableActor) {
 		this.system = system
 		this.tableActor = tableActor
+		isUpdating = new SimpleBooleanProperty(false)
 	}
 	
-	def void add(Attribute attribute) {
-		tableActor.tell(new AddColumn(attribute), ActorRef.noSender)
-	}
-	
-	override close() throws IOException {
-		tableActor.tell(new Stop(), ActorRef.noSender)
-		system.stop(tableActor)
+	def void add(ObjectName objectName, String attribute) {
 	}
 	
 }
