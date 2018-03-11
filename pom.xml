@@ -1,78 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.sirolf2009</groupId>
-	<artifactId>caesar</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>Caesar</name>
-	<packaging>pom</packaging>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<xtend.version>2.13.0</xtend.version>
-		<akka.version>2.5.11</akka.version>
-	</properties>
-	<modules>
-		<module>caesar-annotations</module>
-		<module>caesar-server</module>
-	</modules>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.xtend</groupId>
-				<artifactId>xtend-maven-plugin</artifactId>
-				<version>${xtend.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-							<goal>testCompile</goal>
-							<goal>xtend-install-debug-info</goal>
-							<goal>xtend-test-install-debug-info</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<outputDirectory>${project.build.directory}/xtend-gen/main</outputDirectory>
-					<testOutputDirectory>${project.build.directory}/xtend-gen/test</testOutputDirectory>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-	<dependencies>
-		<dependency>
-			<groupId>org.eclipse.xtend</groupId>
-			<artifactId>org.eclipse.xtend.lib</artifactId>
-			<version>${xtend.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.10</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.sirolf2009</groupId>
-			<artifactId>util</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.typesafe.akka</groupId>
-			<artifactId>akka-actor_2.12</artifactId>
-			<version>${akka.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.typesafe.akka</groupId>
-			<artifactId>akka-testkit_2.12</artifactId>
-			<version>${akka.version}</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.sirolf2009</groupId>
+    <artifactId>caesar</artifactId>
+    <name>caesar</name>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <packaging>jar</packaging>
+
+    <organization>
+        <!-- Used as the 'Vendor' for JNLP generation -->
+        <name>sirolf2009</name>
+    </organization>
+
+    <properties>
+        <slf4j.version>1.7.12</slf4j.version>
+        <log4j.version>1.2.17</log4j.version>
+    </properties>
+
+    <build>
+
+        <finalName>jmx-client</finalName>
+
+        <plugins>
+
+            <plugin>
+                <groupId>com.zenjava</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>8.1.5</version>
+                <configuration>
+
+                    <mainClass>com.sirolf2009.MainApp</mainClass>
+
+                    <!-- only required if signing the jar file -->
+                    <keyStoreAlias>example-user</keyStoreAlias>
+                    <keyStorePassword>example-password</keyStorePassword>
+                    <allPermissions>true</allPermissions>
+
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <dependencies>
+
+        <!-- Apache Commons -->
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+
+        <!-- Logging  -->
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.gridkit.lab</groupId>
+            <artifactId>jvm-attach-api</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.fxmisc.easybind</groupId>
+            <artifactId>easybind</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+
+    </dependencies>
+
 </project>
