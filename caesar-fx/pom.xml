@@ -60,14 +60,6 @@
 
 
     <dependencies>
-    
-        <!-- MigLayout -->
-
-        <dependency>
-            <groupId>com.miglayout</groupId>
-            <artifactId>miglayout-javafx</artifactId>
-            <version>5.0</version>
-        </dependency>
 
         <!-- Apache Commons -->
 
@@ -101,27 +93,15 @@
         </dependency>
 
         <dependency>
-            <groupId>com.sirolf2009</groupId>
-            <artifactId>caesar-server</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.gridkit.lab</groupId>
             <artifactId>jvm-attach-api</artifactId>
             <version>1.2</version>
         </dependency>
 
         <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
-            <version>2.12.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jfxtras</groupId>
-            <artifactId>jfxtras-window</artifactId>
-            <version>8.0-r5</version>
+            <groupId>org.fxmisc.easybind</groupId>
+            <artifactId>easybind</artifactId>
+            <version>1.0.3</version>
         </dependency>
 
     </dependencies>

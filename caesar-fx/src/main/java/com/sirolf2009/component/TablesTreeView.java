@@ -1,12 +1,10 @@
 package com.sirolf2009.component;
 
-import com.sirolf2009.caesar.server.model.Attribute;
 import com.sirolf2009.component.hierarchy.TreeViewHierarchy;
 import com.sirolf2009.model.JMXAttribute;
 import com.sirolf2009.model.JMXObject;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.collections.ListChangeListener;
+import com.sirolf2009.model.Table;
+import javafx.beans.value.ObservableStringValue;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.TreeCell;
@@ -17,17 +15,10 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.util.Callback;
-import org.w3c.dom.Attr;
 
-import javax.management.ObjectName;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.function.Supplier;
+public class TablesTreeView extends TreeViewHierarchy {
 
-public class VariablesTreeView extends TreeViewHierarchy {
-
-    public VariablesTreeView(ObservableList<JMXObject> attributes) {
+    public TablesTreeView(ObservableList<Table> attributes) {
         setRoot(new TreeItem<>());
         setItems(attributes);
         getRoot().getChildren().forEach(treeItem -> ((TreeItem)treeItem).setExpanded(false));
@@ -49,11 +40,12 @@ public class VariablesTreeView extends TreeViewHierarchy {
                     public void handle(MouseEvent mouseEvent) {
                         Object value = treeCell.getTreeItem().getValue();
                         if(value instanceof JMXAttribute) {
+                            Table table = (Table) treeCell.getTreeItem().getParent().getValue();
                             Dragboard db = treeCell.startDragAndDrop(TransferMode.LINK);
 
                             ClipboardContent content = new ClipboardContent();
                             JMXAttribute attr = (JMXAttribute)value;
-                            content.putString(attr.getAttributeInfo().getName()+"@"+attr.getObjectName().toString());
+                            content.putString(attr.getAttributeInfo().getName()+"@"+attr.getObjectName().toString()+"@"+table.getName());
                             db.setContent(content);
 
                             mouseEvent.consume();

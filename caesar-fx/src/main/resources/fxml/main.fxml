@@ -1,104 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
 
 <BorderPane prefHeight="1000.0" prefWidth="1600.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sirolf2009.MainController">
    <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
+      <ToolBar fx:id="toolbar" prefHeight="40.0" prefWidth="200.0" stylesheets="@../styles/styles.css" BorderPane.alignment="CENTER">
+        <items>
+          <Button mnemonicParsing="false" onAction="#newTable" text="New Table" />
+            <Button mnemonicParsing="false" onAction="#newChart" text="New Chart" />
+            <Separator orientation="VERTICAL" />
+        </items>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </ToolBar>
    </top>
    <left>
-      <TabPane fx:id="master" prefHeight="200.0" prefWidth="300.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-        <tabs>
-          <Tab fx:id="connectionsTab" closable="false" text="Connections">
-            <content>
-                  <VBox>
-                     <children>
-                        <ToolBar>
-                           <items>
-                            <Button mnemonicParsing="false" onAction="#handleNewConnection" text="Connect" />
-                           </items>
-                        </ToolBar>
-                    <ListView fx:id="connections" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                  </ListView>
-                     </children>
-                  </VBox>
-            </content>
-          </Tab>
-            <Tab fx:id="variablesTab" closable="false" text="Variables">
+      <Accordion prefWidth="400.0" BorderPane.alignment="CENTER">
+        <panes>
+          <TitledPane animated="false" text="Variables">
                <content>
-                  <TreeView prefHeight="200.0" prefWidth="200.0" />
+                  <AnchorPane fx:id="variablesAnchor" />
                </content>
-            </Tab>
-            <Tab fx:id="tablesTab" closable="false" text="Tables">
-                <content>
-                  <VBox>
-                     <children>
-                        <ToolBar prefHeight="40.0" prefWidth="200.0">
-                          <items>
-                            <Button mnemonicParsing="false" onAction="#addTable" text="Add Table" />
-                          </items>
-                        </ToolBar>
-                          <ListView minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                    </ListView>
-                     </children>
-                  </VBox>
-                </content>
-            </Tab>
-            <Tab fx:id="chartsTab" closable="false" text="Charts">
-                <content>
-                    <ListView minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                    </ListView>
-                </content>
-            </Tab>
-            <Tab closable="false" text="Actions">
-                <content>
-                    <ListView minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                    </ListView>
-                </content>
-            </Tab>
-            <Tab closable="false" text="Rules">
-                <content>
-                    <ListView minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                    </ListView>
-                </content>
-            </Tab>
-            <Tab closable="false" text="Dashboards">
-                <content>
-                    <ListView minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                    </ListView>
-                </content>
-            </Tab>
-        </tabs>
-      </TabPane>
+          </TitledPane>
+          <TitledPane animated="false" text="Tables">
+               <content>
+                  <AnchorPane fx:id="tablesAnchor" prefHeight="200.0" prefWidth="200.0" />
+               </content>
+          </TitledPane>
+        </panes>
+      </Accordion>
    </left>
    <center>
-      <AnchorPane fx:id="slave" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <TabPane fx:id="tabs" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER" />
    </center>
-   <bottom>
-      <AnchorPane fx:id="properties" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </bottom>
 </BorderPane>
