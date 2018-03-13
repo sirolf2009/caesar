@@ -75,7 +75,6 @@ public class TreeViewHierarchy<T extends IHierarchicalData<T>> extends TreeView<
         items.addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                System.out.println("invalidated");
                 clear(getRoot());
                 updateItems();
             }
@@ -192,7 +191,6 @@ public class TreeViewHierarchy<T extends IHierarchicalData<T>> extends TreeView<
      */
     private TreeItem<T> addRecursively(T value) {
         TreeItem<T> treeItem = new TreeItem<T>();
-        System.out.println(treeItem);
         treeItem.setValue(value);
         treeItem.setExpanded(true);
  

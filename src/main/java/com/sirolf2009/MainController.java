@@ -4,7 +4,7 @@ import com.sirolf2009.component.ChartTab;
 import com.sirolf2009.component.TableTab;
 import com.sirolf2009.component.TablesTreeView;
 import com.sirolf2009.component.VariablesTreeView;
-import com.sirolf2009.dialogs.ConnectionDialog;
+import com.sirolf2009.dialogs.LocalConnectionDialog;
 import com.sirolf2009.dialogs.TableConfigurationDialog;
 import com.sirolf2009.model.JMXAttribute;
 import com.sirolf2009.model.JMXObject;
@@ -15,7 +15,6 @@ import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.ToolBar;
@@ -38,7 +37,7 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        connection = ConnectionDialog.getLocalConnectionsDialog().showAndWait().get().get();
+        connection = LocalConnectionDialog.getLocalConnectionsDialog().showAndWait().get().get();
         ObservableList<JMXObject> objects = FXCollections.observableArrayList();
         try {
             connection.queryNames(null, null).forEach(objectName -> {

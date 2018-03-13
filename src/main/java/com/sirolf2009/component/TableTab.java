@@ -35,7 +35,6 @@ public class TableTab extends AnchorPane {
         this.connection = connection;
         this.attributes = FXCollections.observableArrayList();
         puller = new JMXPuller(connection, attributes, 1000);
-        new Thread(puller).start();
         ControllerUtil.load(this, "/fxml/table.fxml");
     }
 
@@ -69,6 +68,11 @@ public class TableTab extends AnchorPane {
                         JMXAttribute attribute = new JMXAttribute(objectName, mBeanAttributeInfo);
                         table.getColumns().add(getColumn(attribute));
                         attributes.add(attribute);
+                        if (attributes.size() == 1) {
+                            Thread pullerThread = new Thread(puller);
+                            pullerThread.setDaemon(true);
+                            pullerThread.start();
+                        }
                     });
                     event.consume();
                 } catch (Exception e) {
@@ -104,7 +108,7 @@ public class TableTab extends AnchorPane {
                     TableColumn<JMXAttributes, Long> keyColumn = new CaesarTableColumn(key);
                     column.getColumns().add(keyColumn);
                     keyColumn.setCellValueFactory(cellData -> {
-                        if(cellData.getValue().containsKey(key)) {
+                        if (cellData.getValue().containsKey(key)) {
                             CompositeData data = (CompositeData) cellData.getValue().get(attribute);
                             try {
                                 return new SimpleObjectProperty<Long>((Long) data.get(key));

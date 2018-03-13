@@ -2,133 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="010d095b-78ab-442d-b135-5121741e2d7b" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_lang_commons_lang_2_6.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__log4j_log4j_1_2_17.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_fxmisc_easybind_easybind_1_0_3.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_gridkit_lab_jvm_attach_api_1_2.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jcl_over_slf4j_1_7_12.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_12.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_log4j12_1_7_12.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/caesar-fx.iml" />
-      <change beforePath="$PROJECT_DIR$/caesar-annotations/.classpath" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-annotations/.project" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-annotations/.settings/org.eclipse.core.resources.prefs" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-annotations/.settings/org.eclipse.jdt.core.prefs" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-annotations/.settings/org.eclipse.m2e.core.prefs" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-annotations/.settings/org.eclipse.xtend.core.Xtend.prefs" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-annotations/pom.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-annotations/src/main/java/com/sirolf2009/caesar/annotations/Expose.xtend" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-annotations/src/main/java/com/sirolf2009/caesar/annotations/JMXBean.xtend" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-annotations/src/main/java/com/sirolf2009/caesar/annotations/Match.xtend" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-annotations/src/main/java/com/sirolf2009/caesar/annotations/Message.xtend" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-annotations/src/test/java/org/caesar/annotations/AppTest.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/.name" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/compiler.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__com_google_code_gson_gson_2_8_2.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__com_google_guava_guava_19_0_rc3.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__com_miglayout_miglayout_core_5_0.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__com_miglayout_miglayout_javafx_5_0.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__com_opencsv_opencsv_4_1.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__com_sirolf2009_caesar_annotations_0_0_1_SNAPSHOT.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__com_sirolf2009_caesar_server_0_0_1_SNAPSHOT.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__com_sirolf2009_util_0_0_1_SNAPSHOT.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__com_typesafe_akka_akka_actor_2_12_2_5_9.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__com_typesafe_config_1_3_2.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__commons_beanutils_commons_beanutils_1_9_3.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__commons_collections_commons_collections_3_2_2.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__commons_lang_commons_lang_2_6.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__it_unimi_dsi_fastutil_8_1_1.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__log4j_log4j_1_2_17.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_6.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__org_apache_commons_commons_math3_3_6_1.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__org_apache_commons_commons_text_1_1.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__org_eclipse_xtend_org_eclipse_xtend_lib_2_13_0.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__org_eclipse_xtend_org_eclipse_xtend_lib_macro_2_13_0.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__org_eclipse_xtext_org_eclipse_xtext_xbase_lib_2_13_0.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__org_gridkit_lab_jvm_attach_api_1_2.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__org_iq80_snappy_snappy_0_4.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__org_jfxtras_jfxtras_common_8_0_r5.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__org_jfxtras_jfxtras_window_8_0_r5.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__org_jsoup_jsoup_1_11_2.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__org_roaringbitmap_RoaringBitmap_0_6_51.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__org_scala_lang_modules_scala_java8_compat_2_12_0_8_0.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__org_scala_lang_scala_library_2_12_4.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__org_slf4j_jcl_over_slf4j_1_7_12.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_12.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__org_slf4j_slf4j_log4j12_1_7_12.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/libraries/Maven__tech_tablesaw_tablesaw_core_0_11_9.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/misc.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/modules.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/uiDesigner.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/.idea/workspace.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/jmx-client.iml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/pom.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/deploy/package/macosx/jmx-client.icns" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/deploy/package/windows/jmx-client.ico" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/HelloController.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/JMXPuller.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/MainApp.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/MainController.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/component/ChartTab.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/component/HeaderlessTableView.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/component/Table.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/component/TableTab.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/component/TablesTreeView.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/component/VariablesTreeView.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/component/hierarchy/IHierarchicalData.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/component/hierarchy/TreeViewHierarchy.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/controller/CaesarChartWindow.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/controller/CaesarTableWindow.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/controller/ConnectionView.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/controller/VariableView.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/dialogs/ConnectionDialog.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/dialogs/TableConfigurationDialog.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/model/ColumnOrRow.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/model/Connection.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/model/JMXAttribute.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/model/JMXAttributes.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/model/JMXObject.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/model/Table.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/java/com/sirolf2009/util/ControllerUtil.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/resources/fxml/chart.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/resources/fxml/connection.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/resources/fxml/detail_connection.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/resources/fxml/detail_variable.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/resources/fxml/hello.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/resources/fxml/main.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/resources/fxml/table.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/resources/images/background.jpg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/resources/log4j.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-fx/src/main/resources/styles/styles.css" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/.classpath" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/.project" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/.settings/org.eclipse.core.resources.prefs" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/.settings/org.eclipse.jdt.core.prefs" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/.settings/org.eclipse.m2e.core.prefs" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/.settings/org.eclipse.xtend.core.Xtend.prefs" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/pom.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/src/main/java/com/sirolf2009/caesar/server/CaesarTable.xtend" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/src/main/java/com/sirolf2009/caesar/server/JMXServer.xtend" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/src/main/java/com/sirolf2009/caesar/server/actor/DataBucketActor.xtend" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/src/main/java/com/sirolf2009/caesar/server/actor/PubSubActor.xtend" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/src/main/java/com/sirolf2009/caesar/server/actor/TableActor.xtend" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/src/main/java/com/sirolf2009/caesar/server/actor/jmx/AttributesActor.xtend" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/src/main/java/com/sirolf2009/caesar/server/actor/jmx/JMXBeanActor.xtend" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/src/main/java/com/sirolf2009/caesar/server/actor/jmx/JMXConnectionActor.xtend" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/src/main/java/com/sirolf2009/caesar/server/actor/jmx/JMXConnectorActor.xtend" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/src/main/java/com/sirolf2009/caesar/server/model/Attribute.xtend" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/src/main/java/com/sirolf2009/caesar/server/model/Attributes.xtend" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/src/main/java/com/sirolf2009/caesar/server/model/MBean.xtend" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/src/main/java/com/sirolf2009/caesar/server/model/NewValues.xtend" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/src/test/java/com/sirolf2009/caesar/server/JMXServerTest.xtend" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/src/test/java/com/sirolf2009/caesar/server/actor/TableActorTest.xtend" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/caesar-server/src/test/java/com/sirolf2009/caesar/server/actor/jmx/AttributesActorTest.xtend" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/ConnectionController.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/dialogs/RemoteConnectionDialog.java" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/.project" afterPath="$PROJECT_DIR$/.project" />
+      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.core.resources.prefs" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/JMXPuller.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/JMXPuller.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/MainController.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/MainController.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/component/TableTab.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/component/TableTab.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/component/hierarchy/TreeViewHierarchy.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/component/hierarchy/TreeViewHierarchy.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/dialogs/ConnectionDialog.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/dialogs/LocalConnectionDialog.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/connection.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/connection.fxml" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/detail_connection.fxml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/detail_variable.fxml" afterPath="" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -139,33 +26,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-149">
-              <caret line="5" column="27" lean-forward="false" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="27" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VariablesTreeView.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/VariablesTreeView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-519">
-              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ColumnOrRow.java" pinned="false" current-in-tab="true">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="ColumnOrRow.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/model/ColumnOrRow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
+            <state relative-caret-position="324">
               <caret line="19" column="20" lean-forward="false" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -176,48 +41,39 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/MainController.java">
+      <file leaf-file-name="TableTab.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/TableTab.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="327">
-              <caret line="90" column="18" lean-forward="false" selection-start-line="90" selection-start-column="18" selection-end-line="90" selection-end-column="18" />
+            <state relative-caret-position="936">
+              <caret line="73" column="49" lean-forward="false" selection-start-line="73" selection-start-column="49" selection-end-line="73" selection-end-column="49" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ChartTab.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/ChartTab.java">
+      <file leaf-file-name="LocalConnectionDialog.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/dialogs/LocalConnectionDialog.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="385">
-              <caret line="145" column="49" lean-forward="true" selection-start-line="145" selection-start-column="49" selection-end-line="145" selection-end-column="49" />
+            <state relative-caret-position="378">
+              <caret line="28" column="38" lean-forward="false" selection-start-line="28" selection-start-column="38" selection-end-line="28" selection-end-column="38" />
               <folding>
-                <element signature="e#6113#6129#0" expanded="true" />
+                <element signature="e#935#936#0" expanded="true" />
+                <element signature="e#1028#1029#0" expanded="true" />
+                <element signature="e#1148#1149#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JMXPuller.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/JMXPuller.java">
+      <file leaf-file-name="RemoteConnectionDialog.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/dialogs/RemoteConnectionDialog.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="129">
-              <caret line="35" column="68" lean-forward="false" selection-start-line="35" selection-start-column="68" selection-end-line="35" selection-end-column="68" />
-              <folding />
+            <state relative-caret-position="288">
+              <caret line="16" column="8" lean-forward="true" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="chart.fxml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/fxml/chart.fxml">
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-          <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
-            <state />
           </provider>
         </entry>
       </file>
@@ -231,7 +87,75 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="connection.fxml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/fxml/connection.fxml">
+          <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+            <state />
+          </provider>
+          <provider editor-type-id="text-editor">
+            <state relative-caret-position="324">
+              <caret line="18" column="28" lean-forward="false" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConnectionController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/ConnectionController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="65" column="33" lean-forward="false" selection-start-line="65" selection-start-column="33" selection-end-line="65" selection-end-column="33" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2111#2112#0" expanded="true" />
+                <element signature="e#2152#2153#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/MainController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1206">
+              <caret line="89" column="18" lean-forward="false" selection-start-line="89" selection-start-column="18" selection-end-line="89" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="chart.fxml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/fxml/chart.fxml">
+          <provider editor-type-id="JavaFX-Scene-Builder">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="12" selection-end-column="157" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IHierarchicalData.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/hierarchy/IHierarchicalData.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="72">
+              <caret line="4" column="17" lean-forward="false" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -242,11 +166,17 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/component/VariablesTreeView.java" />
         <option value="$PROJECT_DIR$/src/main/resources/fxml/chart.fxml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/component/TableTab.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/MainController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/component/ChartTab.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/JMXPuller.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/model/ColumnOrRow.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/component/TableTab.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/component/hierarchy/TreeViewHierarchy.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/dialogs/ConnectionDialog.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/JMXPuller.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/dialogs/LocalConnectionDialog.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/fxml/connection.fxml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/ConnectionController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/dialogs/RemoteConnectionDialog.java" />
       </list>
     </option>
   </component>
@@ -263,7 +193,9 @@
     <option name="width" value="1390" />
     <option name="height" value="994" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -279,7 +211,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -329,6 +260,25 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="sirolf2009" type="462c0819:PsiDirectoryNode" />
+              <item name="component" type="462c0819:PsiDirectoryNode" />
+              <item name="hierarchy" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="caesar-fx" type="b2602c69:ProjectViewProjectNode" />
+              <item name="caesar" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sirolf2009" type="462c0819:PsiDirectoryNode" />
+              <item name="dialogs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="caesar-fx" type="b2602c69:ProjectViewProjectNode" />
+              <item name="caesar" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sirolf2009" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -350,9 +300,13 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="settings.editor.selected.configurable" value="editor.preferences.gutterIcons" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -458,30 +412,30 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="27" width="1920" height="1053" extended-state="6" />
+    <frame x="260" y="40" width="1920" height="1053" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32946146" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32946146" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32946146" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19114584" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -493,6 +447,206 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/model/ColumnOrRow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="19" column="20" lean-forward="false" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#647#648#0" expanded="true" />
+            <element signature="e#677#678#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/TableTab.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="936">
+          <caret line="73" column="49" lean-forward="false" selection-start-line="73" selection-start-column="49" selection-end-line="73" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/dialogs/RemoteConnectionDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="20" column="79" lean-forward="false" selection-start-line="20" selection-start-column="79" selection-end-line="20" selection-end-column="79" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/MainApp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/fxml/connection.fxml">
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="18" column="28" lean-forward="false" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/ConnectionController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="882">
+          <caret line="67" column="8" lean-forward="false" selection-start-line="67" selection-start-column="8" selection-end-line="67" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2111#2112#0" expanded="true" />
+            <element signature="e#2152#2153#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/MainController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1206">
+          <caret line="89" column="18" lean-forward="false" selection-start-line="89" selection-start-column="18" selection-end-line="89" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/fxml/chart.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="12" selection-end-column="157" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/hierarchy/IHierarchicalData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="17" lean-forward="false" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/dialogs/LocalConnectionDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding>
+            <element signature="e#935#936#0" expanded="true" />
+            <element signature="e#1028#1029#0" expanded="true" />
+            <element signature="e#1148#1149#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/model/ColumnOrRow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="19" column="20" lean-forward="false" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#647#648#0" expanded="true" />
+            <element signature="e#677#678#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/TableTab.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="936">
+          <caret line="73" column="49" lean-forward="false" selection-start-line="73" selection-start-column="49" selection-end-line="73" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/dialogs/RemoteConnectionDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="20" column="79" lean-forward="false" selection-start-line="20" selection-start-column="79" selection-end-line="20" selection-end-column="79" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/MainApp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/fxml/connection.fxml">
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="18" column="28" lean-forward="false" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/ConnectionController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="882">
+          <caret line="67" column="8" lean-forward="false" selection-start-line="67" selection-start-column="8" selection-end-line="67" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2111#2112#0" expanded="true" />
+            <element signature="e#2152#2153#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/MainController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1206">
+          <caret line="89" column="18" lean-forward="false" selection-start-line="89" selection-start-column="18" selection-end-line="89" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/fxml/chart.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="12" selection-end-column="157" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/hierarchy/IHierarchicalData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="17" lean-forward="false" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/dialogs/LocalConnectionDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding>
+            <element signature="e#935#936#0" expanded="true" />
+            <element signature="e#1028#1029#0" expanded="true" />
+            <element signature="e#1148#1149#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-149">
@@ -501,34 +655,111 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/controller/CaesarChartWindow.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/controller/CaesarChartWindow.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/model/Connection.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/Table.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/ChartTab.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="385">
+          <caret line="145" column="49" lean-forward="false" selection-start-line="145" selection-start-column="49" selection-end-line="145" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/VariablesTreeView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-519">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/model/ColumnOrRow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="19" column="20" lean-forward="false" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#647#648#0" expanded="true" />
+            <element signature="e#677#678#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/hierarchy/TreeViewHierarchy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="193" column="33" lean-forward="true" selection-start-line="193" selection-start-column="33" selection-end-line="193" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///usr/lib/jvm/java-8-oracle/javafx-src.zip!/javafx/scene/control/Dialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-450">
+          <caret line="221" column="13" lean-forward="false" selection-start-line="221" selection-start-column="13" selection-end-line="221" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/fxml/detail_variable.fxml" />
+    <entry file="file://$PROJECT_DIR$/src/main/resources/fxml/detail_connection.fxml" />
+    <entry file="file://$PROJECT_DIR$/src/main/resources/fxml/table.fxml">
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/JMXPuller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="36" column="61" lean-forward="false" selection-start-line="36" selection-start-column="61" selection-end-line="36" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/hierarchy/IHierarchicalData.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
-          <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+          <caret line="4" column="17" lean-forward="false" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/model/Connection.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/fxml/chart.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="13" column="22" lean-forward="true" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
+        <state relative-caret-position="198">
+          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="12" selection-end-column="157" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/Table.java">
+    <entry file="jar:///usr/lib/jvm/java-8-oracle/javafx-src.zip!/javafx/beans/property/SimpleObjectProperty.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="39" column="9" lean-forward="true" selection-start-line="39" selection-start-column="9" selection-end-line="39" selection-end-column="9" />
+        <state relative-caret-position="363">
+          <caret line="49" column="13" lean-forward="true" selection-start-line="49" selection-start-column="13" selection-end-line="49" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/fxml/connection.fxml">
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="18" column="28" lean-forward="false" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/TableTab.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/MainController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-414">
-          <caret line="97" column="53" lean-forward="false" selection-start-line="97" selection-start-column="53" selection-end-line="97" selection-end-column="53" />
+        <state relative-caret-position="1206">
+          <caret line="89" column="18" lean-forward="false" selection-start-line="89" selection-start-column="18" selection-end-line="89" selection-end-column="18" />
           <folding />
         </state>
       </provider>
@@ -541,62 +772,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/ChartTab.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/dialogs/LocalConnectionDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="385">
-          <caret line="145" column="49" lean-forward="true" selection-start-line="145" selection-start-column="49" selection-end-line="145" selection-end-column="49" />
+        <state relative-caret-position="378">
+          <caret line="28" column="38" lean-forward="false" selection-start-line="28" selection-start-column="38" selection-end-line="28" selection-end-column="38" />
           <folding>
-            <element signature="e#6113#6129#0" expanded="true" />
+            <element signature="e#935#936#0" expanded="true" />
+            <element signature="e#1028#1029#0" expanded="true" />
+            <element signature="e#1148#1149#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/MainController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/ConnectionController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="90" column="18" lean-forward="false" selection-start-line="90" selection-start-column="18" selection-end-line="90" selection-end-column="18" />
-          <folding />
+        <state relative-caret-position="391">
+          <caret line="65" column="33" lean-forward="false" selection-start-line="65" selection-start-column="33" selection-end-line="65" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2111#2112#0" expanded="true" />
+            <element signature="e#2152#2153#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/fxml/chart.fxml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/VariablesTreeView.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/dialogs/RemoteConnectionDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-519">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        <state relative-caret-position="288">
+          <caret line="16" column="8" lean-forward="true" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/JMXPuller.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/TableTab.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="129">
-          <caret line="35" column="68" lean-forward="false" selection-start-line="35" selection-start-column="68" selection-end-line="35" selection-end-column="68" />
+        <state relative-caret-position="936">
+          <caret line="73" column="49" lean-forward="false" selection-start-line="73" selection-start-column="49" selection-end-line="73" selection-end-column="49" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/model/ColumnOrRow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="19" column="20" lean-forward="false" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#647#648#0" expanded="true" />
-            <element signature="e#677#678#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>

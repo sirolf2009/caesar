@@ -33,7 +33,8 @@ public class JMXPuller implements Runnable {
         while(true) {
             try {
                 Thread.sleep(timeout);
-                Platform.runLater(() -> values.add(pullAttributes()));
+                JMXAttributes attributes = pullAttributes();
+                Platform.runLater(() -> values.add(attributes));
             } catch(Exception e) {
                 e.printStackTrace();
             }
