@@ -12,6 +12,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
@@ -30,6 +32,10 @@ public class TableTab extends AnchorPane {
     private final JMXPuller puller;
     @FXML
     private TableView<JMXAttributes> table;
+    @FXML
+    private ToggleButton runningButton;
+    @FXML
+    private TextField intervalTextfield;
 
     public TableTab(MBeanServerConnection connection) {
         this.connection = connection;
@@ -40,6 +46,7 @@ public class TableTab extends AnchorPane {
 
     @FXML
     public void initialize() {
+        runningButton.selectedProperty().bindBidirectional(puller.runningProperty());
         table.setItems(puller.getValues());
         table.setOnDragOver(event1 -> {
             if (event1.getGestureSource() != table && event1.getDragboard().hasString() && event1.getDragboard().getString().split("@").length == 2) {

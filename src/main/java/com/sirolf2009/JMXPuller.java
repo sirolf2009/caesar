@@ -3,6 +3,8 @@ package com.sirolf2009;
 import com.sirolf2009.model.JMXAttribute;
 import com.sirolf2009.model.JMXAttributes;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.util.Pair;
@@ -20,23 +22,26 @@ public class JMXPuller implements Runnable {
     private final ObservableList<JMXAttributes> values = synchronizedObservableList(observableArrayList());
     private final MBeanServerConnection connection;
     private final ObservableList<JMXAttribute> attributes;
-    private final long timeout;
+    private final SimpleBooleanProperty running = new SimpleBooleanProperty(false);
+    private final SimpleLongProperty timeout;
 
     public JMXPuller(MBeanServerConnection connection, ObservableList<JMXAttribute> attributes, long timeout) {
         this.connection = connection;
         this.attributes = attributes;
-        this.timeout = timeout;
+        this.timeout = new SimpleLongProperty(timeout);
     }
 
     @Override
     public void run() {
-        while(true) {
-            try {
-                Thread.sleep(timeout);
-                JMXAttributes attributes = pullAttributes();
-                Platform.runLater(() -> values.add(attributes));
-            } catch(Exception e) {
-                e.printStackTrace();
+        while (true) {
+            while (running.get()) {
+                try {
+                    Thread.sleep(timeout.get());
+                    JMXAttributes attributes = pullAttributes();
+                    Platform.runLater(() -> values.add(attributes));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -59,6 +64,10 @@ public class JMXPuller implements Runnable {
 
     public Callable<Object> getValue(MBeanServerConnection connection, JMXAttribute attribute) {
         return () -> connection.getAttribute(attribute.getObjectName(), attribute.getAttributeInfo().getName());
+    }
+
+    public SimpleBooleanProperty runningProperty() {
+        return running;
     }
 
     public ObservableList<JMXAttribute> getAttributes() {
