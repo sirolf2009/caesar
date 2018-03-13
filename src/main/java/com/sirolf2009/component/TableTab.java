@@ -17,6 +17,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
+import org.fxmisc.easybind.EasyBind;
 
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
@@ -47,6 +48,8 @@ public class TableTab extends AnchorPane {
     @FXML
     public void initialize() {
         runningButton.selectedProperty().bindBidirectional(puller.runningProperty());
+        puller.timeoutProperty().bind(EasyBind.map(intervalTextfield.textProperty(), string -> string.length() == 0 ? 0 : Integer.parseInt(string)));
+
         table.setItems(puller.getValues());
         table.setOnDragOver(event1 -> {
             if (event1.getGestureSource() != table && event1.getDragboard().hasString() && event1.getDragboard().getString().split("@").length == 2) {

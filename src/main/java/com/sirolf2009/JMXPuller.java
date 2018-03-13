@@ -66,6 +66,10 @@ public class JMXPuller implements Runnable {
         return () -> connection.getAttribute(attribute.getObjectName(), attribute.getAttributeInfo().getName());
     }
 
+    public SimpleLongProperty timeoutProperty() {
+        return timeout;
+    }
+
     public SimpleBooleanProperty runningProperty() {
         return running;
     }
