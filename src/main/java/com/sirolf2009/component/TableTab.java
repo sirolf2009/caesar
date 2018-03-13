@@ -94,7 +94,6 @@ public class TableTab extends AnchorPane {
 
     public TableColumn getColumn(JMXAttribute attribute) {
         String name = attribute.getAttributeInfo().getName().toString();
-        String type = attribute.getAttributeInfo().getType();
         if (attribute.getAttributeInfo().getType().equals("int")) {
             TableColumn<JMXAttributes, Integer> column = new CaesarTableColumn(name);
             column.setCellValueFactory(cellData -> {
