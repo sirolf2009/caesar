@@ -129,10 +129,11 @@ public class ChartTab extends VBox {
     }
 
     private void setupChart() {
-        System.out.println("setupChart");
         chartAnchor.getChildren().clear();
         NumberAxis xAxis = new NumberAxis();
+        xAxis.setForceZeroInRange(false);
         NumberAxis yAxis = new NumberAxis();
+        yAxis.setForceZeroInRange(false);
         LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxis, yAxis);
         columnsList.forEach(column -> {
             rowsList.forEach(row -> {
