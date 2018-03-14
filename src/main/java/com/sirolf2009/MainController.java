@@ -5,17 +5,14 @@ import com.sirolf2009.component.TableTab;
 import com.sirolf2009.component.TablesTreeView;
 import com.sirolf2009.component.VariablesTreeView;
 import com.sirolf2009.dialogs.LocalConnectionDialog;
-import com.sirolf2009.dialogs.TableConfigurationDialog;
+import com.sirolf2009.model.Chart;
 import com.sirolf2009.model.JMXAttribute;
 import com.sirolf2009.model.JMXObject;
 import com.sirolf2009.model.Table;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.chart.Chart;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.ToolBar;
@@ -65,17 +62,23 @@ public class MainController {
     }
 
     public void newTable() {
-        Tab newTableTab = new Tab("Untitled "+(tabs.getTabs().size()+1));
-        TableTab table = new TableTab(connection);
-        newTableTab.setContent(table);
+        Table table = new Table("Untitled "+(tabs.getTabs().size()+1));
+        Tab newTableTab = new Tab();
+        newTableTab.textProperty().bind(table.nameProperty());
+        table.getPuller().setConnection(connection);
+        tables.add(table);
+        newTableTab.setContent(new TableTab(table, connection));
         tabs.getTabs().add(newTableTab);
-        tables.add(new Table(newTableTab.textProperty(), table));
+        tabs.getSelectionModel().select(newTableTab);
     }
 
     public void newChart() {
-        Tab newChartTab = new Tab("Untitled "+(tabs.getTabs().size()+1));
-        newChartTab.setContent(new ChartTab(tables));
+        Chart chart = new Chart("Untitled "+(tabs.getTabs().size()+1));
+        Tab newChartTab = new Tab();
+        newChartTab.textProperty().bind(chart.nameProperty());
+        newChartTab.setContent(new ChartTab(chart, tables));
         tabs.getTabs().add(newChartTab);
+        tabs.getSelectionModel().select(newChartTab);
     }
 
     public static void maximize(Node child) {

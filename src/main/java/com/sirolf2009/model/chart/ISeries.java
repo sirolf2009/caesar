@@ -5,7 +5,9 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public interface ISeries<T> extends IHierarchicalData {
+import java.io.Serializable;
+
+public interface ISeries<T> extends IHierarchicalData, Serializable {
 
     ObservableList<T> get();
     StringProperty getName();

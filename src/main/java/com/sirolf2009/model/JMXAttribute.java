@@ -6,9 +6,10 @@ import javafx.collections.ObservableList;
 
 import javax.management.MBeanAttributeInfo;
 import javax.management.ObjectName;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class JMXAttribute implements IHierarchicalData {
+public class JMXAttribute implements IHierarchicalData, Serializable {
 
     private final ObjectName objectName;
     private final MBeanAttributeInfo attributeInfo;

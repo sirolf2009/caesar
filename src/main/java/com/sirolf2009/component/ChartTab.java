@@ -117,7 +117,7 @@ public class ChartTab extends VBox {
 
     private void setupChart() {
         chartAnchor.getChildren().clear();
-        if (chart.getRowsList().size() == 0 && chart.getColumnsList().stream().filter(isCategories).count() == 0) {
+        if (chart.getRowsList().size() == 0 && chart.getColumnsList().size() > 0 && chart.getColumnsList().stream().filter(isNumbers).count() == chart.getColumnsList().size()) {
             CategoryAxis xAxis = new CategoryAxis();
             NumberAxis yAxis = new NumberAxis();
             BarChart<String,Number> barChart = new BarChart<String,Number>(xAxis,yAxis);
@@ -132,7 +132,7 @@ public class ChartTab extends VBox {
             });
             chartAnchor.getChildren().add(barChart);
             MainController.maximize(barChart);
-        } else if (chart.getRowsList().stream().filter(isCategories).count() == 0 && chart.getColumnsList().stream().filter(isCategories).count() == 0) {
+        } else if (chart.getRowsList().stream().filter(isNumbers).count() == chart.getRowsList().size() && chart.getColumnsList().stream().filter(isNumbers).count() == chart.getColumnsList().size()) {
             NumberAxis xAxis = new NumberAxis();
             xAxis.setForceZeroInRange(false);
             NumberAxis yAxis = new NumberAxis();

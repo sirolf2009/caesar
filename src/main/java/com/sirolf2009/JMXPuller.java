@@ -10,22 +10,24 @@ import javafx.collections.ObservableList;
 import javafx.util.Pair;
 
 import javax.management.MBeanServerConnection;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
 import static javafx.collections.FXCollections.*;
 
+//TODO: make table independent of me and give me an observable list to add to because I shouldn't be serialized
 public class JMXPuller implements Runnable {
 
     private final ExecutorService executor = Executors.newCachedThreadPool();
     private final ObservableList<JMXAttributes> values = synchronizedObservableList(observableArrayList());
-    private final MBeanServerConnection connection;
     private final ObservableList<JMXAttribute> attributes;
     private final SimpleBooleanProperty running = new SimpleBooleanProperty(false);
     private final SimpleLongProperty timeout;
+    private MBeanServerConnection connection;
 
-    public JMXPuller(MBeanServerConnection connection, ObservableList<JMXAttribute> attributes, long timeout) {
+    public JMXPuller(ObservableList<JMXAttribute> attributes, long timeout) {
         this.connection = connection;
         this.attributes = attributes;
         this.timeout = new SimpleLongProperty(timeout);
@@ -104,6 +106,14 @@ Caused by: java.net.ConnectException: Connection refused (Connection refused)
 	... 11 more
          */
         return () -> connection.getAttribute(attribute.getObjectName(), attribute.getAttributeInfo().getName());
+    }
+
+    public MBeanServerConnection getConnection() {
+        return connection;
+    }
+
+    public void setConnection(MBeanServerConnection connection) {
+        this.connection = connection;
     }
 
     public SimpleLongProperty timeoutProperty() {

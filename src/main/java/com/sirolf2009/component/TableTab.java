@@ -3,6 +3,7 @@ package com.sirolf2009.component;
 import com.sirolf2009.JMXPuller;
 import com.sirolf2009.model.JMXAttribute;
 import com.sirolf2009.model.JMXAttributes;
+import com.sirolf2009.model.Table;
 import com.sirolf2009.util.ControllerUtil;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -28,9 +29,8 @@ import java.util.Arrays;
 
 public class TableTab extends AnchorPane {
 
+    private final Table tableModel;
     private final MBeanServerConnection connection;
-    private final ObservableList<JMXAttribute> attributes;
-    private final JMXPuller puller;
     @FXML
     private TableView<JMXAttributes> table;
     @FXML
@@ -38,19 +38,18 @@ public class TableTab extends AnchorPane {
     @FXML
     private TextField intervalTextfield;
 
-    public TableTab(MBeanServerConnection connection) {
+    public TableTab(Table table, MBeanServerConnection connection) {
         this.connection = connection;
-        this.attributes = FXCollections.observableArrayList();
-        puller = new JMXPuller(connection, attributes, 1000);
+        tableModel = table;
         ControllerUtil.load(this, "/fxml/table.fxml");
     }
 
     @FXML
     public void initialize() {
-        runningButton.selectedProperty().bindBidirectional(puller.runningProperty());
-        puller.timeoutProperty().bind(EasyBind.map(intervalTextfield.textProperty(), string -> string.length() == 0 ? 0 : Integer.parseInt(string)));
+        runningButton.selectedProperty().bindBidirectional(tableModel.getPuller().runningProperty());
+        tableModel.getPuller().timeoutProperty().bind(EasyBind.map(intervalTextfield.textProperty(), string -> string.length() == 0 ? 0 : Integer.parseInt(string)));
 
-        table.setItems(puller.getValues());
+        table.setItems(tableModel.getItems());
         table.setOnDragOver(event1 -> {
             if (event1.getGestureSource() != table && event1.getDragboard().hasString() && event1.getDragboard().getString().split("@").length == 2) {
                 event1.acceptTransferModes(TransferMode.LINK);
@@ -76,10 +75,10 @@ public class TableTab extends AnchorPane {
                         return mBeanAttributeInfo.getName().equals(data[0]);
                     }).findAny().ifPresent(mBeanAttributeInfo -> {
                         JMXAttribute attribute = new JMXAttribute(objectName, mBeanAttributeInfo);
+                        tableModel.getChildren().add(attribute);
                         table.getColumns().add(getColumn(attribute));
-                        attributes.add(attribute);
-                        if (attributes.size() == 1) {
-                            Thread pullerThread = new Thread(puller);
+                        if (table.getColumns().size() == 1) {
+                            Thread pullerThread = new Thread(tableModel.getPuller());
                             pullerThread.setDaemon(true);
                             pullerThread.start();
                         }
@@ -149,8 +148,8 @@ public class TableTab extends AnchorPane {
         return table;
     }
 
-    public ObservableList<JMXAttribute> getAttributes() {
-        return attributes;
+    public Table getTableModel() {
+        return tableModel;
     }
 
     static class CaesarTableColumn<S, T> extends TableColumn<S, T> {
