@@ -15,6 +15,7 @@ import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.chart.Chart;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.ToolBar;
@@ -26,8 +27,8 @@ import java.util.Arrays;
 
 public class MainController {
 
-    private final ObservableMap<String, JMXPuller> pullers = FXCollections.observableHashMap();
     private final ObservableList<Table> tables = FXCollections.observableArrayList();
+    private final ObservableList<Chart> charts = FXCollections.observableArrayList();
     private MBeanServerConnection connection;
 
     @FXML private ToolBar toolbar;
@@ -63,16 +64,6 @@ public class MainController {
         maximize(tablesTreeView);
     }
 
-    @FXML
-    private void addTable(ActionEvent event) {
-        try {
-            TableConfigurationDialog.TableConfiguration config = new TableConfigurationDialog(connection).showAndWait().get();
-            pullers.put(config.getTableName(), new JMXPuller(connection, FXCollections.observableArrayList(config.getAttributes()), 1000));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void newTable() {
         Tab newTableTab = new Tab("Untitled "+(tabs.getTabs().size()+1));
         TableTab table = new TableTab(connection);
@@ -82,9 +73,9 @@ public class MainController {
     }
 
     public void newChart() {
-        Tab newChart = new Tab("Untitled "+(tabs.getTabs().size()+1));
-        newChart.setContent(new ChartTab(tables));
-        tabs.getTabs().add(newChart);
+        Tab newChartTab = new Tab("Untitled "+(tabs.getTabs().size()+1));
+        newChartTab.setContent(new ChartTab(tables));
+        tabs.getTabs().add(newChartTab);
     }
 
     public static void maximize(Node child) {

@@ -1,24 +1,17 @@
 package com.sirolf2009.component;
 
 import com.sirolf2009.MainController;
-import com.sirolf2009.model.ColumnOrRow;
+import com.sirolf2009.model.Chart;
 import com.sirolf2009.model.JMXAttribute;
-import com.sirolf2009.model.JMXAttributes;
 import com.sirolf2009.model.Table;
 import com.sirolf2009.model.chart.*;
 import com.sirolf2009.util.ControllerUtil;
 import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.*;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
@@ -26,12 +19,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.fxmisc.easybind.EasyBind;
 
-import javax.management.MBeanServerConnection;
-import javax.management.ObjectName;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.OpenMBeanAttributeInfoSupport;
-import java.util.Arrays;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -43,8 +30,7 @@ public class ChartTab extends VBox {
     private static final Function<ISeries, ICategorySeries> asCategories = serie -> (ICategorySeries) serie;
 
     private final ObservableList<Table> tables;
-    private final ObservableList<ISeries> columnsList = FXCollections.observableArrayList();
-    private final ObservableList<ISeries> rowsList = FXCollections.observableArrayList();
+    private final Chart chart;
 
     @FXML
     HBox columns;
@@ -53,11 +39,12 @@ public class ChartTab extends VBox {
     @FXML
     AnchorPane chartAnchor;
 
-    public ChartTab(ObservableList<Table> tables) {
+    public ChartTab(Chart chart, ObservableList<Table> tables) {
+        this.chart = chart;
         this.tables = tables;
         ControllerUtil.load(this, "/fxml/chart.fxml");
-        columnsList.addListener((InvalidationListener) observable -> setupChart());
-        rowsList.addListener((InvalidationListener) observable -> setupChart());
+        chart.getColumnsList().addListener((InvalidationListener) observable -> setupChart());
+        chart.getRowsList().addListener((InvalidationListener) observable -> setupChart());
     }
 
     @FXML
@@ -84,7 +71,7 @@ public class ChartTab extends VBox {
                     String[] data = newVariable.split("@");
                     tables.stream().filter(table -> table.getName().equals(data[2])).findAny().ifPresent(table -> {
                         table.getChildren().stream().filter(attribute -> attribute.getObjectName().toString().equals(data[1])).filter(attribute -> attribute.getAttributeInfo().getName().equals(data[0])).findAny().ifPresent(attribute -> {
-                            columnsList.add(getSeries(table, attribute));
+                            chart.getColumnsList().add(getSeries(table, attribute));
                             columns.getChildren().add(new Label(table.getName() + "/" + attribute.getAttributeInfo().getName()));
                             event.consume();
                         });
@@ -116,7 +103,7 @@ public class ChartTab extends VBox {
                     String[] data = newVariable.split("@");
                     tables.stream().filter(table -> table.getName().equals(data[2])).findAny().ifPresent(table -> {
                         table.getChildren().stream().filter(attribute -> attribute.getObjectName().toString().equals(data[1])).filter(attribute -> attribute.getAttributeInfo().getName().equals(data[0])).findAny().ifPresent(attribute -> {
-                            rowsList.add(getSeries(table, attribute));
+                            chart.getRowsList().add(getSeries(table, attribute));
                             rows.getChildren().add(new Label(table.getName() + "/" + attribute.getAttributeInfo().getName()));
                             event.consume();
                         });
@@ -130,11 +117,11 @@ public class ChartTab extends VBox {
 
     private void setupChart() {
         chartAnchor.getChildren().clear();
-        if (rowsList.size() == 0 && columnsList.stream().filter(isCategories).count() == 0) {
+        if (chart.getRowsList().size() == 0 && chart.getColumnsList().stream().filter(isCategories).count() == 0) {
             CategoryAxis xAxis = new CategoryAxis();
             NumberAxis yAxis = new NumberAxis();
             BarChart<String,Number> barChart = new BarChart<String,Number>(xAxis,yAxis);
-            columnsList.stream().map(asNumbers).forEach(column -> {
+            chart.getColumnsList().stream().map(asNumbers).forEach(column -> {
                 XYChart.Series series = new XYChart.Series();
                 ObservableList<Number> columnSeries = (ObservableList<Number>) column.get();
                 series.nameProperty().bindBidirectional(column.getName());
@@ -145,15 +132,15 @@ public class ChartTab extends VBox {
             });
             chartAnchor.getChildren().add(barChart);
             MainController.maximize(barChart);
-        } else if (rowsList.stream().filter(isCategories).count() == 0 && columnsList.stream().filter(isCategories).count() == 0) {
+        } else if (chart.getRowsList().stream().filter(isCategories).count() == 0 && chart.getColumnsList().stream().filter(isCategories).count() == 0) {
             NumberAxis xAxis = new NumberAxis();
             xAxis.setForceZeroInRange(false);
             NumberAxis yAxis = new NumberAxis();
             yAxis.setForceZeroInRange(false);
             LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxis, yAxis);
-            columnsList.stream().map(asNumbers).forEach(column -> {
+            chart.getColumnsList().stream().map(asNumbers).forEach(column -> {
                 ObservableList<Number> columnSeries = (ObservableList<Number>) column.get();
-                rowsList.stream().map(asNumbers).forEach(row -> {
+                chart.getRowsList().stream().map(asNumbers).forEach(row -> {
                     ObservableList<Number> rowSeries = (ObservableList<Number>) row.get();
                     XYChart.Series series = new XYChart.Series();
                     series.nameProperty().bind(EasyBind.combine(row.getName(), column.getName(), (r,c) -> r+"/"+c));
