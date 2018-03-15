@@ -14,12 +14,12 @@ public class Table implements IHierarchicalData<JMXAttribute>, Serializable {
 
     private final SimpleStringProperty name;
     private final ObservableList<JMXAttribute> attributes;
-    private final JMXPuller puller;
+    private final ObservableList<JMXAttributes> items;
 
     public Table(String name) {
         this.name = new SimpleStringProperty(name);
         this.attributes = FXCollections.observableArrayList();
-        puller = new JMXPuller(attributes, 1000);
+        this.items = FXCollections.observableArrayList();
     }
 
     @Override
@@ -27,12 +27,8 @@ public class Table implements IHierarchicalData<JMXAttribute>, Serializable {
         return attributes;
     }
 
-    public JMXPuller getPuller() {
-        return puller;
-    }
-
     public ObservableList<JMXAttributes> getItems() {
-        return puller.getValues();
+        return items;
     }
 
     public SimpleStringProperty nameProperty() {

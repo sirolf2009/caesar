@@ -65,7 +65,6 @@ public class MainController {
         Table table = new Table("Untitled "+(tabs.getTabs().size()+1));
         Tab newTableTab = new Tab();
         newTableTab.textProperty().bind(table.nameProperty());
-        table.getPuller().setConnection(connection);
         tables.add(table);
         newTableTab.setContent(new TableTab(table, connection));
         tabs.getTabs().add(newTableTab);

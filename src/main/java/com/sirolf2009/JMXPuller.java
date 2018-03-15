@@ -17,19 +17,19 @@ import java.util.concurrent.*;
 
 import static javafx.collections.FXCollections.*;
 
-//TODO: make table independent of me and give me an observable list to add to because I shouldn't be serialized
 public class JMXPuller implements Runnable {
 
     private final ExecutorService executor = Executors.newCachedThreadPool();
-    private final ObservableList<JMXAttributes> values = synchronizedObservableList(observableArrayList());
     private final ObservableList<JMXAttribute> attributes;
+    private final ObservableList<JMXAttributes> items;
     private final SimpleBooleanProperty running = new SimpleBooleanProperty(false);
     private final SimpleLongProperty timeout;
     private MBeanServerConnection connection;
 
-    public JMXPuller(ObservableList<JMXAttribute> attributes, long timeout) {
+    public JMXPuller(ObservableList<JMXAttribute> attributes, ObservableList<JMXAttributes> items, long timeout) {
         this.connection = connection;
         this.attributes = attributes;
+        this.items = items;
         this.timeout = new SimpleLongProperty(timeout);
     }
 
@@ -40,7 +40,7 @@ public class JMXPuller implements Runnable {
                 try {
                     Thread.sleep(timeout.get());
                     JMXAttributes attributes = pullAttributes();
-                    Platform.runLater(() -> values.add(attributes));
+                    Platform.runLater(() -> items.add(attributes));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -126,9 +126,5 @@ Caused by: java.net.ConnectException: Connection refused (Connection refused)
 
     public ObservableList<JMXAttribute> getAttributes() {
         return attributes;
-    }
-
-    public ObservableList<JMXAttributes> getValues() {
-        return values;
     }
 }

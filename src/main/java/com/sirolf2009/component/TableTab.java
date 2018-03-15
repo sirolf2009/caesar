@@ -31,6 +31,7 @@ public class TableTab extends AnchorPane {
 
     private final Table tableModel;
     private final MBeanServerConnection connection;
+    private final JMXPuller puller;
     @FXML
     private TableView<JMXAttributes> table;
     @FXML
@@ -41,13 +42,18 @@ public class TableTab extends AnchorPane {
     public TableTab(Table table, MBeanServerConnection connection) {
         this.connection = connection;
         tableModel = table;
+        puller = new JMXPuller(tableModel.getChildren(), tableModel.getItems(), 1000);
+        puller.setConnection(connection);
         ControllerUtil.load(this, "/fxml/table.fxml");
+        Thread pullerThread = new Thread(puller);
+        pullerThread.setDaemon(true);
+        pullerThread.start();
     }
 
     @FXML
     public void initialize() {
-        runningButton.selectedProperty().bindBidirectional(tableModel.getPuller().runningProperty());
-        tableModel.getPuller().timeoutProperty().bind(EasyBind.map(intervalTextfield.textProperty(), string -> string.length() == 0 ? 0 : Integer.parseInt(string)));
+        runningButton.selectedProperty().bindBidirectional(puller.runningProperty());
+        puller.timeoutProperty().bind(EasyBind.map(intervalTextfield.textProperty(), string -> string.length() == 0 ? 0 : Integer.parseInt(string)));
 
         table.setItems(tableModel.getItems());
         table.setOnDragOver(event1 -> {
@@ -77,11 +83,6 @@ public class TableTab extends AnchorPane {
                         JMXAttribute attribute = new JMXAttribute(objectName, mBeanAttributeInfo);
                         tableModel.getChildren().add(attribute);
                         table.getColumns().add(getColumn(attribute));
-                        if (table.getColumns().size() == 1) {
-                            Thread pullerThread = new Thread(tableModel.getPuller());
-                            pullerThread.setDaemon(true);
-                            pullerThread.start();
-                        }
                     });
                     event.consume();
                 } catch (Exception e) {
