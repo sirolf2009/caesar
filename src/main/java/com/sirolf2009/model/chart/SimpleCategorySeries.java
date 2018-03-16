@@ -31,13 +31,20 @@ public abstract class SimpleCategorySeries<T> implements ICategorySeries<T> {
     public abstract T getDefault();
 
     @Override
-    public StringProperty getName() {
-        return name;
-    }
-
-    @Override
     public ObservableList get() {
         return numbers;
     }
 
+    @Override
+    public StringProperty getName() {
+        return name;
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
+    public JMXAttribute getAttribute() {
+        return attribute;
+    }
 }

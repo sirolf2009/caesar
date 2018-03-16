@@ -1,15 +1,15 @@
 package com.sirolf2009.model;
 
-import com.sirolf2009.JMXPuller;
-import com.sirolf2009.component.TableTab;
+import com.esotericsoftware.kryo.DefaultSerializer;
 import com.sirolf2009.component.hierarchy.IHierarchicalData;
+import com.sirolf2009.model.serializer.TableSerializer;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableStringValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.Serializable;
 
+@DefaultSerializer(TableSerializer.class)
 public class Table implements IHierarchicalData<JMXAttribute>, Serializable {
 
     private final SimpleStringProperty name;
@@ -17,9 +17,13 @@ public class Table implements IHierarchicalData<JMXAttribute>, Serializable {
     private final ObservableList<JMXAttributes> items;
 
     public Table(String name) {
-        this.name = new SimpleStringProperty(name);
-        this.attributes = FXCollections.observableArrayList();
-        this.items = FXCollections.observableArrayList();
+        this(new SimpleStringProperty(name), FXCollections.observableArrayList(), FXCollections.observableArrayList());
+    }
+
+    public Table(SimpleStringProperty name, ObservableList<JMXAttribute> attributes, ObservableList<JMXAttributes> items) {
+        this.name = name;
+        this.attributes = attributes;
+        this.items = items;
     }
 
     @Override

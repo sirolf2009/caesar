@@ -30,14 +30,21 @@ public abstract class SimpleNumberSeries<T extends Number> implements INumberSer
     public abstract T getDefault();
 
     @Override
+    public ObservableList get() {
+        return numbers;
+    }
+
+    @Override
     public StringProperty getName() {
         return name;
     }
 
+    public Table getTable() {
+        return table;
+    }
 
-    @Override
-    public ObservableList get() {
-        return numbers;
+    public JMXAttribute getAttribute() {
+        return attribute;
     }
 
 }

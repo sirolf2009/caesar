@@ -1,14 +1,24 @@
 package com.sirolf2009.model;
 
+import com.esotericsoftware.kryo.DefaultSerializer;
+import com.sirolf2009.model.serializer.CaesarModelSerializer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.io.Serializable;
+@DefaultSerializer(CaesarModelSerializer.class)
+public class CaesarModel {
 
-public class CaesarModel implements Serializable {
+    private final ObservableList<Table> tables;
+    private final ObservableList<Chart> charts;
 
-    private final ObservableList<Table> tables = FXCollections.observableArrayList();
-    private final ObservableList<Chart> charts = FXCollections.observableArrayList();
+    public CaesarModel() {
+        this(FXCollections.observableArrayList(), FXCollections.observableArrayList());
+    }
+
+    public CaesarModel(ObservableList<Table> tables, ObservableList<Chart> charts) {
+        this.tables = tables;
+        this.charts = charts;
+    }
 
     public ObservableList<Table> getTables() {
         return tables;

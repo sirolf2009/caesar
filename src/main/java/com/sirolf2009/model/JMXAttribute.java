@@ -1,6 +1,8 @@
 package com.sirolf2009.model;
 
+import com.esotericsoftware.kryo.DefaultSerializer;
 import com.sirolf2009.component.hierarchy.IHierarchicalData;
+import com.sirolf2009.model.serializer.JMXAttributeSerializer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -9,6 +11,7 @@ import javax.management.ObjectName;
 import java.io.Serializable;
 import java.util.Objects;
 
+@DefaultSerializer(JMXAttributeSerializer.class)
 public class JMXAttribute implements IHierarchicalData, Serializable {
 
     private final ObjectName objectName;
