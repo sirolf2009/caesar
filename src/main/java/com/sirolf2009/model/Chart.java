@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @DefaultSerializer(ChartSerializer.class)
 public class Chart implements IHierarchicalData<ISeries>, Serializable {
@@ -28,6 +29,30 @@ public class Chart implements IHierarchicalData<ISeries>, Serializable {
         this.columnsList = columnsList;
         this.rowsList = rowsList;
         this.seriesList = FXCollections.concat(columnsList, rowsList);
+    }
+
+    @Override
+    public String toString() {
+        return "Chart{" +
+                "name=" + name +
+                ", columnsList=" + columnsList +
+                ", rowsList=" + rowsList +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Chart chart = (Chart) o;
+        return Objects.equals(getName(), chart.getName()) &&
+                Objects.equals(columnsList, chart.columnsList) &&
+                Objects.equals(rowsList, chart.rowsList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, columnsList, rowsList, seriesList);
     }
 
     public SimpleStringProperty nameProperty() {

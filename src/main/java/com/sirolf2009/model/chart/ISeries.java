@@ -10,7 +10,8 @@ import java.io.Serializable;
 public interface ISeries<T> extends IHierarchicalData, Serializable {
 
     ObservableList<T> get();
-    StringProperty getName();
+    String getName();
+    StringProperty nameProperty();
 
     @Override
     default ObservableList getChildren() {

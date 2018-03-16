@@ -8,9 +8,9 @@ import com.sirolf2009.model.Chart;
 import com.sirolf2009.model.JMXAttribute;
 import com.sirolf2009.model.Table;
 import com.sirolf2009.model.chart.IntegerSeries;
+import org.junit.Assert;
 import org.junit.Test;
 
-import javax.management.IntrospectionException;
 import javax.management.MBeanAttributeInfo;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
@@ -21,7 +21,7 @@ import java.io.FileOutputStream;
 public class CaesarModelTest {
 
 	@Test
-	public void test() throws IntrospectionException, MalformedObjectNameException, FileNotFoundException {
+	public void test() throws MalformedObjectNameException, FileNotFoundException {
 		CaesarModel model = new CaesarModel();
 
 		JMXAttribute attribute1 = new JMXAttribute(new ObjectName("com.sirolf2009.test:Type=Unexisting1"), new MBeanAttributeInfo("name1", "int", "desc1", false, false, false));
@@ -38,15 +38,22 @@ public class CaesarModelTest {
 
 		Kryo kryo = new Kryo();
 
-		Output output = new Output(new FileOutputStream("file.bin"));
+		Output output = new Output(new FileOutputStream("src/test/resources/CaesarModelTest.bin"));
 		kryo.writeObject(output, model);
 		output.close();
 
-		Input input = new Input(new FileInputStream("file.bin"));
+		Input input = new Input(new FileInputStream("src/test/resources/CaesarModelTest.bin"));
 		CaesarModel retrievedModel = kryo.readObject(input, CaesarModel.class);
 		input.close();
 
-		System.out.println(retrievedModel);
+		Assert.assertEquals(model.getTables().get(0).getChildren(), retrievedModel.getTables().get(0).getChildren());
+		Assert.assertEquals(model.getTables().get(0), retrievedModel.getTables().get(0));
+		Assert.assertEquals(model.getTables(), retrievedModel.getTables());
+		Assert.assertEquals(model.getCharts().get(0).getColumnsList().get(0), retrievedModel.getCharts().get(0).getColumnsList().get(0));
+		Assert.assertEquals(model.getCharts().get(0).getColumnsList(), retrievedModel.getCharts().get(0).getColumnsList());
+		Assert.assertEquals(model.getCharts().get(0), retrievedModel.getCharts().get(0));
+		Assert.assertEquals(model.getCharts(), retrievedModel.getCharts());
+		Assert.assertEquals(model, retrievedModel);
 	}
 
 }

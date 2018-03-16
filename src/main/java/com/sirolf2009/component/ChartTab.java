@@ -124,8 +124,8 @@ public class ChartTab extends VBox {
             chart.getColumnsList().stream().map(asNumbers).forEach(column -> {
                 XYChart.Series series = new XYChart.Series();
                 ObservableList<Number> columnSeries = (ObservableList<Number>) column.get();
-                series.nameProperty().bindBidirectional(column.getName());
-                XYChart.Data<String, Number> data = new XYChart.Data<>(column.getName().get(), columnSeries.get(columnSeries.size()-1));
+                series.nameProperty().bindBidirectional(column.nameProperty());
+                XYChart.Data<String, Number> data = new XYChart.Data<>(column.getName(), columnSeries.get(columnSeries.size()-1));
                 columnSeries.addListener((InvalidationListener) event -> data.setYValue(columnSeries.get(columnSeries.size()-1)));
                 series.getData().add(data);
                 barChart.getData().add(series);
@@ -143,7 +143,7 @@ public class ChartTab extends VBox {
                 chart.getRowsList().stream().map(asNumbers).forEach(row -> {
                     ObservableList<Number> rowSeries = (ObservableList<Number>) row.get();
                     XYChart.Series series = new XYChart.Series();
-                    series.nameProperty().bind(EasyBind.combine(row.getName(), column.getName(), (r,c) -> r+"/"+c));
+                    series.nameProperty().bind(EasyBind.combine(row.nameProperty(), column.nameProperty(), (r,c) -> r+"/"+c));
                     series.setData(EasyBind.map(columnSeries, x -> {
                         return new XYChart.Data<Number, Number>(x, rowSeries.get(columnSeries.indexOf(x)));
                     }));

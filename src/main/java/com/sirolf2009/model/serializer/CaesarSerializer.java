@@ -18,8 +18,17 @@ public abstract class CaesarSerializer<T> extends Serializer<T> {
 		list.forEach(object -> kryo.writeObject(output, object));
 	}
 
+	public void writeObservableListWithClass(Kryo kryo, Output output, ObservableList list) {
+		output.writeInt(list.size());
+		list.forEach(object -> kryo.writeClassAndObject(output, object));
+	}
+
 	public <T> ObservableList<T> readObservableList(Kryo kryo, Input input, Class<T> type) {
 		return FXCollections.observableArrayList(IntStream.range(0, input.readInt()).mapToObj(index -> kryo.readObject(input, type)).collect(Collectors.toList()));
+	}
+
+	public <T> ObservableList<T> readObservableListWithClass(Kryo kryo, Input input, Class<T> type) {
+		return FXCollections.observableArrayList(IntStream.range(0, input.readInt()).mapToObj(index -> (T) kryo.readClassAndObject(input)).collect(Collectors.toList()));
 	}
 
 	public SimpleStringProperty readStringProperty(Input input) {

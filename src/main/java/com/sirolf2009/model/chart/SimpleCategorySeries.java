@@ -8,43 +8,10 @@ import javafx.beans.value.ObservableStringValue;
 import javafx.collections.ObservableList;
 import org.fxmisc.easybind.EasyBind;
 
-public abstract class SimpleCategorySeries<T> implements ICategorySeries<T> {
-
-    private final Table table;
-    private final JMXAttribute attribute;
-    private final ObservableList<T> numbers;
-    private final StringProperty name;
+public abstract class SimpleCategorySeries<T> extends SimpleSeries<T> implements ICategorySeries<T> {
 
     public SimpleCategorySeries(Table table, JMXAttribute attribute) {
-        this.table = table;
-        this.attribute = attribute;
-        this.name = new SimpleStringProperty(attribute.getAttributeInfo().getName());
-
-        numbers = EasyBind.map(table.getItems(), row -> {
-            if(row.containsKey(attribute)) {
-                return (T) row.get(attribute);
-            }
-            return getDefault();
-        });
+        super(table, attribute);
     }
 
-    public abstract T getDefault();
-
-    @Override
-    public ObservableList get() {
-        return numbers;
-    }
-
-    @Override
-    public StringProperty getName() {
-        return name;
-    }
-
-    public Table getTable() {
-        return table;
-    }
-
-    public JMXAttribute getAttribute() {
-        return attribute;
-    }
 }

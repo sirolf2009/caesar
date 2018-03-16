@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @DefaultSerializer(TableSerializer.class)
 public class Table implements IHierarchicalData<JMXAttribute>, Serializable {
@@ -24,6 +25,22 @@ public class Table implements IHierarchicalData<JMXAttribute>, Serializable {
         this.name = name;
         this.attributes = attributes;
         this.items = items;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Table table = (Table) o;
+        return Objects.equals(getName(), table.getName()) &&
+                Objects.equals(attributes, table.attributes) &&
+                Objects.equals(items, table.items);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name, attributes, items);
     }
 
     @Override
