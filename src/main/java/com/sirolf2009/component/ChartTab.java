@@ -49,6 +49,13 @@ public class ChartTab extends VBox {
 
     @FXML
     public void initialize() {
+        chart.getColumnsList().forEach(series -> {
+            columns.getChildren().add(new Label(series.getTable().getName() + "/" + series.getAttribute().getAttributeInfo().getName()));
+        });
+        chart.getRowsList().forEach(series -> {
+            rows.getChildren().add(new Label(series.getTable().getName() + "/" + series.getAttribute().getAttributeInfo().getName()));
+        });
+        setupChart();
         columns.setOnDragOver(event1 -> {
             if (event1.getGestureSource() != columns && event1.getDragboard().hasString() && event1.getDragboard().getString().split("@").length == 3) {
                 event1.acceptTransferModes(TransferMode.LINK);
@@ -117,6 +124,7 @@ public class ChartTab extends VBox {
 
     private void setupChart() {
         chartAnchor.getChildren().clear();
+        chart.getColumnsList().forEach(series -> System.out.println(series.getClass()));
         if (chart.getRowsList().size() == 0 && chart.getColumnsList().size() > 0 && chart.getColumnsList().stream().filter(isNumbers).count() == chart.getColumnsList().size()) {
             CategoryAxis xAxis = new CategoryAxis();
             NumberAxis yAxis = new NumberAxis();

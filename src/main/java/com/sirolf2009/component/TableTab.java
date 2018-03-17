@@ -56,6 +56,7 @@ public class TableTab extends AnchorPane {
         puller.timeoutProperty().bind(EasyBind.map(intervalTextfield.textProperty(), string -> string.length() == 0 ? 0 : Integer.parseInt(string)));
 
         table.setItems(tableModel.getItems());
+        tableModel.getChildren().forEach(jmxAttribute -> table.getColumns().add(getColumn(jmxAttribute)));
         table.setOnDragOver(event1 -> {
             if (event1.getGestureSource() != table && event1.getDragboard().hasString() && event1.getDragboard().getString().split("@").length == 2) {
                 event1.acceptTransferModes(TransferMode.LINK);
@@ -151,6 +152,10 @@ public class TableTab extends AnchorPane {
 
     public Table getTableModel() {
         return tableModel;
+    }
+
+    public JMXPuller getPuller() {
+        return puller;
     }
 
     static class CaesarTableColumn<S, T> extends TableColumn<S, T> {

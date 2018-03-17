@@ -14,6 +14,8 @@
    <top>
       <ToolBar fx:id="toolbar" prefHeight="40.0" prefWidth="200.0" stylesheets="@../styles/styles.css" BorderPane.alignment="CENTER">
         <items>
+            <Button mnemonicParsing="false" onAction="#load" text="Load" />
+            <Button mnemonicParsing="false" onAction="#save" text="Save" />
           <Button mnemonicParsing="false" onAction="#newTable" text="New Table" />
             <Button mnemonicParsing="false" onAction="#newChart" text="New Chart" />
             <Separator orientation="VERTICAL" />

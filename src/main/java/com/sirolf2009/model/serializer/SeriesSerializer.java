@@ -47,7 +47,7 @@ public abstract class SeriesSerializer extends Serializer<SimpleSeries> {
     public static class LongSeriesSerializer extends SeriesSerializer {
         @Override
         public SimpleSeries getSeries(Table table, JMXAttribute attribute) {
-            return new BooleanSeries(table, attribute);
+            return new LongSeries(table, attribute);
         }
     }
 
