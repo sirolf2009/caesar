@@ -129,6 +129,7 @@ public class MainController {
     public void newChart() {
         Chart chart = new Chart("Untitled "+(tabs.getTabs().size()+1));
         model.getCharts().add(chart);
+        addChart(chart);
     }
 
     public void addChart(Chart chart) {

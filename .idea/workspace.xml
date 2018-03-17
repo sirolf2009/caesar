@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="010d095b-78ab-442d-b135-5121741e2d7b" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/MainController.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/MainController.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/component/ChartTab.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/component/ChartTab.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/component/TableTab.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/component/TableTab.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/model/chart/ISeries.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/model/chart/ISeries.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/model/serializer/SeriesSerializer.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/model/serializer/SeriesSerializer.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/main.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/main.fxml" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -30,11 +24,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ChartTab.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ChartTab.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/ChartTab.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="373">
-              <caret line="171" column="0" lean-forward="false" selection-start-line="171" selection-start-column="0" selection-end-line="174" selection-end-column="56" />
+            <state relative-caret-position="242">
+              <caret line="157" column="52" lean-forward="true" selection-start-line="157" selection-start-column="52" selection-end-line="157" selection-end-column="52" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -72,17 +66,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainController.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MainController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/MainController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="115" column="0" lean-forward="false" selection-start-line="115" selection-start-column="0" selection-end-line="117" selection-end-column="24" />
+            <state relative-caret-position="350">
+              <caret line="131" column="22" lean-forward="false" selection-start-line="131" selection-start-column="22" selection-end-line="131" selection-end-column="22" />
               <folding>
                 <element signature="e#1201#1202#0" expanded="true" />
                 <element signature="e#1240#1241#0" expanded="true" />
                 <element signature="e#1288#1289#0" expanded="true" />
                 <element signature="e#1322#1323#0" expanded="true" />
-                <marker date="1521325258921" expanded="true" signature="4816:4821" ph="{...}" />
+                <marker date="1521325594826" expanded="true" signature="4841:4846" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -207,8 +201,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/component/TableTab.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/model/chart/ISeries.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/model/serializer/SeriesSerializer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/MainController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/component/ChartTab.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/MainController.java" />
       </list>
     </option>
   </component>
@@ -987,26 +981,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/ChartTab.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="157" column="52" lean-forward="true" selection-start-line="157" selection-start-column="52" selection-end-line="157" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/MainController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="115" column="0" lean-forward="false" selection-start-line="115" selection-start-column="0" selection-end-line="117" selection-end-column="24" />
+        <state relative-caret-position="350">
+          <caret line="131" column="22" lean-forward="false" selection-start-line="131" selection-start-column="22" selection-end-line="131" selection-end-column="22" />
           <folding>
             <element signature="e#1201#1202#0" expanded="true" />
             <element signature="e#1240#1241#0" expanded="true" />
             <element signature="e#1288#1289#0" expanded="true" />
             <element signature="e#1322#1323#0" expanded="true" />
-            <marker date="1521325258921" expanded="true" signature="4816:4821" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/component/ChartTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="171" column="0" lean-forward="false" selection-start-line="171" selection-start-column="0" selection-end-line="174" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="true" />
+            <marker date="1521325594826" expanded="true" signature="4841:4846" ph="{...}" />
           </folding>
         </state>
       </provider>
