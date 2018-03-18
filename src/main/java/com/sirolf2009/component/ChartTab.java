@@ -7,6 +7,7 @@ import com.sirolf2009.model.Table;
 import com.sirolf2009.model.chart.*;
 import com.sirolf2009.util.ControllerUtil;
 import javafx.beans.InvalidationListener;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -49,13 +50,10 @@ public class ChartTab extends VBox {
 
     @FXML
     public void initialize() {
-        chart.getColumnsList().forEach(series -> {
-            columns.getChildren().add(new Label(series.getTable().getName() + "/" + series.getAttribute().getAttributeInfo().getName()));
-        });
-        chart.getRowsList().forEach(series -> {
-            rows.getChildren().add(new Label(series.getTable().getName() + "/" + series.getAttribute().getAttributeInfo().getName()));
-        });
+        chart.getColumnsList().forEach(series -> addColumn(series));
+        chart.getRowsList().forEach(series -> addRow(series));
         setupChart();
+
         columns.setOnDragOver(event1 -> {
             if (event1.getGestureSource() != columns && event1.getDragboard().hasString() && event1.getDragboard().getString().split("@").length == 3) {
                 event1.acceptTransferModes(TransferMode.LINK);
@@ -78,8 +76,9 @@ public class ChartTab extends VBox {
                     String[] data = newVariable.split("@");
                     tables.stream().filter(table -> table.getName().equals(data[2])).findAny().ifPresent(table -> {
                         table.getChildren().stream().filter(attribute -> attribute.getObjectName().toString().equals(data[1])).filter(attribute -> attribute.getAttributeInfo().getName().equals(data[0])).findAny().ifPresent(attribute -> {
-                            chart.getColumnsList().add(getSeries(table, attribute));
-                            columns.getChildren().add(new Label(table.getName() + "/" + attribute.getAttributeInfo().getName()));
+                            ISeries series = getSeries(table, attribute);
+                            chart.getColumnsList().add(series);
+                            addColumn(series);
                             event.consume();
                         });
                     });
@@ -110,8 +109,9 @@ public class ChartTab extends VBox {
                     String[] data = newVariable.split("@");
                     tables.stream().filter(table -> table.getName().equals(data[2])).findAny().ifPresent(table -> {
                         table.getChildren().stream().filter(attribute -> attribute.getObjectName().toString().equals(data[1])).filter(attribute -> attribute.getAttributeInfo().getName().equals(data[0])).findAny().ifPresent(attribute -> {
-                            chart.getRowsList().add(getSeries(table, attribute));
-                            rows.getChildren().add(new Label(table.getName() + "/" + attribute.getAttributeInfo().getName()));
+                            ISeries series = getSeries(table, attribute);
+                            chart.getRowsList().add(series);
+                            addRow(series);
                             event.consume();
                         });
                     });
@@ -122,19 +122,38 @@ public class ChartTab extends VBox {
         });
     }
 
+    public void addColumn(ISeries series) {
+        ColumnRowLabel label = new ColumnRowLabel(series);
+        label.getBtnRemove().setOnAction(event -> {
+            chart.getColumnsList().remove(series);
+            columns.getChildren().remove(label);
+        });
+        columns.getChildren().add(label);
+    }
+
+    public void addRow(ISeries series) {
+        ColumnRowLabel label = new ColumnRowLabel(series);
+        label.getBtnRemove().setOnAction(event -> {
+            chart.getRowsList().remove(series);
+            rows.getChildren().remove(label);
+        });
+        rows.getChildren().add(label);
+    }
+
     private void setupChart() {
         chartAnchor.getChildren().clear();
-        chart.getColumnsList().forEach(series -> System.out.println(series.getClass()));
         if (chart.getRowsList().size() == 0 && chart.getColumnsList().size() > 0 && chart.getColumnsList().stream().filter(isNumbers).count() == chart.getColumnsList().size()) {
             CategoryAxis xAxis = new CategoryAxis();
             NumberAxis yAxis = new NumberAxis();
-            BarChart<String,Number> barChart = new BarChart<String,Number>(xAxis,yAxis);
+            BarChart<String, Number> barChart = new BarChart<String, Number>(xAxis, yAxis);
             chart.getColumnsList().stream().map(asNumbers).forEach(column -> {
                 XYChart.Series series = new XYChart.Series();
                 ObservableList<Number> columnSeries = (ObservableList<Number>) column.get();
                 series.nameProperty().bindBidirectional(column.nameProperty());
-                XYChart.Data<String, Number> data = new XYChart.Data<>(column.getName(), columnSeries.get(columnSeries.size()-1));
-                columnSeries.addListener((InvalidationListener) event -> data.setYValue(columnSeries.get(columnSeries.size()-1)));
+                XYChart.Data<String, Number> data = new XYChart.Data<>(column.getName(), columnSeries.isEmpty() ? 0d : columnSeries.get(columnSeries.size()-1));
+                columnSeries.addListener((InvalidationListener) event -> {
+                    data.setYValue(columnSeries.get(columnSeries.size() - 1));
+                });
                 series.getData().add(data);
                 barChart.getData().add(series);
             });
@@ -151,7 +170,7 @@ public class ChartTab extends VBox {
                 chart.getRowsList().stream().map(asNumbers).forEach(row -> {
                     ObservableList<Number> rowSeries = (ObservableList<Number>) row.get();
                     XYChart.Series series = new XYChart.Series();
-                    series.nameProperty().bind(EasyBind.combine(row.nameProperty(), column.nameProperty(), (r,c) -> r+"/"+c));
+                    series.nameProperty().bind(EasyBind.combine(row.nameProperty(), column.nameProperty(), (r, c) -> r + "/" + c));
                     series.setData(EasyBind.map(columnSeries, x -> {
                         return new XYChart.Data<Number, Number>(x, rowSeries.get(columnSeries.indexOf(x)));
                     }));

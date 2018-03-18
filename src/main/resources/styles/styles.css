@@ -9,3 +9,14 @@
     -fx-border-width: 2;
     -fx-border-radius: 5;
 }
+
+.colRowContainer {
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-width:1;
+    -fx-border-color: #d66b00;
+    -fx-background-color: #d66b00;
+}
+.colRowContainerClose {
+    -fx-background-color: #d66b00;
+}
