@@ -6,6 +6,7 @@ import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.component.*;
 import com.sirolf2009.caesar.model.*;
 import com.sirolf2009.caesar.dialogs.LocalConnectionDialog;
+import com.sirolf2009.caesar.model.table.JMXAttribute;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -130,7 +131,6 @@ public class MainController {
 
     public void addChart(Chart chart) {
         Tab newChartTab = new RenameableTab(chart.nameProperty());
-        newChartTab.textProperty().bind(chart.nameProperty());
         newChartTab.setContent(new ChartTab(chart, model.getTables()));
         tabs.getTabs().add(newChartTab);
         tabs.getSelectionModel().select(newChartTab);

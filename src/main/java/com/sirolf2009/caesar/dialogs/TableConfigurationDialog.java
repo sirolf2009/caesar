@@ -1,6 +1,6 @@
 package com.sirolf2009.caesar.dialogs;
 
-import com.sirolf2009.caesar.model.JMXAttribute;
+import com.sirolf2009.caesar.model.table.JMXAttribute;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;

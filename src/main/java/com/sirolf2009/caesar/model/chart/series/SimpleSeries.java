@@ -1,6 +1,7 @@
 package com.sirolf2009.caesar.model.chart.series;
 
-import com.sirolf2009.caesar.model.JMXAttribute;
+import com.sirolf2009.caesar.model.table.IDataPointer;
+import com.sirolf2009.caesar.model.table.JMXAttribute;
 import com.sirolf2009.caesar.model.Table;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -12,14 +13,14 @@ import java.util.Objects;
 public abstract class SimpleSeries<T> {
 
     private final Table table;
-    private final JMXAttribute attribute;
+    private final IDataPointer attribute;
     private final ObservableList<T> values;
     private final StringProperty name;
 
-    public SimpleSeries(Table table, JMXAttribute attribute) {
+    public SimpleSeries(Table table, IDataPointer attribute) {
         this.table = table;
         this.attribute = attribute;
-        this.name = new SimpleStringProperty(attribute.getAttributeInfo().getName());
+        this.name = new SimpleStringProperty(attribute.toString());
 
         values = EasyBind.map(table.getItems(), row -> {
             if(row.containsKey(attribute)) {
@@ -73,7 +74,7 @@ public abstract class SimpleSeries<T> {
         return table;
     }
 
-    public JMXAttribute getAttribute() {
+    public IDataPointer getAttribute() {
         return attribute;
     }
 }

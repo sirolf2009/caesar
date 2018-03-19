@@ -1,6 +1,7 @@
 package com.sirolf2009.caesar.model;
 
 import com.sirolf2009.caesar.component.hierarchy.IHierarchicalData;
+import com.sirolf2009.caesar.model.table.JMXAttribute;
 import javafx.collections.ObservableList;
 
 import javax.management.ObjectName;

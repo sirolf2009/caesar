@@ -3,7 +3,8 @@ package com.sirolf2009.caesar.component;
 import com.sirolf2009.caesar.MainController;
 import com.sirolf2009.caesar.model.Chart;
 import com.sirolf2009.caesar.model.ColumnOrRow;
-import com.sirolf2009.caesar.model.JMXAttribute;
+import com.sirolf2009.caesar.model.table.IDataPointer;
+import com.sirolf2009.caesar.model.table.JMXAttribute;
 import com.sirolf2009.caesar.model.Table;
 import com.sirolf2009.caesar.model.chart.type.BarChartType;
 import com.sirolf2009.caesar.model.chart.type.IChartType;
@@ -52,7 +53,7 @@ public class ChartTab extends VBox {
         setupChart();
 
         columns.setOnDragOver(event1 -> {
-            if (event1.getGestureSource() != columns && event1.getDragboard().hasString() && event1.getDragboard().getString().split("@").length == 3) {
+            if (event1.getGestureSource() != columns && event1.getDragboard().hasContent(TablesTreeView.TABLE_AND_POINTER)) {
                 event1.acceptTransferModes(TransferMode.LINK);
                 columns.setStyle("-fx-effect: innershadow(gaussian, #039ed3, 10, 1.0, 0, 0);");
             }
@@ -69,23 +70,17 @@ public class ChartTab extends VBox {
             @Override
             public void handle(DragEvent event) {
                 try {
-                    String newVariable = event.getDragboard().getString();
-                    String[] data = newVariable.split("@");
-                    tables.stream().filter(table -> table.getName().equals(data[2])).findAny().ifPresent(table -> {
-                        table.getChildren().stream().filter(attribute -> attribute.getObjectName().toString().equals(data[1])).filter(attribute -> attribute.getAttributeInfo().getName().equals(data[0])).findAny().ifPresent(attribute -> {
-                            ColumnOrRow.Column column = new ColumnOrRow.Column(getSeries(table, attribute));
-                            chart.getChildren().add(column);
-                            addColumn(column);
-                            event.consume();
-                        });
-                    });
+                    ColumnOrRow.Column column = new ColumnOrRow.Column(getSeries(TablesTreeView.table, TablesTreeView.pointer));
+                    chart.getChildren().add(column);
+                    addColumn(column);
+                    event.consume();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
         rows.setOnDragOver(event1 -> {
-            if (event1.getGestureSource() != rows && event1.getDragboard().hasString() && event1.getDragboard().getString().split("@").length == 3) {
+            if (event1.getGestureSource() != rows && event1.getDragboard().hasContent(TablesTreeView.TABLE_AND_POINTER)) {
                 event1.acceptTransferModes(TransferMode.LINK);
                 rows.setStyle("-fx-effect: innershadow(gaussian, #039ed3, 10, 1.0, 0, 0);");
             }
@@ -102,16 +97,10 @@ public class ChartTab extends VBox {
             @Override
             public void handle(DragEvent event) {
                 try {
-                    String newVariable = event.getDragboard().getString();
-                    String[] data = newVariable.split("@");
-                    tables.stream().filter(table -> table.getName().equals(data[2])).findAny().ifPresent(table -> {
-                        table.getChildren().stream().filter(attribute -> attribute.getObjectName().toString().equals(data[1])).filter(attribute -> attribute.getAttributeInfo().getName().equals(data[0])).findAny().ifPresent(attribute -> {
-                            ColumnOrRow.Row row = new ColumnOrRow.Row(getSeries(table, attribute));
-                            chart.getChildren().add(row);
-                            addRow(row);
-                            event.consume();
-                        });
-                    });
+                    ColumnOrRow.Row row = new ColumnOrRow.Row(getSeries(TablesTreeView.table, TablesTreeView.pointer));
+                    chart.getChildren().add(row);
+                    addRow(row);
+                    event.consume();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -146,8 +135,8 @@ public class ChartTab extends VBox {
         });
     }
 
-    public static ISeries getSeries(Table table, JMXAttribute attribute) {
-        switch (attribute.getAttributeInfo().getType()) {
+    public static ISeries getSeries(Table table, IDataPointer attribute) {
+        switch (attribute.getType()) {
             case "int":
                 return new IntegerSeries(table, attribute);
             case "java.long.Integer":
@@ -167,7 +156,7 @@ public class ChartTab extends VBox {
             case "java.lang.String":
                 return new StringSeries(table, attribute);
         }
-        throw new IllegalArgumentException("Unknown type: " + attribute.getAttributeInfo().getType());
+        throw new IllegalArgumentException("Unknown type: " + attribute.getType());
     }
 
 }

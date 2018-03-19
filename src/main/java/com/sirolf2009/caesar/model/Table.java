@@ -3,6 +3,8 @@ package com.sirolf2009.caesar.model;
 import com.esotericsoftware.kryo.DefaultSerializer;
 import com.sirolf2009.caesar.component.hierarchy.IHierarchicalData;
 import com.sirolf2009.caesar.model.serializer.TableSerializer;
+import com.sirolf2009.caesar.model.table.IDataPointer;
+import com.sirolf2009.caesar.model.table.JMXAttribute;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,17 +13,17 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @DefaultSerializer(TableSerializer.class)
-public class Table implements IHierarchicalData<JMXAttribute>, Serializable {
+public class Table implements IHierarchicalData<IDataPointer>, Serializable {
 
     private final SimpleStringProperty name;
-    private final ObservableList<JMXAttribute> attributes;
+    private final ObservableList<IDataPointer> attributes;
     private final ObservableList<JMXAttributes> items;
 
     public Table(String name) {
         this(new SimpleStringProperty(name), FXCollections.observableArrayList(), FXCollections.observableArrayList());
     }
 
-    public Table(SimpleStringProperty name, ObservableList<JMXAttribute> attributes, ObservableList<JMXAttributes> items) {
+    public Table(SimpleStringProperty name, ObservableList<IDataPointer> attributes, ObservableList<JMXAttributes> items) {
         this.name = name;
         this.attributes = attributes;
         this.items = items;
@@ -44,7 +46,7 @@ public class Table implements IHierarchicalData<JMXAttribute>, Serializable {
     }
 
     @Override
-    public ObservableList<JMXAttribute> getChildren() {
+    public ObservableList<IDataPointer> getChildren() {
         return attributes;
     }
 

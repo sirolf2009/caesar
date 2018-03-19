@@ -1,18 +1,19 @@
-package com.sirolf2009.caesar.model;
+package com.sirolf2009.caesar.model.table;
 
 import com.esotericsoftware.kryo.DefaultSerializer;
 import com.sirolf2009.caesar.component.hierarchy.IHierarchicalData;
+import com.sirolf2009.caesar.model.JMXAttributes;
 import com.sirolf2009.caesar.model.serializer.JMXAttributeSerializer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import javax.management.MBeanAttributeInfo;
-import javax.management.ObjectName;
+import javax.management.*;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Objects;
 
 @DefaultSerializer(JMXAttributeSerializer.class)
-public class JMXAttribute implements IHierarchicalData, Serializable {
+public class JMXAttribute implements IDataPointer {
 
     private final ObjectName objectName;
     private final MBeanAttributeInfo attributeInfo;
@@ -20,6 +21,26 @@ public class JMXAttribute implements IHierarchicalData, Serializable {
     public JMXAttribute(ObjectName objectName, MBeanAttributeInfo attributeInfo) {
         this.objectName = objectName;
         this.attributeInfo = attributeInfo;
+    }
+
+    @Override public void pullData(MBeanServerConnection connection, JMXAttributes attributes) {
+        try {
+            attributes.put(this, connection.getAttribute(objectName, attributeInfo.getName()));
+        } catch(MBeanException e) {
+            e.printStackTrace();
+        } catch(AttributeNotFoundException e) {
+            e.printStackTrace();
+        } catch(InstanceNotFoundException e) {
+            e.printStackTrace();
+        } catch(ReflectionException e) {
+            e.printStackTrace();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override public String getType() {
+        return attributeInfo.getType();
     }
 
     @Override

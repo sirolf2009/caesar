@@ -23,7 +23,7 @@ public class ColumnRowLabel extends HBox {
 
     @FXML
     public void initialize() {
-        txtObjectName.setText(series.getTable().getName()+"/"+series.getAttribute().getAttributeInfo().getName());
+        txtObjectName.setText(series.getTable().getName()+"/"+series.getAttribute().toString());
     }
 
     public Button getBtnRemove() {

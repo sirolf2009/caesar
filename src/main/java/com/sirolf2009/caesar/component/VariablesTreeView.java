@@ -1,7 +1,7 @@
 package com.sirolf2009.caesar.component;
 
 import com.sirolf2009.caesar.component.hierarchy.TreeViewHierarchy;
-import com.sirolf2009.caesar.model.JMXAttribute;
+import com.sirolf2009.caesar.model.table.JMXAttribute;
 import com.sirolf2009.caesar.model.JMXObject;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;

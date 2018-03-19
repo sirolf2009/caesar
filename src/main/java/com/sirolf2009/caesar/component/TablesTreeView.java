@@ -1,20 +1,22 @@
 package com.sirolf2009.caesar.component;
 
 import com.sirolf2009.caesar.component.hierarchy.TreeViewHierarchy;
-import com.sirolf2009.caesar.model.JMXAttribute;
+import com.sirolf2009.caesar.model.table.IDataPointer;
+import com.sirolf2009.caesar.model.table.JMXAttribute;
 import com.sirolf2009.caesar.model.Table;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.util.Callback;
 
 public class TablesTreeView extends TreeViewHierarchy {
+
+    public static DataFormat TABLE_AND_POINTER = new DataFormat("TableAndPointer");
+    public static Table table;
+    public static IDataPointer pointer;
 
     public TablesTreeView(ObservableList<Table> attributes) {
         setRoot(new TreeItem<>());
@@ -37,14 +39,16 @@ public class TablesTreeView extends TreeViewHierarchy {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
                         Object value = treeCell.getTreeItem().getValue();
-                        if(value instanceof JMXAttribute) {
+                        if(value instanceof IDataPointer) {
                             Table table = (Table) treeCell.getTreeItem().getParent().getValue();
                             Dragboard db = treeCell.startDragAndDrop(TransferMode.LINK);
 
                             ClipboardContent content = new ClipboardContent();
-                            JMXAttribute attr = (JMXAttribute)value;
-                            content.putString(attr.getAttributeInfo().getName()+"@"+attr.getObjectName().toString()+"@"+table.getName());
+                            content.put(TABLE_AND_POINTER, "");
                             db.setContent(content);
+
+                            TablesTreeView.table = table;
+                            TablesTreeView.pointer = (IDataPointer) value;
 
                             mouseEvent.consume();
                         }
