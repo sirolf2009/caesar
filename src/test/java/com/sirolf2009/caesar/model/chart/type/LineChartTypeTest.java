@@ -32,7 +32,7 @@ public class LineChartTypeTest extends ChartTypeTest {
 			chart.getChildren().add(doubleRow());
 			Assert.assertFalse("Multiple double rows should not be allowed", type.getPredicate().test(chart));
 
-			chart.getChildren().add(doubleRow());
+			chart.getChildren().add(doubleColumn());
 			Assert.assertTrue("A chart with a single double column and double rows should be allowed", type.getPredicate().test(chart));
 		}
 		{

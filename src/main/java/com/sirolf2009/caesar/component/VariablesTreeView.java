@@ -18,7 +18,7 @@ public class VariablesTreeView extends TreeViewHierarchy {
 
     public VariablesTreeView(ObservableList<JMXObject> attributes) {
         setRoot(new TreeItem<>());
-        setItems(attributes);
+        setItems(attributes.sorted());
         getRoot().getChildren().forEach(treeItem -> ((TreeItem)treeItem).setExpanded(false));
         setShowRoot(false);
         setCellFactory(new Callback<TreeView<Object>, TreeCell<Object>>() {
