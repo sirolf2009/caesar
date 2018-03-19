@@ -72,13 +72,12 @@ public class TreeViewHierarchy<T extends IHierarchicalData<T>> extends TreeView<
         setItems(FXCollections.<T>observableArrayList());
  
         // Do not use ChangeListener, because it won't trigger if old list equals new list (but in fact different references).
-        items.addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                clear(getRoot());
-                updateItems();
-            }
-        });
+        items.addListener(observable -> update());
+    }
+
+    public void update() {
+        clear(getRoot());
+        updateItems();
     }
  
     /**

@@ -4,6 +4,7 @@ import com.sirolf2009.caesar.component.hierarchy.TreeViewHierarchy;
 import com.sirolf2009.caesar.model.table.IDataPointer;
 import com.sirolf2009.caesar.model.table.JMXAttribute;
 import com.sirolf2009.caesar.model.Table;
+import javafx.beans.InvalidationListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.TreeCell;
@@ -30,7 +31,11 @@ public class TablesTreeView extends TreeViewHierarchy {
                     protected void updateItem(Object item, boolean empty) {
                         super.updateItem(item, empty);
                         if (item != null) {
-                            setText(String.valueOf(item));
+                            if(item instanceof Table) {
+                                textProperty().bind(((Table)item).nameProperty());
+                            } else {
+                                setText(String.valueOf(item));
+                            }
                         }
                     }
                 };
