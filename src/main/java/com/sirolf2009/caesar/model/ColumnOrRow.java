@@ -4,7 +4,7 @@ import com.esotericsoftware.kryo.DefaultSerializer;
 import com.sirolf2009.caesar.component.hierarchy.IHierarchicalData;
 import com.sirolf2009.caesar.model.serializer.ColumnSerializer;
 import com.sirolf2009.caesar.model.serializer.RowSerializer;
-import com.sirolf2009.caesar.model.series.ISeries;
+import com.sirolf2009.caesar.model.chart.series.ISeries;
 import javafx.collections.ObservableList;
 
 import java.util.Objects;

@@ -2,7 +2,7 @@ package com.sirolf2009.caesar.model.chart.type;
 
 import com.sirolf2009.caesar.model.Chart;
 import com.sirolf2009.caesar.model.ColumnOrRow;
-import com.sirolf2009.caesar.model.series.INumberSeries;
+import com.sirolf2009.caesar.model.chart.series.INumberSeries;
 import javafx.scene.Node;
 
 import java.util.function.Predicate;

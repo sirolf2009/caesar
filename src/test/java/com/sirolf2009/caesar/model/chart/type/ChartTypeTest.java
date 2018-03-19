@@ -3,8 +3,8 @@ package com.sirolf2009.caesar.model.chart.type;
 import com.sirolf2009.caesar.model.ColumnOrRow;
 import com.sirolf2009.caesar.model.JMXAttribute;
 import com.sirolf2009.caesar.model.Table;
-import com.sirolf2009.caesar.model.series.DoubleSeries;
-import com.sirolf2009.caesar.model.series.StringSeries;
+import com.sirolf2009.caesar.model.chart.series.DoubleSeries;
+import com.sirolf2009.caesar.model.chart.series.StringSeries;
 
 import javax.management.MBeanAttributeInfo;
 import javax.management.MalformedObjectNameException;

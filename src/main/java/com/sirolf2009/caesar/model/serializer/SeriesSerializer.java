@@ -6,7 +6,7 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.model.JMXAttribute;
 import com.sirolf2009.caesar.model.Table;
-import com.sirolf2009.caesar.model.series.*;
+import com.sirolf2009.caesar.model.chart.series.*;
 
 public abstract class SeriesSerializer extends Serializer<SimpleSeries> {
 

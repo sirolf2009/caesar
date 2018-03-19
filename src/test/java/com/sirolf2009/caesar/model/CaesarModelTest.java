@@ -3,11 +3,7 @@ package com.sirolf2009.caesar.model;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import com.sirolf2009.caesar.model.CaesarModel;
-import com.sirolf2009.caesar.model.Chart;
-import com.sirolf2009.caesar.model.JMXAttribute;
-import com.sirolf2009.caesar.model.Table;
-import com.sirolf2009.caesar.model.series.IntegerSeries;
+import com.sirolf2009.caesar.model.chart.series.IntegerSeries;
 import org.junit.Assert;
 import org.junit.Test;
 

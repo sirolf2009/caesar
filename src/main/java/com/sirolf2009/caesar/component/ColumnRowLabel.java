@@ -1,7 +1,7 @@
 package com.sirolf2009.caesar.component;
 
 import com.sirolf2009.caesar.util.ControllerUtil;
-import com.sirolf2009.caesar.model.series.ISeries;
+import com.sirolf2009.caesar.model.chart.series.ISeries;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

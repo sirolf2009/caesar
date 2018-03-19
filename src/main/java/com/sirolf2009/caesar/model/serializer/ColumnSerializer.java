@@ -5,7 +5,7 @@ import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.model.ColumnOrRow;
-import com.sirolf2009.caesar.model.series.ISeries;
+import com.sirolf2009.caesar.model.chart.series.ISeries;
 
 public class ColumnSerializer extends Serializer<ColumnOrRow.Column> {
 

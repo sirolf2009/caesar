@@ -8,7 +8,7 @@ import com.sirolf2009.caesar.model.Table;
 import com.sirolf2009.caesar.model.chart.type.BarChartType;
 import com.sirolf2009.caesar.model.chart.type.IChartType;
 import com.sirolf2009.caesar.model.chart.type.LineChartType;
-import com.sirolf2009.caesar.model.series.*;
+import com.sirolf2009.caesar.model.chart.series.*;
 import com.sirolf2009.caesar.util.ControllerUtil;
 import javafx.beans.InvalidationListener;
 import javafx.collections.ObservableList;

@@ -1,4 +1,4 @@
-package com.sirolf2009.caesar.model.series;
+package com.sirolf2009.caesar.model.chart.series;
 
 import com.sirolf2009.caesar.model.JMXAttribute;
 import com.sirolf2009.caesar.model.Table;

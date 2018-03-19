@@ -3,7 +3,6 @@ package com.sirolf2009.caesar.model;
 import com.esotericsoftware.kryo.DefaultSerializer;
 import com.sirolf2009.caesar.component.hierarchy.IHierarchicalData;
 import com.sirolf2009.caesar.model.serializer.ChartSerializer;
-import com.sirolf2009.caesar.model.series.ISeries;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

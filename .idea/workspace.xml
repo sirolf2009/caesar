@@ -2,22 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="010d095b-78ab-442d-b135-5121741e2d7b" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/type/BarChartType.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/type/IChartType.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/type/LineChartType.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/serializer/ColumnSerializer.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/serializer/RowSerializer.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/test/java/com/sirolf2009/caesar/model/chart/type/BarChartTypeTest.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/test/java/com/sirolf2009/caesar/model/chart/type/ChartTypeTest.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/test/java/com/sirolf2009/caesar/model/chart/type/LineChartTypeTest.java" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/component/ChartTab.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/component/ChartTab.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/component/ColumnRowLabel.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/component/ColumnRowLabel.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/Chart.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/Chart.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/ColumnOrRow.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/ColumnOrRow.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/serializer/ChartSerializer.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/serializer/ChartSerializer.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/type/BarChartType.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/type/BarChartType.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/type/IChartType.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/type/IChartType.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/type/LineChartType.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/type/LineChartType.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/serializer/ColumnSerializer.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/serializer/ColumnSerializer.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/serializer/RowSerializer.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/serializer/RowSerializer.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/serializer/SeriesSerializer.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/serializer/SeriesSerializer.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/BooleanSeries.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/BooleanSeries.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/DoubleSeries.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/DoubleSeries.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/ICategorySeries.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/ICategorySeries.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/INumberSeries.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/INumberSeries.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/ISeries.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/ISeries.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/IntegerSeries.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/IntegerSeries.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/LongSeries.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/LongSeries.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/SimpleCategorySeries.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/SimpleCategorySeries.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/SimpleNumberSeries.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/SimpleNumberSeries.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/SimpleSeries.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/SimpleSeries.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/StringSeries.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/StringSeries.java" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/sirolf2009/caesar/model/CaesarModelTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/sirolf2009/caesar/model/CaesarModelTest.java" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/CaesarModelTest.bin" afterPath="$PROJECT_DIR$/src/test/resources/CaesarModelTest.bin" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/sirolf2009/caesar/model/chart/type/ChartTypeTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/sirolf2009/caesar/model/chart/type/ChartTypeTest.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,7 +40,7 @@
         <entry file="file://$PROJECT_DIR$/src/test/java/com/sirolf2009/caesar/model/CaesarModelTest.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="612">
-              <caret line="52" column="0" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+              <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -62,7 +69,7 @@
         </entry>
       </file>
       <file leaf-file-name="BooleanSeries.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/BooleanSeries.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/BooleanSeries.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="51">
               <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="7" selection-end-column="66" />
@@ -116,8 +123,8 @@
       <file leaf-file-name="Chart.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/Chart.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="382">
-              <caret line="40" column="51" lean-forward="true" selection-start-line="40" selection-start-column="51" selection-end-line="40" selection-end-column="51" />
+            <state relative-caret-position="425">
+              <caret line="34" column="5" lean-forward="true" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -320,7 +327,7 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="caesar" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
-              <item name="type" type="462c0819:PsiDirectoryNode" />
+              <item name="chart" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="caesar-fx" type="b2602c69:ProjectViewProjectNode" />
@@ -331,16 +338,6 @@
               <item name="caesar" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
               <item name="serializer" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="caesar-fx" type="b2602c69:ProjectViewProjectNode" />
-              <item name="caesar" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="caesar" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-              <item name="series" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="caesar-fx" type="b2602c69:ProjectViewProjectNode" />
@@ -394,6 +391,9 @@
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.sirolf2009.caesar.model.chart" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.sirolf2009.caesar.model.serializer" />
       <recent name="com.sirolf2009.caesar.model.chart.type" />
@@ -626,7 +626,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="1080" width="1920" height="1080" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Key Promoter X" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -642,7 +641,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19114584" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19114584" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
       <window_info id="Learn" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -718,7 +717,7 @@
         <state relative-caret-position="102">
           <caret line="9" column="46" lean-forward="false" selection-start-line="9" selection-start-column="46" selection-end-line="9" selection-end-column="46" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
             <marker date="1521455069324" expanded="true" signature="1297:1304" ph="{...}" />
             <marker date="1521455069324" expanded="true" signature="1351:1381" ph="{...}" />
             <marker date="1521455069324" expanded="true" signature="1428:1458" ph="{...}" />
@@ -741,17 +740,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/INumberSeries.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/INumberSeries.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
           <caret line="2" column="60" lean-forward="false" selection-start-line="2" selection-start-column="60" selection-end-line="2" selection-end-column="60" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/SimpleNumberSeries.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/SimpleNumberSeries.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
           <caret line="9" column="99" lean-forward="false" selection-start-line="9" selection-start-column="99" selection-end-line="9" selection-end-column="99" />
+          <folding>
+            <element signature="e#318#319#0" expanded="false" />
+            <element signature="e#357#358#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -817,7 +820,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/SimpleCategorySeries.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/SimpleCategorySeries.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
@@ -825,21 +828,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/SimpleSeries.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/SimpleSeries.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="351">
           <caret line="43" column="35" lean-forward="false" selection-start-line="43" selection-start-column="35" selection-end-line="43" selection-end-column="35" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/LongSeries.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/LongSeries.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
           <caret line="7" column="62" lean-forward="false" selection-start-line="7" selection-start-column="62" selection-end-line="7" selection-end-column="62" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/StringSeries.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/StringSeries.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
           <caret line="7" column="58" lean-forward="false" selection-start-line="7" selection-start-column="58" selection-end-line="7" selection-end-column="58" />
@@ -847,7 +851,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/IntegerSeries.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/IntegerSeries.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="10" column="47" lean-forward="true" selection-start-line="10" selection-start-column="47" selection-end-line="10" selection-end-column="47" />
@@ -942,7 +946,7 @@
         <state relative-caret-position="340">
           <caret line="20" column="37" lean-forward="false" selection-start-line="20" selection-start-column="37" selection-end-line="20" selection-end-column="37" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -951,10 +955,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
           <caret line="18" column="33" lean-forward="false" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/ISeries.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/ISeries.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
           <caret line="20" column="27" lean-forward="false" selection-start-line="20" selection-start-column="27" selection-end-line="20" selection-end-column="27" />
@@ -967,7 +972,7 @@
         <state relative-caret-position="323">
           <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -977,7 +982,7 @@
         <state relative-caret-position="595">
           <caret line="35" column="15" lean-forward="false" selection-start-line="35" selection-start-column="15" selection-end-line="35" selection-end-column="15" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -987,7 +992,7 @@
         <state relative-caret-position="153">
           <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -997,7 +1002,7 @@
         <state relative-caret-position="476">
           <caret line="28" column="92" lean-forward="false" selection-start-line="28" selection-start-column="92" selection-end-line="28" selection-end-column="92" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1007,12 +1012,12 @@
         <state relative-caret-position="289">
           <caret line="17" column="37" lean-forward="false" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="37" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/DoubleSeries.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/DoubleSeries.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="10" column="26" lean-forward="false" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
@@ -1082,7 +1087,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/series/BooleanSeries.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/BooleanSeries.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="7" selection-end-column="66" />
@@ -1101,15 +1106,15 @@
     <entry file="file://$PROJECT_DIR$/src/test/java/com/sirolf2009/caesar/model/CaesarModelTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="612">
-          <caret line="52" column="0" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+          <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/Chart.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
-          <caret line="40" column="51" lean-forward="true" selection-start-line="40" selection-start-column="51" selection-end-line="40" selection-end-column="51" />
+        <state relative-caret-position="425">
+          <caret line="34" column="5" lean-forward="true" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
           <folding />
         </state>
       </provider>
