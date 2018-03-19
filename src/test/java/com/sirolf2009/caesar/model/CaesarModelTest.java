@@ -32,8 +32,8 @@ public class CaesarModelTest {
 		model.getTables().add(table);
 
 		Chart chart = new Chart("series");
-		chart.getColumnsList().add(new IntegerSeries(table, attribute1));
-		chart.getColumnsList().add(new IntegerSeries(table, attribute2));
+		chart.getChildren().add(new ColumnOrRow.Column(new IntegerSeries(table, attribute1)));
+		chart.getChildren().add(new ColumnOrRow.Row(new IntegerSeries(table, attribute2)));
 		model.getCharts().add(chart);
 
 		Kryo kryo = new Kryo();
@@ -49,8 +49,7 @@ public class CaesarModelTest {
 		Assert.assertEquals(model.getTables().get(0).getChildren(), retrievedModel.getTables().get(0).getChildren());
 		Assert.assertEquals(model.getTables().get(0), retrievedModel.getTables().get(0));
 		Assert.assertEquals(model.getTables(), retrievedModel.getTables());
-		Assert.assertEquals(model.getCharts().get(0).getColumnsList().get(0), retrievedModel.getCharts().get(0).getColumnsList().get(0));
-		Assert.assertEquals(model.getCharts().get(0).getColumnsList(), retrievedModel.getCharts().get(0).getColumnsList());
+		Assert.assertEquals(model.getCharts().get(0).getChildren(), retrievedModel.getCharts().get(0).getChildren());
 		Assert.assertEquals(model.getCharts().get(0), retrievedModel.getCharts().get(0));
 		Assert.assertEquals(model.getCharts(), retrievedModel.getCharts());
 		Assert.assertEquals(model, retrievedModel);

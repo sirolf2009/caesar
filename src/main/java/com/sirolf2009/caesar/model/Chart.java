@@ -10,48 +10,42 @@ import javafx.collections.ObservableList;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 @DefaultSerializer(ChartSerializer.class)
-public class Chart implements IHierarchicalData<ISeries>, Serializable {
+public class Chart implements IHierarchicalData<ColumnOrRow>, Serializable {
 
     private final SimpleStringProperty name;
-    private final ObservableList<ISeries> columnsList;
-    private final ObservableList<ISeries> rowsList;
-    private final ObservableList<ISeries> seriesList;
+    private final ObservableList<ColumnOrRow> seriesList;
 
     public Chart(String name) {
-        this(new SimpleStringProperty(name), FXCollections.observableArrayList(), FXCollections.observableArrayList());
+        this(new SimpleStringProperty(name), FXCollections.observableArrayList());
     }
 
-    public Chart(SimpleStringProperty name, ObservableList<ISeries> columnsList, ObservableList<ISeries> rowsList) {
+    public Chart(SimpleStringProperty name, ObservableList<ColumnOrRow> seriesList) {
         this.name = name;
-        this.columnsList = columnsList;
-        this.rowsList = rowsList;
-        this.seriesList = FXCollections.concat(columnsList, rowsList);
+        this.seriesList = seriesList;
     }
 
     @Override
     public String toString() {
         return "Chart{" +
                 "name=" + name +
-                ", columnsList=" + columnsList +
-                ", rowsList=" + rowsList +
+                ", seriesList=" + seriesList +
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    @Override public boolean equals(Object o) {
+        if(this == o)
+            return true;
+        if(o == null || getClass() != o.getClass())
+            return false;
         Chart chart = (Chart) o;
-        return Objects.equals(getName(), chart.getName()) &&
-                Objects.equals(columnsList, chart.columnsList) &&
-                Objects.equals(rowsList, chart.rowsList);
+        return Objects.equals(getName(), chart.getName()) && Objects.equals(seriesList, chart.seriesList);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, columnsList, rowsList, seriesList);
+    @Override public int hashCode() {
+        return Objects.hash(name, seriesList);
     }
 
     public SimpleStringProperty nameProperty() {
@@ -63,15 +57,16 @@ public class Chart implements IHierarchicalData<ISeries>, Serializable {
     }
 
     @Override
-    public ObservableList<ISeries> getChildren() {
+    public ObservableList<ColumnOrRow> getChildren() {
         return seriesList;
     }
 
-    public ObservableList<ISeries> getColumnsList() {
-        return columnsList;
+    public Stream<ColumnOrRow.Column> getColumns() {
+        return seriesList.stream().filter(series -> series.isColumn()).map(series -> (ColumnOrRow.Column)series);
     }
 
-    public ObservableList<ISeries> getRowsList() {
-        return rowsList;
+    public Stream<ColumnOrRow.Row> getRows() {
+        return seriesList.stream().filter(series -> series.isRow()).map(series -> (ColumnOrRow.Row)series);
     }
+
 }
