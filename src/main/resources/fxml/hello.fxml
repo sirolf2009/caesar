@@ -6,7 +6,7 @@
 <?import org.tbee.javafx.scene.layout.fxml.MigPane?>
 <?import layouttests.migfxml.sample1.*?>
 
-<MigPane id="rootPane" fx:controller="com.sirolf2009.HelloController"
+<MigPane id="rootPane" fx:controller="com.sirolf2009.caesar.HelloController"
         styleClass="main-panel"
         layout="insets 20"
         cols="[label, pref!][grow, 50::]"
