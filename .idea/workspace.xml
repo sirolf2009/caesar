@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="010d095b-78ab-442d-b135-5121741e2d7b" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/component/VariablesTreeView.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/component/VariablesTreeView.java" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/sirolf2009/caesar/model/chart/type/LineChartTypeTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/sirolf2009/caesar/model/chart/type/LineChartTypeTest.java" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/CaesarModelTest.bin" afterPath="$PROJECT_DIR$/src/test/resources/CaesarModelTest.bin" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/type/BarChartType.java" afterPath="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/type/BarChartType.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -59,28 +56,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ColumnSerializer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/serializer/ColumnSerializer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="16" column="80" lean-forward="false" selection-start-line="16" selection-start-column="80" selection-end-line="16" selection-end-column="80" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RowSerializer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/serializer/RowSerializer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="16" column="34" lean-forward="false" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="BooleanSeries.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/series/BooleanSeries.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -101,11 +76,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LineChartTypeTest.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="LineChartTypeTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/com/sirolf2009/caesar/model/chart/type/LineChartTypeTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="34" column="50" lean-forward="false" selection-start-line="34" selection-start-column="50" selection-end-line="34" selection-end-column="50" />
+            <state relative-caret-position="323">
+              <caret line="21" column="113" lean-forward="true" selection-start-line="21" selection-start-column="113" selection-end-line="21" selection-end-column="113" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BarChartType.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/type/BarChartType.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="24" column="74" lean-forward="false" selection-start-line="24" selection-start-column="74" selection-end-line="24" selection-end-column="74" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LineChartType.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/type/LineChartType.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="25" column="58" lean-forward="false" selection-start-line="25" selection-start-column="58" selection-end-line="25" selection-end-column="58" />
               <folding />
             </state>
           </provider>
@@ -191,7 +186,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/type/IChartType.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/serializer/SeriesSerializer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/component/ChartTab.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/type/BarChartType.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/sirolf2009/caesar/model/chart/type/BarChartTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/sirolf2009/caesar/model/chart/type/ChartTypeTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/sirolf2009/caesar/model/chart/type/BarChartTypeTest.java" />
@@ -202,6 +196,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/Chart.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/component/VariablesTreeView.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/sirolf2009/caesar/model/chart/type/LineChartTypeTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/type/BarChartType.java" />
       </list>
     </option>
   </component>
@@ -317,6 +312,17 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="caesar" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="chart" type="462c0819:PsiDirectoryNode" />
+              <item name="type" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="caesar-fx" type="b2602c69:ProjectViewProjectNode" />
+              <item name="caesar" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="caesar" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
               <item name="serializer" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -405,7 +411,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.LineChartTypeTest.testPredicate">
+  <component name="RunManager" selected="Application.MainApp">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="HTML_USED" value="false" />
       <option name="WIDTH" value="400" />
@@ -584,8 +590,8 @@
     </list>
     <recent_temporary>
       <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.LineChartTypeTest.testPredicate" />
-        <item index="1" class="java.lang.String" itemvalue="Application.MainApp" />
+        <item index="0" class="java.lang.String" itemvalue="Application.MainApp" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.LineChartTypeTest.testPredicate" />
         <item index="2" class="java.lang.String" itemvalue="JUnit.CaesarModelTest.test" />
         <item index="3" class="java.lang.String" itemvalue="JUnit.BarChartTypeTest.testPredicate" />
       </list>
@@ -608,9 +614,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="BarChartTypeTest_testPredicate - 2018.03.19 at 14h 16m 20s.xml">
-      <configuration name="BarChartTypeTest.testPredicate" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="BarChartTypeTest_testPredicate - 2018.03.19 at 14h 17m 35s.xml">
       <configuration name="BarChartTypeTest.testPredicate" configurationId="JUnit" />
     </history-entry>
@@ -636,6 +639,9 @@
       <configuration name="CaesarModelTest.test" configurationId="JUnit" />
     </history-entry>
     <history-entry file="LineChartTypeTest_testPredicate - 2018.03.19 at 14h 35m 37s.xml">
+      <configuration name="LineChartTypeTest.testPredicate" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="LineChartTypeTest_testPredicate - 2018.03.19 at 14h 36m 35s.xml">
       <configuration name="LineChartTypeTest.testPredicate" configurationId="JUnit" />
     </history-entry>
   </component>
@@ -906,6 +912,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="193">
           <caret line="253" column="0" lean-forward="false" selection-start-line="253" selection-start-column="0" selection-end-line="253" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -913,6 +920,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="193">
           <caret line="1252" column="0" lean-forward="false" selection-start-line="1252" selection-start-column="0" selection-end-line="1252" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -949,13 +957,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/type/LineChartType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="35" column="15" lean-forward="false" selection-start-line="35" selection-start-column="15" selection-end-line="35" selection-end-column="15" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -973,13 +977,6 @@
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/type/BarChartType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="37" lean-forward="false" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="37" />
         </state>
       </provider>
     </entry>
@@ -1101,8 +1098,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/sirolf2009/caesar/model/chart/type/LineChartTypeTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="34" column="50" lean-forward="false" selection-start-line="34" selection-start-column="50" selection-end-line="34" selection-end-column="50" />
+        <state relative-caret-position="323">
+          <caret line="21" column="113" lean-forward="true" selection-start-line="21" selection-start-column="113" selection-end-line="21" selection-end-column="113" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/type/BarChartType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="24" column="74" lean-forward="false" selection-start-line="24" selection-start-column="74" selection-end-line="24" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sirolf2009/caesar/model/chart/type/LineChartType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="25" column="58" lean-forward="false" selection-start-line="25" selection-start-column="58" selection-end-line="25" selection-end-column="58" />
           <folding />
         </state>
       </provider>

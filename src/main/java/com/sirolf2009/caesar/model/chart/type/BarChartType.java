@@ -22,7 +22,7 @@ public class BarChartType implements IChartType {
 		CategoryAxis xAxis = new CategoryAxis();
 		NumberAxis yAxis = new NumberAxis();
 		BarChart<String, Number> barChart = new BarChart<String, Number>(xAxis, yAxis);
-		chart.getColumns().map(column -> (INumberSeries)column).forEach(column -> {
+		chart.getColumns().map(column -> (INumberSeries)column.getSeries()).forEach(column -> {
 			XYChart.Series series = new XYChart.Series();
 			ObservableList<Number> columnSeries = (ObservableList<Number>) column.get();
 			series.nameProperty().bindBidirectional(column.nameProperty());
