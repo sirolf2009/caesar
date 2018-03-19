@@ -1,4 +1,4 @@
-package com.sirolf2009.model.chart;
+package com.sirolf2009.model.series;
 
 import com.sirolf2009.model.JMXAttribute;
 import com.sirolf2009.model.Table;

@@ -2,10 +2,9 @@ package com.sirolf2009.model;
 
 import com.esotericsoftware.kryo.DefaultSerializer;
 import com.sirolf2009.component.hierarchy.IHierarchicalData;
-import com.sirolf2009.model.chart.ISeries;
+import com.sirolf2009.model.series.ISeries;
 import com.sirolf2009.model.serializer.ChartSerializer;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableStringValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

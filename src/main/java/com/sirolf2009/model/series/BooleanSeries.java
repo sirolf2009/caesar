@@ -1,4 +1,4 @@
-package com.sirolf2009.model.chart;
+package com.sirolf2009.model.series;
 
 import com.esotericsoftware.kryo.DefaultSerializer;
 import com.sirolf2009.model.JMXAttribute;

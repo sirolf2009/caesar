@@ -1,4 +1,4 @@
-package com.sirolf2009.model.chart;
+package com.sirolf2009.model.series;
 
 import com.sirolf2009.component.hierarchy.IHierarchicalData;
 import com.sirolf2009.model.JMXAttribute;

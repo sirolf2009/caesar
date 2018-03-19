@@ -4,7 +4,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.model.Chart;
-import com.sirolf2009.model.chart.ISeries;
+import com.sirolf2009.model.series.ISeries;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 

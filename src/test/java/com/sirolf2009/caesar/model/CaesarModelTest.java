@@ -7,7 +7,7 @@ import com.sirolf2009.model.CaesarModel;
 import com.sirolf2009.model.Chart;
 import com.sirolf2009.model.JMXAttribute;
 import com.sirolf2009.model.Table;
-import com.sirolf2009.model.chart.IntegerSeries;
+import com.sirolf2009.model.series.IntegerSeries;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ public class CaesarModelTest {
 		table.getChildren().add(attribute2);
 		model.getTables().add(table);
 
-		Chart chart = new Chart("chart");
+		Chart chart = new Chart("series");
 		chart.getColumnsList().add(new IntegerSeries(table, attribute1));
 		chart.getColumnsList().add(new IntegerSeries(table, attribute2));
 		model.getCharts().add(chart);

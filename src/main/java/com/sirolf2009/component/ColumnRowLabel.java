@@ -1,6 +1,6 @@
 package com.sirolf2009.component;
 
-import com.sirolf2009.model.chart.ISeries;
+import com.sirolf2009.model.series.ISeries;
 import com.sirolf2009.util.ControllerUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
