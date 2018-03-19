@@ -3,11 +3,8 @@ package com.sirolf2009.caesar;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
+import com.sirolf2009.caesar.component.*;
 import com.sirolf2009.caesar.model.*;
-import com.sirolf2009.caesar.component.ChartTab;
-import com.sirolf2009.caesar.component.TableTab;
-import com.sirolf2009.caesar.component.TablesTreeView;
-import com.sirolf2009.caesar.component.VariablesTreeView;
 import com.sirolf2009.caesar.dialogs.LocalConnectionDialog;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -119,8 +116,7 @@ public class MainController {
     }
 
     public void addTable(Table table) {
-        Tab newTableTab = new Tab();
-        newTableTab.textProperty().bind(table.nameProperty());
+        Tab newTableTab = new RenameableTab(table.nameProperty());
         tabs.getTabs().add(newTableTab);
         tabs.getSelectionModel().select(newTableTab);
         newTableTab.setContent(new TableTab(table, connection));
@@ -133,7 +129,7 @@ public class MainController {
     }
 
     public void addChart(Chart chart) {
-        Tab newChartTab = new Tab();
+        Tab newChartTab = new RenameableTab(chart.nameProperty());
         newChartTab.textProperty().bind(chart.nameProperty());
         newChartTab.setContent(new ChartTab(chart, model.getTables()));
         tabs.getTabs().add(newChartTab);
