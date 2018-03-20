@@ -34,7 +34,7 @@ public class TableTab extends AnchorPane {
 	private final Table tableModel;
 	private final MBeanServerConnection connection;
 	private final JMXPuller puller;
-	@FXML private TableView<JMXAttributes> table;
+	@FXML private EditableTableView<JMXAttributes> table;
 	@FXML private ToggleButton runningButton;
 	@FXML private TextField intervalTextfield;
 
@@ -96,7 +96,7 @@ public class TableTab extends AnchorPane {
 	}
 
 	public TableColumn getColumn(IDataPointer pointer) {
-		TableColumn<JMXAttributes, String> column = new CaesarTableColumn(pointer.toString());
+		TableColumn<JMXAttributes, String> column = new CaesarTableColumn(pointer);
 		column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrDefault(pointer, "").toString()));
 		return column;
 	}
@@ -126,9 +126,10 @@ public class TableTab extends AnchorPane {
 
 	static class CaesarTableColumn<S, T> extends TableColumn<S, T> {
 
-		public CaesarTableColumn(String name) {
-			super(name);
+		public CaesarTableColumn(IDataPointer pointer) {
+			super(pointer.getName());
 			setSortable(false);
+			pointer.nameProperty().bind(textProperty());
 		}
 
 	}

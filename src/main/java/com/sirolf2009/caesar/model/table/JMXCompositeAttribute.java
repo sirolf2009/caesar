@@ -3,6 +3,8 @@ package com.sirolf2009.caesar.model.table;
 import com.esotericsoftware.kryo.DefaultSerializer;
 import com.sirolf2009.caesar.model.JMXAttributes;
 import com.sirolf2009.caesar.model.serializer.JMXAttributeSerializer;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -16,14 +18,24 @@ import java.util.Objects;
 @DefaultSerializer(JMXAttributeSerializer.class)
 public class JMXCompositeAttribute implements IDataPointer {
 
+    private final StringProperty name;
     private final ObjectName objectName;
     private final OpenMBeanAttributeInfoSupport attributeInfo;
     private final String subAttributeName;
 
     public JMXCompositeAttribute(ObjectName objectName, OpenMBeanAttributeInfoSupport attributeInfo, String subAttributeName) {
+        this(objectName, attributeInfo, subAttributeName, new SimpleStringProperty(attributeInfo.getName()+"/"+subAttributeName));
+    }
+
+    public JMXCompositeAttribute(ObjectName objectName, OpenMBeanAttributeInfoSupport attributeInfo, String subAttributeName, StringProperty name) {
         this.objectName = objectName;
         this.attributeInfo = attributeInfo;
         this.subAttributeName = subAttributeName;
+        this.name = name;
+    }
+
+    @Override public StringProperty nameProperty() {
+        return name;
     }
 
     @Override public void pullData(MBeanServerConnection connection, JMXAttributes attributes) {

@@ -33,6 +33,8 @@ public class TablesTreeView extends TreeViewHierarchy {
                         if (item != null) {
                             if(item instanceof Table) {
                                 textProperty().bind(((Table)item).nameProperty());
+                            } else if(item instanceof IDataPointer) {
+                                textProperty().bind(((IDataPointer)item).nameProperty());
                             } else {
                                 setText(String.valueOf(item));
                             }

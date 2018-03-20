@@ -12,6 +12,7 @@ public class RemoteConnectionDialog extends Dialog<Supplier<MBeanServerConnectio
 
     public RemoteConnectionDialog() {
         super();
+        setTitle("Connect to a running JVM");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/connection.fxml"));
             Parent root = loader.load();

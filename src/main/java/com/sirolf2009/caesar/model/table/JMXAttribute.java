@@ -4,6 +4,8 @@ import com.esotericsoftware.kryo.DefaultSerializer;
 import com.sirolf2009.caesar.component.hierarchy.IHierarchicalData;
 import com.sirolf2009.caesar.model.JMXAttributes;
 import com.sirolf2009.caesar.model.serializer.JMXAttributeSerializer;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -15,12 +17,18 @@ import java.util.Objects;
 @DefaultSerializer(JMXAttributeSerializer.class)
 public class JMXAttribute implements IDataPointer {
 
+    private final StringProperty name;
     private final ObjectName objectName;
     private final MBeanAttributeInfo attributeInfo;
 
     public JMXAttribute(ObjectName objectName, MBeanAttributeInfo attributeInfo) {
+        this(objectName, attributeInfo, new SimpleStringProperty(attributeInfo.getName()));
+    }
+
+    public JMXAttribute(ObjectName objectName, MBeanAttributeInfo attributeInfo, StringProperty name) {
         this.objectName = objectName;
         this.attributeInfo = attributeInfo;
+        this.name = name;
     }
 
     @Override public void pullData(MBeanServerConnection connection, JMXAttributes attributes) {
@@ -43,9 +51,13 @@ public class JMXAttribute implements IDataPointer {
         return attributeInfo.getType();
     }
 
+    @Override public StringProperty nameProperty() {
+        return name;
+    }
+
     @Override
     public String toString() {
-        return attributeInfo.getName();
+        return getName();
     }
 
     @Override
