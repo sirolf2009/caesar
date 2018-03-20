@@ -2,8 +2,14 @@ package com.sirolf2009.caesar.dialogs;
 
 import javafx.scene.control.ChoiceDialog;
 import org.gridkit.lab.jvm.attach.AttachManager;
+import org.gridkit.lab.jvm.attach.JavaProcessId;
 
 import javax.management.MBeanServerConnection;
+import javax.management.MBeanServerFactory;
+import javax.management.remote.JMXConnectorFactory;
+import javax.management.remote.JMXServiceURL;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -30,10 +36,16 @@ public class LocalConnectionDialog extends ChoiceDialog<Supplier<MBeanServerConn
                 return "Remote connection";
             }
         });
-        AttachManager.listJavaProcesses().stream().map(pid -> {
+        List<JavaProcessId> localJVMs = AttachManager.listJavaProcesses();
+        localJVMs.stream().filter(pid -> !pid.getDescription().equals("com.sirolf2009.caesar.MainApp")).map(pid -> {
             return new Supplier<MBeanServerConnection>() {
                 @Override
                 public MBeanServerConnection get() {
+                    try {
+                        System.out.println(JMXConnectorFactory.connect(new JMXServiceURL("service:jmx:attach:///["+pid.getDescription()+"]")).getMBeanServerConnection().getDefaultDomain());
+                    } catch(IOException e) {
+                        e.printStackTrace();
+                    }
                     return AttachManager.getJmxConnection(pid);
                 }
                 @Override

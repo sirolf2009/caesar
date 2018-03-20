@@ -56,6 +56,11 @@ public class ConnectionController {
     public void finishConnection() {
         try {
             connectionSupplier.set(getConnectionSupplier(getUrl()));
+            try {
+                new Connection(getUrl());
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
             txtHost.getScene().getWindow().hide();
         } catch (MalformedURLException e) {
             e.printStackTrace();
