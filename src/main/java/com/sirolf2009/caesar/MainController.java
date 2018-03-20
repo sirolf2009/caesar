@@ -24,12 +24,16 @@ import java.util.Arrays;
 public class MainController {
 
     private CaesarModel model;
-    private MBeanServerConnection connection;
+    private Connection connection;
 
-    @FXML private ToolBar toolbar;
-    @FXML private AnchorPane variablesAnchor;
-    @FXML private AnchorPane tablesAnchor;
-    @FXML private TabPane tabs;
+    @FXML
+    private ToolBar toolbar;
+    @FXML
+    private AnchorPane variablesAnchor;
+    @FXML
+    private AnchorPane tablesAnchor;
+    @FXML
+    private TabPane tabs;
     private VariablesTreeView variables;
     private TablesTreeView tablesTreeView;
 
@@ -43,42 +47,48 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        connection = LocalConnectionDialog.getLocalConnectionsDialog().showAndWait().get().get();
-        ObservableList<JMXObject> objects = FXCollections.observableArrayList();
         try {
-            connection.queryNames(null, null).forEach(objectName -> {
-                ObservableList<JMXAttribute> attributes = FXCollections.observableArrayList();
+            connection = new Connection(LocalConnectionDialog.getLocalConnectionsDialog().showAndWait().get().get());
+            ObservableList<JMXObject> objects = FXCollections.observableArrayList();
+            connection.getConnection().ifPresent(connection -> {
                 try {
-                    Arrays.stream(connection.getMBeanInfo(objectName).getAttributes()).forEach(attributeInfo -> {
-                        attributes.add(new JMXAttribute(objectName, attributeInfo));
+                    connection.queryNames(null, null).forEach(objectName -> {
+                        ObservableList<JMXAttribute> attributes = FXCollections.observableArrayList();
+                        try {
+                            Arrays.stream(connection.getMBeanInfo(objectName).getAttributes()).forEach(attributeInfo -> {
+                                attributes.add(new JMXAttribute(objectName, attributeInfo));
+                            });
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        objects.add(new JMXObject(objectName, attributes));
                     });
-                } catch (Exception e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
-                objects.add(new JMXObject(objectName, attributes));
             });
+            variables = new VariablesTreeView(objects);
+            variablesAnchor.getChildren().add(variables);
+            maximize(variables);
+
+            tablesTreeView = new TablesTreeView(model.getTables());
+            tablesAnchor.getChildren().add(tablesTreeView);
+            maximize(tablesTreeView);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        variables = new VariablesTreeView(objects);
-        variablesAnchor.getChildren().add(variables);
-        maximize(variables);
-
-        tablesTreeView = new TablesTreeView(model.getTables());
-        tablesAnchor.getChildren().add(tablesTreeView);
-        maximize(tablesTreeView);
     }
 
     public void save() {
         FileChooser chooser = new FileChooser();
-        File file  = chooser.showSaveDialog(toolbar.getScene().getWindow());
-        if(file != null) {
+        File file = chooser.showSaveDialog(toolbar.getScene().getWindow());
+        if (file != null) {
             try {
                 Kryo kryo = new Kryo();
                 Output out = new Output(new FileOutputStream(file));
                 kryo.writeObject(out, model);
                 out.close();
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -87,7 +97,7 @@ public class MainController {
     public void load() {
         FileChooser chooser = new FileChooser();
         File file = chooser.showOpenDialog(toolbar.getScene().getWindow());
-        if(file != null) {
+        if (file != null) {
             try {
                 Kryo kryo = new Kryo();
                 Input input = new Input(new FileInputStream(file));
@@ -101,17 +111,17 @@ public class MainController {
     }
 
     public void switchTo(CaesarModel newModel) {
-        tabs.getTabs().stream().filter(tab -> tab.getContent() instanceof TableTab).forEach(tab -> ((TableTab)tab.getContent()).getPuller().runningProperty().set(false));
+        tabs.getTabs().stream().filter(tab -> tab.getContent() instanceof TableTab).forEach(tab -> ((TableTab) tab.getContent()).getPuller().runningProperty().set(false));
         tabs.getTabs().clear();
         this.model = newModel;
         tablesTreeView.setItems(model.getTables());
         model.getTables().forEach(table -> addTable(table));
         model.getCharts().forEach(chart -> addChart(chart));
-        tabs.getTabs().stream().filter(tab -> tab.getContent() instanceof TableTab).forEach(tab -> ((TableTab)tab.getContent()).getPuller().runningProperty().set(true));
+        tabs.getTabs().stream().filter(tab -> tab.getContent() instanceof TableTab).forEach(tab -> ((TableTab) tab.getContent()).getPuller().runningProperty().set(true));
     }
 
     public void newTable() {
-        Table table = new Table("Untitled "+(tabs.getTabs().size()+1));
+        Table table = new Table("Untitled " + (tabs.getTabs().size() + 1));
         model.getTables().add(table);
         addTable(table);
     }
@@ -124,7 +134,7 @@ public class MainController {
     }
 
     public void newChart() {
-        Chart chart = new Chart("Untitled "+(tabs.getTabs().size()+1));
+        Chart chart = new Chart("Untitled " + (tabs.getTabs().size() + 1));
         model.getCharts().add(chart);
         addChart(chart);
     }

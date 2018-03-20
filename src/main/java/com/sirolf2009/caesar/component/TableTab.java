@@ -1,5 +1,6 @@
 package com.sirolf2009.caesar.component;
 
+import com.sirolf2009.caesar.Connection;
 import com.sirolf2009.caesar.JMXPuller;
 import com.sirolf2009.caesar.model.table.IDataPointer;
 import com.sirolf2009.caesar.model.table.JMXAttribute;
@@ -7,7 +8,9 @@ import com.sirolf2009.caesar.model.JMXAttributes;
 import com.sirolf2009.caesar.model.Table;
 import com.sirolf2009.caesar.model.table.JMXCompositeAttribute;
 import com.sirolf2009.caesar.util.ControllerUtil;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -20,11 +23,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Pair;
 import org.fxmisc.easybind.EasyBind;
 
-import javax.management.MBeanServerConnection;
-import javax.management.ObjectName;
+import javax.management.*;
 import javax.management.openmbean.CompositeData;
 import javax.management.openmbean.CompositeType;
 import javax.management.openmbean.OpenMBeanAttributeInfoSupport;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,17 +35,16 @@ import java.util.stream.Collectors;
 public class TableTab extends AnchorPane {
 
 	private final Table tableModel;
-	private final MBeanServerConnection connection;
+	private final Connection connection;
 	private final JMXPuller puller;
 	@FXML private EditableTableView<JMXAttributes> table;
 	@FXML private ToggleButton runningButton;
 	@FXML private TextField intervalTextfield;
 
-	public TableTab(Table table, MBeanServerConnection connection) {
+	public TableTab(Table table, Connection connection) {
 		this.connection = connection;
 		tableModel = table;
-		puller = new JMXPuller(tableModel.getChildren(), tableModel.getItems(), 1000);
-		puller.setConnection(connection);
+		puller = new JMXPuller(connection, tableModel.getChildren(), tableModel.getItems(), 1000);
 		ControllerUtil.load(this, "/fxml/table.fxml");
 		Thread pullerThread = new Thread(puller);
 		pullerThread.setDaemon(true);
@@ -74,16 +76,24 @@ public class TableTab extends AnchorPane {
 					String newVariable = event.getDragboard().getString();
 					String[] data = newVariable.split("@");
 					ObjectName objectName = new ObjectName(data[1]);
-					Arrays.stream(connection.getMBeanInfo(objectName).getAttributes()).filter(mBeanAttributeInfo -> {
-						return mBeanAttributeInfo.getName().equals(data[0]);
-					}).findAny().ifPresent(mBeanAttributeInfo -> {
-						JMXAttribute attribute = new JMXAttribute(objectName, mBeanAttributeInfo);
-						getDataPointers(attribute).forEach(pointer -> {
-							tableModel.getChildren().add(pointer);
-							addPointer(pointer);
-						});
+					connection.getConnection().ifPresent(connection -> {
+						try {
+							Arrays.stream(connection.getMBeanInfo(objectName).getAttributes()).filter(mBeanAttributeInfo -> {
+                                return mBeanAttributeInfo.getName().equals(data[0]);
+                            }).findAny().ifPresent(mBeanAttributeInfo -> {
+                                JMXAttribute attribute = new JMXAttribute(objectName, mBeanAttributeInfo);
+                                getDataPointers(attribute).forEach(pointer -> {
+									Platform.runLater(() -> {
+										tableModel.getChildren().add(pointer);
+										addPointer(pointer);
+									});
+                                });
+                            });
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						event.consume();
 					});
-					event.consume();
 				} catch(Exception e) {
 					e.printStackTrace();
 				}

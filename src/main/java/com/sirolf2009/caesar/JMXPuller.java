@@ -21,9 +21,9 @@ public class JMXPuller implements Runnable {
     private final ObservableList<JMXAttributes> items;
     private final SimpleBooleanProperty running = new SimpleBooleanProperty(false);
     private final SimpleLongProperty timeout;
-    private MBeanServerConnection connection;
+    private final Connection connection;
 
-    public JMXPuller(ObservableList<IDataPointer> attributes, ObservableList<JMXAttributes> items, long timeout) {
+    public JMXPuller(Connection connection, ObservableList<IDataPointer> attributes, ObservableList<JMXAttributes> items, long timeout) {
         this.connection = connection;
         this.attributes = attributes;
         this.items = items;
@@ -36,8 +36,12 @@ public class JMXPuller implements Runnable {
             while (running.get()) {
                 try {
                     Thread.sleep(timeout.get());
-                    JMXAttributes attributes = pullAttributes();
-                    Platform.runLater(() -> items.add(attributes));
+                    connection.getConnection().ifPresent(connection -> {
+                        try {
+                            JMXAttributes attributes = pullAttributes(connection);
+                            Platform.runLater(() -> items.add(attributes));
+                        } catch(Exception e) {}
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -45,18 +49,20 @@ public class JMXPuller implements Runnable {
         }
     }
 
-    public JMXAttributes pullAttributes() {
+    public JMXAttributes pullAttributes(MBeanServerConnection connection) throws Exception {
         JMXAttributes items = new JMXAttributes();
-        attributes.forEach(pointer -> pointer.pullData(connection, items));
+        attributes.forEach(pointer -> {
+            try {
+                pointer.pullData(connection, items);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
         return items;
     }
 
-    public MBeanServerConnection getConnection() {
+    public Connection getConnection() {
         return connection;
-    }
-
-    public void setConnection(MBeanServerConnection connection) {
-        this.connection = connection;
     }
 
     public SimpleLongProperty timeoutProperty() {

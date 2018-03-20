@@ -1,22 +1,26 @@
 package com.sirolf2009.caesar;
 
 import javax.management.MBeanServerConnection;
-import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 import java.io.IOException;
 import java.rmi.ConnectException;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Connection {
 
 	private final AtomicReference<MBeanServerConnection> connection = new AtomicReference<>(null);
 	private final JMXServiceURL serviceURL;
+	private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
 	public Connection(JMXServiceURL serviceURL) throws IOException {
 		this.serviceURL = serviceURL;
 		connect();
+		System.out.println("Connecting to: "+serviceURL);
 		Thread connectorThread = new Thread(() -> {
 			while(true) {
 				try {
@@ -26,14 +30,16 @@ public class Connection {
 					} catch(InterruptedException e) {
 						e.printStackTrace();
 					}
-				} catch(ConnectException e) {
+				} catch(NullPointerException | ConnectException e) {
 					try {
-						connection.set(null);
+						if(connection.get() != null) {
+							connection.set(null);
+							System.out.println("Disconnected. Reconnecting to: "+serviceURL);
+						}
 						connect();
-					} catch(IOException e1) {
-						e1.printStackTrace();
+					} catch(Exception e1) {
 					}
-				} catch(IOException e) {
+				} catch(Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -43,9 +49,13 @@ public class Connection {
 	}
 
 	private void connect() throws IOException {
-		System.out.println("Connecting to: "+serviceURL);
-		JMXConnector connector = JMXConnectorFactory.connect(serviceURL);
-		connection.set(connector.getMBeanServerConnection());
+		try {
+			MBeanServerConnection newConnection = executor.submit(() -> JMXConnectorFactory.connect(serviceURL).getMBeanServerConnection()).get(5, TimeUnit.SECONDS);
+			connection.set(newConnection);
+			System.out.println("Connected to: "+serviceURL);
+		} catch (Exception e) {
+			throw new IOException("Failed to connect to "+serviceURL, e);
+		}
 	}
 
 	public Optional<MBeanServerConnection> getConnection() {

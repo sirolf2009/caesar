@@ -15,19 +15,19 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class LocalConnectionDialog extends ChoiceDialog<Supplier<MBeanServerConnection>> {
+public class LocalConnectionDialog extends ChoiceDialog<Supplier<JMXServiceURL>> {
 
-    public LocalConnectionDialog(Supplier<MBeanServerConnection> defaultChoice, Collection<Supplier<MBeanServerConnection>> choices) {
+    public LocalConnectionDialog(Supplier<JMXServiceURL> defaultChoice, Collection<Supplier<JMXServiceURL>> choices) {
         super(defaultChoice, choices);
         setTitle("Open a connection");
         setHeaderText("Please select a JVM to connect to");
     }
 
     public static LocalConnectionDialog getLocalConnectionsDialog() {
-        List<Supplier<MBeanServerConnection>> choices = new ArrayList<>();
-        choices.add(new Supplier<MBeanServerConnection>() {
+        List<Supplier<JMXServiceURL>> choices = new ArrayList<>();
+        choices.add(new Supplier<JMXServiceURL>() {
             @Override
-            public MBeanServerConnection get() {
+            public JMXServiceURL get() {
                 return new RemoteConnectionDialog().showAndWait().get().get();
             }
 
@@ -38,15 +38,14 @@ public class LocalConnectionDialog extends ChoiceDialog<Supplier<MBeanServerConn
         });
         List<JavaProcessId> localJVMs = AttachManager.listJavaProcesses();
         localJVMs.stream().filter(pid -> !pid.getDescription().equals("com.sirolf2009.caesar.MainApp")).map(pid -> {
-            return new Supplier<MBeanServerConnection>() {
+            return new Supplier<JMXServiceURL>() {
                 @Override
-                public MBeanServerConnection get() {
+                public JMXServiceURL get() {
                     try {
-                        System.out.println(JMXConnectorFactory.connect(new JMXServiceURL("service:jmx:attach:///["+pid.getDescription()+"]")).getMBeanServerConnection().getDefaultDomain());
+                        return new JMXServiceURL("service:jmx:attach:///["+pid.getDescription()+"]");
                     } catch(IOException e) {
-                        e.printStackTrace();
+                        throw new RuntimeException(e);
                     }
-                    return AttachManager.getJmxConnection(pid);
                 }
                 @Override
                 public String toString() {

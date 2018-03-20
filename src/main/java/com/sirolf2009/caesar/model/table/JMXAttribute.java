@@ -31,20 +31,8 @@ public class JMXAttribute implements IDataPointer {
         this.name = name;
     }
 
-    @Override public void pullData(MBeanServerConnection connection, JMXAttributes attributes) {
-        try {
-            attributes.put(this, connection.getAttribute(objectName, attributeInfo.getName()));
-        } catch(MBeanException e) {
-            e.printStackTrace();
-        } catch(AttributeNotFoundException e) {
-            e.printStackTrace();
-        } catch(InstanceNotFoundException e) {
-            e.printStackTrace();
-        } catch(ReflectionException e) {
-            e.printStackTrace();
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
+    @Override public void pullData(MBeanServerConnection connection, JMXAttributes attributes) throws Exception {
+        attributes.put(this, connection.getAttribute(objectName, attributeInfo.getName()));
     }
 
     @Override public String getType() {

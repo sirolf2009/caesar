@@ -21,7 +21,7 @@ import java.util.function.UnaryOperator;
 
 public class ConnectionController {
 
-    private SimpleObjectProperty<Supplier<MBeanServerConnection>> connectionSupplier = new SimpleObjectProperty<>();
+    private SimpleObjectProperty<Supplier<JMXServiceURL>> connectionSupplier = new SimpleObjectProperty<>();
 
     @FXML
     TextField txtHost;
@@ -67,18 +67,12 @@ public class ConnectionController {
         }
     }
 
-    public SimpleObjectProperty<Supplier<MBeanServerConnection>> getConnectionSupplier() {
+    public SimpleObjectProperty<Supplier<JMXServiceURL>> getConnectionSupplier() {
         return connectionSupplier;
     }
 
-    private Supplier<MBeanServerConnection> getConnectionSupplier(JMXServiceURL url) throws MalformedURLException {
-        return () -> {
-            try {
-                return connect(url);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        };
+    private Supplier<JMXServiceURL> getConnectionSupplier(JMXServiceURL url) throws MalformedURLException {
+        return () -> url;
     }
 
     private MBeanServerConnection connect(JMXServiceURL url) throws IOException {

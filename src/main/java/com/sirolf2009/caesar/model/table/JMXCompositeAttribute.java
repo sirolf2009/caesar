@@ -24,7 +24,7 @@ public class JMXCompositeAttribute implements IDataPointer {
     private final String subAttributeName;
 
     public JMXCompositeAttribute(ObjectName objectName, OpenMBeanAttributeInfoSupport attributeInfo, String subAttributeName) {
-        this(objectName, attributeInfo, subAttributeName, new SimpleStringProperty(attributeInfo.getName()+"/"+subAttributeName));
+        this(objectName, attributeInfo, subAttributeName, new SimpleStringProperty(attributeInfo.getName() + "/" + subAttributeName));
     }
 
     public JMXCompositeAttribute(ObjectName objectName, OpenMBeanAttributeInfoSupport attributeInfo, String subAttributeName, StringProperty name) {
@@ -34,28 +34,19 @@ public class JMXCompositeAttribute implements IDataPointer {
         this.name = name;
     }
 
-    @Override public StringProperty nameProperty() {
+    @Override
+    public StringProperty nameProperty() {
         return name;
     }
 
-    @Override public void pullData(MBeanServerConnection connection, JMXAttributes attributes) {
-        try {
-            CompositeData data = (CompositeData) connection.getAttribute(objectName, attributeInfo.getName());
-            attributes.put(this, data.get(subAttributeName));
-        } catch(MBeanException e) {
-            e.printStackTrace();
-        } catch(AttributeNotFoundException e) {
-            e.printStackTrace();
-        } catch(InstanceNotFoundException e) {
-            e.printStackTrace();
-        } catch(ReflectionException e) {
-            e.printStackTrace();
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
+    @Override
+    public void pullData(MBeanServerConnection connection, JMXAttributes attributes) throws Exception {
+        CompositeData data = (CompositeData) connection.getAttribute(objectName, attributeInfo.getName());
+        attributes.put(this, data.get(subAttributeName));
     }
 
-    @Override public String getType() {
+    @Override
+    public String getType() {
         return getCompositeType().getType(subAttributeName).getTypeName();
     }
 
@@ -65,19 +56,21 @@ public class JMXCompositeAttribute implements IDataPointer {
 
     @Override
     public String toString() {
-        return attributeInfo.getName()+"/"+subAttributeName;
+        return attributeInfo.getName() + "/" + subAttributeName;
     }
 
-    @Override public boolean equals(Object o) {
-        if(this == o)
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
             return true;
-        if(o == null || getClass() != o.getClass())
+        if (o == null || getClass() != o.getClass())
             return false;
         JMXCompositeAttribute that = (JMXCompositeAttribute) o;
         return Objects.equals(objectName, that.objectName) && Objects.equals(attributeInfo, that.attributeInfo) && Objects.equals(subAttributeName, that.subAttributeName);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         return Objects.hash(objectName, attributeInfo, subAttributeName);
     }
 

@@ -4,11 +4,12 @@ import com.sirolf2009.caesar.component.hierarchy.IHierarchicalData;
 import com.sirolf2009.caesar.model.JMXAttributes;
 import javafx.beans.property.StringProperty;
 
-import javax.management.MBeanServerConnection;
+import javax.management.*;
+import java.io.IOException;
 
 public interface IDataPointer extends IHierarchicalData {
 
-	void pullData(MBeanServerConnection connection, JMXAttributes attributes);
+	void pullData(MBeanServerConnection connection, JMXAttributes attributes) throws Exception;
 	String getType();
 	StringProperty nameProperty();
 

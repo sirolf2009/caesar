@@ -6,9 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.control.Dialog;
 
 import javax.management.MBeanServerConnection;
+import javax.management.remote.JMXServiceURL;
 import java.util.function.Supplier;
 
-public class RemoteConnectionDialog extends Dialog<Supplier<MBeanServerConnection>> {
+public class RemoteConnectionDialog extends Dialog<Supplier<JMXServiceURL>> {
 
     public RemoteConnectionDialog() {
         super();
