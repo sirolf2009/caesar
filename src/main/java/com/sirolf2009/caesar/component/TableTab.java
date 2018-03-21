@@ -7,16 +7,17 @@ import com.sirolf2009.caesar.model.table.JMXAttribute;
 import com.sirolf2009.caesar.model.JMXAttributes;
 import com.sirolf2009.caesar.model.Table;
 import com.sirolf2009.caesar.model.table.JMXCompositeAttribute;
+import com.sirolf2009.caesar.model.table.map.LongToDate;
 import com.sirolf2009.caesar.util.ControllerUtil;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
@@ -28,7 +29,9 @@ import javax.management.openmbean.CompositeData;
 import javax.management.openmbean.CompositeType;
 import javax.management.openmbean.OpenMBeanAttributeInfoSupport;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,17 +82,17 @@ public class TableTab extends AnchorPane {
 					connection.getConnection().ifPresent(connection -> {
 						try {
 							Arrays.stream(connection.getMBeanInfo(objectName).getAttributes()).filter(mBeanAttributeInfo -> {
-                                return mBeanAttributeInfo.getName().equals(data[0]);
-                            }).findAny().ifPresent(mBeanAttributeInfo -> {
-                                JMXAttribute attribute = new JMXAttribute(objectName, mBeanAttributeInfo);
-                                getDataPointers(attribute).forEach(pointer -> {
+								return mBeanAttributeInfo.getName().equals(data[0]);
+							}).findAny().ifPresent(mBeanAttributeInfo -> {
+								JMXAttribute attribute = new JMXAttribute(objectName, mBeanAttributeInfo);
+								getDataPointers(attribute).forEach(pointer -> {
 									Platform.runLater(() -> {
 										tableModel.getChildren().add(pointer);
 										addPointer(pointer);
 									});
-                                });
-                            });
-						} catch (Exception e) {
+								});
+							});
+						} catch(Exception e) {
 							e.printStackTrace();
 						}
 						event.consume();
@@ -102,13 +105,7 @@ public class TableTab extends AnchorPane {
 	}
 
 	public void addPointer(IDataPointer pointer) {
-		table.getColumns().add(getColumn(pointer));
-	}
-
-	public TableColumn getColumn(IDataPointer pointer) {
-		TableColumn<JMXAttributes, String> column = new CaesarTableColumn(pointer);
-		column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrDefault(pointer, "").toString()));
-		return column;
+		table.getColumns().add(new CaesarTableColumn(pointer));
 	}
 
 	public List<IDataPointer> getDataPointers(JMXAttribute attribute) {
@@ -134,12 +131,30 @@ public class TableTab extends AnchorPane {
 		return puller;
 	}
 
-	static class CaesarTableColumn<S, T> extends TableColumn<S, T> {
+	class CaesarTableColumn extends TableColumn<JMXAttributes, String> {
+
+		private final IDataPointer pointer;
 
 		public CaesarTableColumn(IDataPointer pointer) {
 			super(pointer.getName());
+			this.pointer = pointer;
 			setSortable(false);
 			pointer.nameProperty().bind(textProperty());
+			setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrDefault(pointer, "").toString()));
+		}
+
+		public List<MenuItem> getContextItems() {
+			List<MenuItem> items = new ArrayList<>();
+			if(pointer.getType().equals("long") || pointer.getType().equals("java.lang.Long")) {
+				MenuItem item = new MenuItem("Map to date");
+				item.setOnAction(e -> {
+					IDataPointer newPointer = new LongToDate(pointer);
+					tableModel.getChildren().add(newPointer);
+					addPointer(newPointer);
+				});
+				return Arrays.asList(item);
+			}
+			return Arrays.asList();
 		}
 
 	}

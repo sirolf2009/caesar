@@ -4,10 +4,10 @@ import com.sun.javafx.scene.control.skin.TableColumnHeader;
 import javafx.collections.ObservableList;
 import javafx.event.EventTarget;
 import javafx.scene.Node;
-import javafx.scene.control.TableColumnBase;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+
+import java.util.Optional;
 
 public class EditableTableView<S> extends TableView<S> {
 
@@ -23,18 +23,7 @@ public class EditableTableView<S> extends TableView<S> {
 	public void addHeaderHandler() {
 		addEventFilter(MouseEvent.MOUSE_PRESSED, e -> {
 			if(e.isPrimaryButtonDown() && e.getClickCount() > 1) {
-				EventTarget target = e.getTarget();
-				TableColumnBase<?, ?> column = null;
-				while(target instanceof Node) {
-					target = ((Node) target).getParent();
-					// beware: package of TableColumnHeader is version specific
-					if(target instanceof TableColumnHeader) {
-						column = ((TableColumnHeader) target).getTableColumn();
-						if(column != null)
-							break;
-					}
-				}
-				if(column != null) {
+				getColumn(e).ifPresent(column -> {
 					TableColumnBase<?, ?> tableColumn = column;
 					TextField textField = new TextField(column.getText());
 					textField.setMaxWidth(column.getWidth());
@@ -50,10 +39,33 @@ public class EditableTableView<S> extends TableView<S> {
 					});
 					column.setGraphic(textField);
 					textField.requestFocus();
-				}
+				});
 				e.consume();
+			} else if(e.isSecondaryButtonDown() && e.getClickCount() == 1) {
+				getColumn(e).ifPresent(column -> {
+					ContextMenu contextMenu = new ContextMenu();
+					contextMenu.getItems().addAll(column.getContextItems());
+					contextMenu.show(this, e.getScreenX(), e.getScreenY());
+				});
 			}
 		});
 	}
+
+	private Optional<TableTab.CaesarTableColumn> getColumn(MouseEvent e) {
+		EventTarget target = e.getTarget();
+		while(target instanceof Node) {
+			target = ((Node) target).getParent();
+			// beware: package of TableColumnHeader is version specific
+			if(target instanceof TableColumnHeader) {
+				TableTab.CaesarTableColumn column = (TableTab.CaesarTableColumn) ((TableColumnHeader) target).getTableColumn();
+				if(column != null) {
+					return Optional.of(column);
+				}
+			}
+		}
+		return Optional.empty();
+	}
+
+
 
 }
