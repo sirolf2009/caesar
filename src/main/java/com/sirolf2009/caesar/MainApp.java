@@ -50,6 +50,7 @@ public class MainApp extends Application {
         stage.setTitle("Caesar");
         stage.setScene(scene);
         stage.show();
+        stage.setOnCloseRequest(event -> System.exit(0));
     }
 
 }

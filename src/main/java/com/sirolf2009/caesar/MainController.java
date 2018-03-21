@@ -148,6 +148,10 @@ public class MainController {
         variables.setItems(objects.sorted());
     }
 
+    public Connection getConnection() {
+        return connection;
+    }
+
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
