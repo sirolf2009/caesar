@@ -17,6 +17,7 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
+import javax.management.MBeanInfo;
 import javax.management.MBeanServerConnection;
 import java.io.*;
 import java.util.Arrays;
@@ -55,7 +56,8 @@ public class MainController {
                     connection.queryNames(null, null).forEach(objectName -> {
                         ObservableList<JMXAttribute> attributes = FXCollections.observableArrayList();
                         try {
-                            Arrays.stream(connection.getMBeanInfo(objectName).getAttributes()).forEach(attributeInfo -> {
+                            MBeanInfo bean = connection.getMBeanInfo(objectName);
+                            Arrays.stream(bean.getAttributes()).forEach(attributeInfo -> {
                                 attributes.add(new JMXAttribute(objectName, attributeInfo));
                             });
                         } catch (Exception e) {

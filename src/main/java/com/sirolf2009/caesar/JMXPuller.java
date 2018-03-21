@@ -40,7 +40,9 @@ public class JMXPuller implements Runnable {
                         try {
                             JMXAttributes attributes = pullAttributes(connection);
                             Platform.runLater(() -> items.add(attributes));
-                        } catch(Exception e) {}
+                        } catch(Exception e) {
+                            e.printStackTrace();
+                        }
                     });
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -55,7 +57,7 @@ public class JMXPuller implements Runnable {
             try {
                 pointer.pullData(connection, items);
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Failed to pull "+pointer, e);
             }
         });
         return items;

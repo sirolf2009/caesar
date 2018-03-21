@@ -32,7 +32,11 @@ public class JMXAttribute implements IDataPointer {
     }
 
     @Override public void pullData(MBeanServerConnection connection, JMXAttributes attributes) throws Exception {
-        attributes.put(this, connection.getAttribute(objectName, attributeInfo.getName()));
+        try {
+            attributes.put(this, connection.getAttribute(objectName, attributeInfo.getName()));
+        } catch(Exception e) {
+            throw new IOException("Failed to pull "+objectName+"/"+attributeInfo.getName(), e);
+        }
     }
 
     @Override public String getType() {
