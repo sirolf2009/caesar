@@ -11,6 +11,7 @@ import com.sirolf2009.caesar.model.chart.type.IChartType;
 import com.sirolf2009.caesar.model.chart.type.LineChartType;
 import com.sirolf2009.caesar.model.chart.series.*;
 import com.sirolf2009.caesar.util.ControllerUtil;
+import com.sirolf2009.caesar.util.FXUtil;
 import javafx.beans.InvalidationListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -131,7 +132,7 @@ public class ChartTab extends VBox {
         chartTypes.stream().filter(type -> type.getPredicate().test(chart)).findAny().ifPresent(chartType -> {
             Node chart = chartType.getChart(this.chart);
             chartAnchor.getChildren().add(chart);
-            MainController.maximize(chart);
+            FXUtil.maximize(chart);
         });
     }
 

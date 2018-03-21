@@ -7,6 +7,7 @@ import com.sirolf2009.caesar.component.*;
 import com.sirolf2009.caesar.model.*;
 import com.sirolf2009.caesar.dialogs.LocalConnectionDialog;
 import com.sirolf2009.caesar.model.table.JMXAttribute;
+import com.sirolf2009.caesar.util.FXUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -48,37 +49,13 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        try {
-            connection = new Connection(LocalConnectionDialog.getLocalConnectionsDialog().showAndWait().get().get());
-            ObservableList<JMXObject> objects = FXCollections.observableArrayList();
-            connection.getConnection().ifPresent(connection -> {
-                try {
-                    connection.queryNames(null, null).forEach(objectName -> {
-                        ObservableList<JMXAttribute> attributes = FXCollections.observableArrayList();
-                        try {
-                            MBeanInfo bean = connection.getMBeanInfo(objectName);
-                            Arrays.stream(bean.getAttributes()).forEach(attributeInfo -> {
-                                attributes.add(new JMXAttribute(objectName, attributeInfo));
-                            });
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        objects.add(new JMXObject(objectName, attributes));
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-            variables = new VariablesTreeView(objects);
-            variablesAnchor.getChildren().add(variables);
-            maximize(variables);
+        variables = new VariablesTreeView();
+        variablesAnchor.getChildren().add(variables);
+        FXUtil.maximize(variables);
 
-            tablesTreeView = new TablesTreeView(model.getTables());
-            tablesAnchor.getChildren().add(tablesTreeView);
-            maximize(tablesTreeView);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        tablesTreeView = new TablesTreeView(model.getTables());
+        tablesAnchor.getChildren().add(tablesTreeView);
+        FXUtil.maximize(tablesTreeView);
     }
 
     public void save() {
@@ -148,11 +125,31 @@ public class MainController {
         tabs.getSelectionModel().select(newChartTab);
     }
 
-    public static void maximize(Node child) {
-        AnchorPane.setTopAnchor(child, 0d);
-        AnchorPane.setBottomAnchor(child, 0d);
-        AnchorPane.setLeftAnchor(child, 0d);
-        AnchorPane.setRightAnchor(child, 0d);
+    public void queryAttributes() {
+        ObservableList<JMXObject> objects = FXCollections.observableArrayList();
+        connection.getConnection().ifPresent(connection -> {
+            try {
+                connection.queryNames(null, null).forEach(objectName -> {
+                    ObservableList<JMXAttribute> attributes = FXCollections.observableArrayList();
+                    try {
+                        MBeanInfo bean = connection.getMBeanInfo(objectName);
+                        Arrays.stream(bean.getAttributes()).forEach(attributeInfo -> {
+                            attributes.add(new JMXAttribute(objectName, attributeInfo));
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    objects.add(new JMXObject(objectName, attributes));
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        variables.setItems(objects.sorted());
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
     }
 
 }

@@ -17,10 +17,8 @@ import javafx.util.Callback;
 
 public class VariablesTreeView extends TreeViewHierarchy {
 
-    public VariablesTreeView(ObservableList<JMXObject> attributes) {
+    public VariablesTreeView() {
         setRoot(new TreeItem<>());
-        setItems(attributes.sorted());
-        getRoot().getChildren().forEach(treeItem -> ((TreeItem)treeItem).setExpanded(false));
         setShowRoot(false);
         setCellFactory(new Callback<TreeView<Object>, TreeCell<Object>>() {
             @Override
@@ -56,4 +54,10 @@ public class VariablesTreeView extends TreeViewHierarchy {
         });
     }
 
+    @Override public void setItems(ObservableList items) {
+        super.setItems(items);
+        if(getRoot() != null) {
+            getRoot().getChildren().forEach(treeItem -> ((TreeItem) treeItem).setExpanded(false));
+        }
+    }
 }

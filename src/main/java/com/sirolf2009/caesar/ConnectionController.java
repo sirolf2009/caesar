@@ -1,5 +1,6 @@
 package com.sirolf2009.caesar;
 
+import com.sirolf2009.caesar.util.JMXUtil;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -81,6 +82,6 @@ public class ConnectionController {
     }
 
     private JMXServiceURL getUrl() throws MalformedURLException {
-        return new JMXServiceURL("service:jmx:rmi:///jndi/rmi://"+txtHost.getText()+":"+Integer.parseInt(txtPort.getText())+"/jmxrmi");
+        return JMXUtil.fromHostAndPort(txtHost.getText(), Integer.parseInt(txtPort.getText()));
     }
 }
