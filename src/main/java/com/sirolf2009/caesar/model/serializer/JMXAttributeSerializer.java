@@ -11,11 +11,11 @@ import javax.management.MBeanAttributeInfo;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
-public class JMXAttributeSerializer extends Serializer<JMXAttribute> {
+public class JMXAttributeSerializer extends CaesarSerializer<JMXAttribute> {
 
 	@Override public void write(Kryo kryo, Output output, JMXAttribute object) {
 		output.writeString(object.getName());
-		output.writeString(object.getObjectName().toString());
+		writeObjectName(output, object.getObjectName());
 		output.writeString(object.getAttributeInfo().getName());
 		output.writeString(object.getAttributeInfo().getType());
 		output.writeString(object.getAttributeInfo().getDescription());
@@ -27,13 +27,8 @@ public class JMXAttributeSerializer extends Serializer<JMXAttribute> {
 
 	@Override public JMXAttribute read(Kryo kryo, Input input, Class<JMXAttribute> type) {
 		SimpleStringProperty name = new SimpleStringProperty(input.readString());
-		String objectNameSpec = input.readString();
-		try {
-			ObjectName objectName = new ObjectName(objectNameSpec);
-			MBeanAttributeInfo info = new MBeanAttributeInfo(input.readString(), input.readString(), input.readString(), input.readBoolean(), input.readBoolean(), input.readBoolean());
-			return new JMXAttribute(objectName, info, name);
-		} catch(MalformedObjectNameException e) {
-			throw new RuntimeException(objectNameSpec + " is not a valid objectName", e);
-		}
+		ObjectName objectName = readObjectName(input);
+		MBeanAttributeInfo info = readMBeanAttributeInfo(input);
+		return new JMXAttribute(objectName, info, name);
 	}
 }
