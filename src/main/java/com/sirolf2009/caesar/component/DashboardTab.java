@@ -13,9 +13,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
+import javafx.util.Pair;
 import org.dockfx.DockNode;
 import org.dockfx.DockPane;
 import org.dockfx.DockPos;
+
+import java.util.Arrays;
 
 public class DashboardTab extends DockPane {
 
@@ -46,7 +49,7 @@ public class DashboardTab extends DockPane {
 						tableView.setItems(table.getItems());
 						DockNode node = new DockNode(tableView);
 						node.titleProperty().bind(table.nameProperty());
-						dock(node, DockPos.TOP);
+						dock(node, getDockPos(event));
 						event.consume();
 					} else if(event.getDragboard().hasContent(TablesTreeView.TABLE_AND_POINTER)) {
 						Label label = new Label();
@@ -57,7 +60,7 @@ public class DashboardTab extends DockPane {
 						});
 						DockNode node = new DockNode(label);
 						node.titleProperty().bind(pointer.nameProperty());
-						dock(node, DockPos.TOP);
+						dock(node, getDockPos(event));
 						event.consume();
 					} else if(event.getDragboard().hasContent(ChartsTreeView.CHART)) {
 						Chart chart = ChartsTreeView.chart;
@@ -65,7 +68,7 @@ public class DashboardTab extends DockPane {
 							Node chartNode = chartType.getChart(chart);
 							DockNode node = new DockNode(chartNode);
 							node.titleProperty().bind(chart.nameProperty());
-							dock(node, DockPos.TOP);
+							dock(node, getDockPos(event));
 							event.consume();
 						});
 					}
@@ -75,6 +78,15 @@ public class DashboardTab extends DockPane {
 			}
 		});
 		DockPane.initializeDefaultUserAgentStylesheet();
+	}
+
+	private DockPos getDockPos(DragEvent event) {
+		Pair<DockPos, Double> distanceLeft = new Pair(DockPos.LEFT, event.getX());
+		Pair<DockPos, Double> distanceRight = new Pair(DockPos.RIGHT, getWidth() - event.getX());
+		Pair<DockPos, Double> distanceTop = new Pair(DockPos.TOP, event.getY());
+		Pair<DockPos, Double> distanceBottom = new Pair(DockPos.BOTTOM, getHeight() - event.getY());
+		Pair<DockPos, Double> distanceCenter = new Pair(DockPos.CENTER, Math.sqrt(Math.pow(event.getX()-getWidth()/2, 2)+Math.pow(event.getY()-getHeight()/2, 2)));
+		return Arrays.asList(distanceLeft, distanceRight, distanceTop, distanceBottom).stream().min((a,b) -> a.getValue().compareTo(b.getValue())).get().getKey();
 	}
 
 }

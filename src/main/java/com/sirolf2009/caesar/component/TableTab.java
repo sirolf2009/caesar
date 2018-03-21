@@ -56,7 +56,10 @@ public class TableTab extends AnchorPane {
 
 	@FXML public void initialize() {
 		runningButton.selectedProperty().bindBidirectional(puller.runningProperty());
-		puller.timeoutProperty().bind(EasyBind.map(intervalTextfield.textProperty(), string -> string.length() == 0 ? 0 : Integer.parseInt(string)));
+		runningButton.textProperty().bind(EasyBind.map(runningButton.selectedProperty(), value -> value ? "Running" : "Paused"));
+
+		puller.timeoutProperty().bind(tableModel.updateTimeoutProperty());
+		tableModel.updateTimeoutProperty().bind(EasyBind.map(intervalTextfield.textProperty(), string -> string.length() == 0 ? 0 : Integer.parseInt(string)));
 
 		table.setItems(tableModel.getItems());
 		tableModel.getChildren().forEach(pointer -> addPointer(pointer));

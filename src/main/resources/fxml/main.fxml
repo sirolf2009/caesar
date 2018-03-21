@@ -7,16 +7,25 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
+<?import javafx.scene.image.Image?>
 <BorderPane prefHeight="1000.0" prefWidth="1600.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sirolf2009.caesar.MainController">
    <top>
       <ToolBar fx:id="toolbar" prefHeight="40.0" prefWidth="200.0" stylesheets="@../styles/styles.css" BorderPane.alignment="CENTER">
+          <fx:define>
+              <Image fx:id="btnImageNewTable" url="/icons/table-new.png" />
+          </fx:define>
         <items>
             <Button mnemonicParsing="false" onAction="#load" text="Load" />
             <Button mnemonicParsing="false" onAction="#save" text="Save" />
-          <Button mnemonicParsing="false" onAction="#newTable" text="New Table" />
+            <Button mnemonicParsing="false" onAction="#newTable" text="">
+                <graphic>
+                    <ImageView image="$btnImageNewTable" fitHeight="32.0" fitWidth="32.0" />
+                </graphic>
+            </Button>
             <Button mnemonicParsing="false" onAction="#newChart" text="New Chart" />
             <Button mnemonicParsing="false" onAction="#newDashboard" text="New Dashboard" />
             <Separator orientation="VERTICAL" />
