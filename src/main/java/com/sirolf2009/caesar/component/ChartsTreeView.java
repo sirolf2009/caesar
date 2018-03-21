@@ -1,10 +1,10 @@
 package com.sirolf2009.caesar.component;
 
 import com.sirolf2009.caesar.component.hierarchy.TreeViewHierarchy;
-import com.sirolf2009.caesar.model.table.IDataPointer;
-import com.sirolf2009.caesar.model.table.JMXAttribute;
+import com.sirolf2009.caesar.model.Chart;
+import com.sirolf2009.caesar.model.ColumnOrRow;
 import com.sirolf2009.caesar.model.Table;
-import javafx.beans.InvalidationListener;
+import com.sirolf2009.caesar.model.table.IDataPointer;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.TreeCell;
@@ -13,14 +13,12 @@ import javafx.scene.control.TreeView;
 import javafx.scene.input.*;
 import javafx.util.Callback;
 
-public class TablesTreeView extends TreeViewHierarchy {
+public class ChartsTreeView extends TreeViewHierarchy {
 
-    public static DataFormat TABLE = new DataFormat("Table");
-    public static DataFormat TABLE_AND_POINTER = new DataFormat("TableAndPointer");
-    public static Table table;
-    public static IDataPointer pointer;
+    public static DataFormat CHART = new DataFormat("Chart");
+    public static Chart chart;
 
-    public TablesTreeView(ObservableList<Table> attributes) {
+    public ChartsTreeView(ObservableList<Chart> attributes) {
         setRoot(new TreeItem<>());
         setItems(attributes);
         getRoot().getChildren().forEach(treeItem -> ((TreeItem)treeItem).setExpanded(false));
@@ -32,10 +30,10 @@ public class TablesTreeView extends TreeViewHierarchy {
                     protected void updateItem(Object item, boolean empty) {
                         super.updateItem(item, empty);
                         if (item != null) {
-                            if(item instanceof Table) {
-                                textProperty().bind(((Table)item).nameProperty());
-                            } else if(item instanceof IDataPointer) {
-                                textProperty().bind(((IDataPointer)item).nameProperty());
+                            if(item instanceof Chart) {
+                                textProperty().bind(((Chart)item).nameProperty());
+                            } else if(item instanceof ColumnOrRow) {
+                                textProperty().bind(((ColumnOrRow)item).getSeries().nameProperty());
                             } else {
                                 setText(String.valueOf(item));
                             }
@@ -47,27 +45,15 @@ public class TablesTreeView extends TreeViewHierarchy {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
                         Object value = treeCell.getTreeItem().getValue();
-                        if(value instanceof Table) {
-                            Table table = (Table) value;
+                        if(value instanceof Chart) {
+                            Chart chart = (Chart) value;
                             Dragboard db = treeCell.startDragAndDrop(TransferMode.LINK);
 
                             ClipboardContent content = new ClipboardContent();
-                            content.put(TABLE, "");
+                            content.put(CHART, "");
                             db.setContent(content);
 
-                            TablesTreeView.table = table;
-                            mouseEvent.consume();
-                        } else if(value instanceof IDataPointer) {
-                            Table table = (Table) treeCell.getTreeItem().getParent().getValue();
-                            Dragboard db = treeCell.startDragAndDrop(TransferMode.LINK);
-
-                            ClipboardContent content = new ClipboardContent();
-                            content.put(TABLE_AND_POINTER, "");
-                            db.setContent(content);
-
-                            TablesTreeView.table = table;
-                            TablesTreeView.pointer = (IDataPointer) value;
-
+                            ChartsTreeView.chart = chart;
                             mouseEvent.consume();
                         }
                     }

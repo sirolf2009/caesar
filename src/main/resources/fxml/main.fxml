@@ -18,6 +18,7 @@
             <Button mnemonicParsing="false" onAction="#save" text="Save" />
           <Button mnemonicParsing="false" onAction="#newTable" text="New Table" />
             <Button mnemonicParsing="false" onAction="#newChart" text="New Chart" />
+            <Button mnemonicParsing="false" onAction="#newDashboard" text="New Dashboard" />
             <Separator orientation="VERTICAL" />
         </items>
          <opaqueInsets>
@@ -38,6 +39,11 @@
                   <AnchorPane fx:id="tablesAnchor" prefHeight="200.0" prefWidth="200.0" />
                </content>
           </TitledPane>
+            <TitledPane prefHeight="200.0" prefWidth="200.0" text="Charts">
+               <content>
+                  <AnchorPane fx:id="chartsAnchor" prefHeight="200.0" prefWidth="200.0" />
+               </content>
+            </TitledPane>
         </panes>
       </Accordion>
    </left>

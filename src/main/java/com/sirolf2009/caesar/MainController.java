@@ -4,14 +4,15 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.component.*;
-import com.sirolf2009.caesar.model.*;
-import com.sirolf2009.caesar.dialogs.LocalConnectionDialog;
+import com.sirolf2009.caesar.model.CaesarModel;
+import com.sirolf2009.caesar.model.Chart;
+import com.sirolf2009.caesar.model.JMXObject;
+import com.sirolf2009.caesar.model.Table;
 import com.sirolf2009.caesar.model.table.JMXAttribute;
 import com.sirolf2009.caesar.util.FXUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.ToolBar;
@@ -19,8 +20,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
 import javax.management.MBeanInfo;
-import javax.management.MBeanServerConnection;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class MainController {
@@ -35,9 +38,12 @@ public class MainController {
     @FXML
     private AnchorPane tablesAnchor;
     @FXML
+    private AnchorPane chartsAnchor;
+    @FXML
     private TabPane tabs;
     private VariablesTreeView variables;
     private TablesTreeView tablesTreeView;
+    private ChartsTreeView chartsTreeView;
 
     public MainController() {
         this(new CaesarModel());
@@ -56,6 +62,10 @@ public class MainController {
         tablesTreeView = new TablesTreeView(model.getTables());
         tablesAnchor.getChildren().add(tablesTreeView);
         FXUtil.maximize(tablesTreeView);
+
+        chartsTreeView = new ChartsTreeView(model.getCharts());
+        chartsAnchor.getChildren().add(chartsTreeView);
+        FXUtil.maximize(chartsTreeView);
     }
 
     public void save() {
@@ -94,6 +104,7 @@ public class MainController {
         tabs.getTabs().clear();
         this.model = newModel;
         tablesTreeView.setItems(model.getTables());
+        chartsTreeView.setItems(model.getCharts());
         model.getTables().forEach(table -> addTable(table));
         model.getCharts().forEach(chart -> addChart(chart));
         tabs.getTabs().stream().filter(tab -> tab.getContent() instanceof TableTab).forEach(tab -> ((TableTab) tab.getContent()).getPuller().runningProperty().set(true));
@@ -123,6 +134,13 @@ public class MainController {
         newChartTab.setContent(new ChartTab(chart, model.getTables()));
         tabs.getTabs().add(newChartTab);
         tabs.getSelectionModel().select(newChartTab);
+    }
+
+    public void newDashboard() {
+        Tab newDashboardTab = new Tab();
+        newDashboardTab.setContent(new DashboardTab());
+        tabs.getTabs().add(newDashboardTab);
+        tabs.getSelectionModel().select(newDashboardTab);
     }
 
     public void queryAttributes() {

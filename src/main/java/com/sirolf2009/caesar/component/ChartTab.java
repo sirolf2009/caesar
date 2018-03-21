@@ -27,7 +27,7 @@ import java.util.List;
 
 public class ChartTab extends VBox {
 
-	private static List<IChartType> chartTypes = Arrays.asList(new LineChartType(), new BarChartType(), new TimeseriesChartType());
+	public static List<IChartType> chartTypes = Arrays.asList(new LineChartType(), new BarChartType(), new TimeseriesChartType());
 
 	private final ObservableList<Table> tables;
 	private final Chart chart;

@@ -47,6 +47,10 @@ public class JMXAttribute implements IDataPointer {
         return name;
     }
 
+    @Override public String toString() {
+        return getName();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
