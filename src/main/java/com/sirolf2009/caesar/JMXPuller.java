@@ -16,66 +16,65 @@ import java.util.concurrent.*;
 
 public class JMXPuller implements Runnable {
 
-    private final ExecutorService executor = Executors.newCachedThreadPool();
-    private final ObservableList<IDataPointer> attributes;
-    private final ObservableList<JMXAttributes> items;
-    private final SimpleBooleanProperty running = new SimpleBooleanProperty(false);
-    private final SimpleLongProperty timeout;
-    private final Connection connection;
+	private final ExecutorService executor = Executors.newCachedThreadPool();
+	private final ObservableList<IDataPointer> attributes;
+	private final ObservableList<JMXAttributes> items;
+	private final SimpleBooleanProperty running = new SimpleBooleanProperty(false);
+	private final SimpleLongProperty timeout;
+	private final Connection connection;
 
-    public JMXPuller(Connection connection, ObservableList<IDataPointer> attributes, ObservableList<JMXAttributes> items, long timeout) {
-        this.connection = connection;
-        this.attributes = attributes;
-        this.items = items;
-        this.timeout = new SimpleLongProperty(timeout);
-    }
+	public JMXPuller(Connection connection, ObservableList<IDataPointer> attributes, ObservableList<JMXAttributes> items, long timeout) {
+		this.connection = connection;
+		this.attributes = attributes;
+		this.items = items;
+		this.timeout = new SimpleLongProperty(timeout);
+	}
 
-    @Override
-    public void run() {
-        while (true) {
-            while (running.get()) {
-                try {
-                    Thread.sleep(timeout.get());
-                    connection.getConnection().ifPresent(connection -> {
-                        try {
-                            JMXAttributes attributes = pullAttributes(connection);
-                            Platform.runLater(() -> items.add(attributes));
-                        } catch(Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+	@Override public void run() {
+		while(true) {
+			while(running.get()) {
+				try {
+					Thread.sleep(timeout.get());
+					connection.getConnection().ifPresent(connection -> {
+						try {
+							JMXAttributes attributes = pullAttributes(connection);
+							Platform.runLater(() -> items.add(attributes));
+						} catch(Exception e) {
+							e.printStackTrace();
+						}
+					});
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 
-    public JMXAttributes pullAttributes(MBeanServerConnection connection) throws Exception {
-        JMXAttributes items = new JMXAttributes();
-        attributes.forEach(pointer -> {
-            try {
-                pointer.pullData(connection, items);
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to pull "+pointer, e);
-            }
-        });
-        return items;
-    }
+	public JMXAttributes pullAttributes(MBeanServerConnection connection) throws Exception {
+		JMXAttributes items = new JMXAttributes();
+		attributes.forEach(pointer -> {
+			try {
+				pointer.pullData(connection, items);
+			} catch(Exception e) {
+				throw new RuntimeException("Failed to pull " + pointer, e);
+			}
+		});
+		return items;
+	}
 
-    public Connection getConnection() {
-        return connection;
-    }
+	public Connection getConnection() {
+		return connection;
+	}
 
-    public SimpleLongProperty timeoutProperty() {
-        return timeout;
-    }
+	public SimpleLongProperty timeoutProperty() {
+		return timeout;
+	}
 
-    public SimpleBooleanProperty runningProperty() {
-        return running;
-    }
+	public SimpleBooleanProperty runningProperty() {
+		return running;
+	}
 
-    public ObservableList<IDataPointer> getAttributes() {
-        return attributes;
-    }
+	public ObservableList<IDataPointer> getAttributes() {
+		return attributes;
+	}
 }

@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.management.MBeanInfo;
 import javax.management.remote.JMXServiceURL;
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
@@ -42,6 +43,10 @@ public class MainApp extends Application {
             controller.setConnection(new Connection(LocalConnectionDialog.getLocalConnectionsDialog().showAndWait().get().get()));
         }
         controller.queryAttributes();
+
+        if(params.containsKey("file")) {
+            controller.load(new File(params.get("file")));
+        }
 
         log.debug("Showing JFX scene");
         Scene scene = new Scene(rootNode);

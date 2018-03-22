@@ -20,158 +20,152 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
 import javax.management.MBeanInfo;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 
 public class MainController {
 
-    private CaesarModel model;
-    private Connection connection;
+	private CaesarModel model;
+	private Connection connection;
 
-    @FXML
-    private ToolBar toolbar;
-    @FXML
-    private AnchorPane variablesAnchor;
-    @FXML
-    private AnchorPane tablesAnchor;
-    @FXML
-    private AnchorPane chartsAnchor;
-    @FXML
-    private TabPane tabs;
-    private VariablesTreeView variables;
-    private TablesTreeView tablesTreeView;
-    private ChartsTreeView chartsTreeView;
+	@FXML private ToolBar toolbar;
+	@FXML private AnchorPane variablesAnchor;
+	@FXML private AnchorPane tablesAnchor;
+	@FXML private AnchorPane chartsAnchor;
+	@FXML private TabPane tabs;
+	private VariablesTreeView variables;
+	private TablesTreeView tablesTreeView;
+	private ChartsTreeView chartsTreeView;
 
-    public MainController() {
-        this(new CaesarModel());
-    }
+	public MainController() {
+		this(new CaesarModel());
+	}
 
-    public MainController(CaesarModel model) {
-        this.model = model;
-    }
+	public MainController(CaesarModel model) {
+		this.model = model;
+	}
 
-    @FXML
-    public void initialize() {
-        variables = new VariablesTreeView();
-        variablesAnchor.getChildren().add(variables);
-        FXUtil.maximize(variables);
+	@FXML public void initialize() {
+		variables = new VariablesTreeView();
+		variablesAnchor.getChildren().add(variables);
+		FXUtil.maximize(variables);
 
-        tablesTreeView = new TablesTreeView(model.getTables());
-        tablesAnchor.getChildren().add(tablesTreeView);
-        FXUtil.maximize(tablesTreeView);
+		tablesTreeView = new TablesTreeView(model.getTables());
+		tablesAnchor.getChildren().add(tablesTreeView);
+		FXUtil.maximize(tablesTreeView);
 
-        chartsTreeView = new ChartsTreeView(model.getCharts());
-        chartsAnchor.getChildren().add(chartsTreeView);
-        FXUtil.maximize(chartsTreeView);
-    }
+		chartsTreeView = new ChartsTreeView(model.getCharts());
+		chartsAnchor.getChildren().add(chartsTreeView);
+		FXUtil.maximize(chartsTreeView);
+	}
 
-    public void save() {
-        FileChooser chooser = new FileChooser();
-        File file = chooser.showSaveDialog(toolbar.getScene().getWindow());
-        if (file != null) {
-            try {
-                Kryo kryo = new Kryo();
-                Output out = new Output(new FileOutputStream(file));
-                kryo.writeObject(out, model);
-                out.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+	public void save() {
+		FileChooser chooser = new FileChooser();
+		File file = chooser.showSaveDialog(toolbar.getScene().getWindow());
+		if(file != null) {
+			try {
+				Kryo kryo = new Kryo();
+				Output out = new Output(new FileOutputStream(file));
+				kryo.writeObject(out, model);
+				out.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
-    public void load() {
-        FileChooser chooser = new FileChooser();
-        File file = chooser.showOpenDialog(toolbar.getScene().getWindow());
-        if (file != null) {
-            try {
-                Kryo kryo = new Kryo();
-                Input input = new Input(new FileInputStream(file));
-                CaesarModel newModel = kryo.readObject(input, CaesarModel.class);
-                input.close();
-                switchTo(newModel);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+	public void load() {
+		FileChooser chooser = new FileChooser();
+		File file = chooser.showOpenDialog(toolbar.getScene().getWindow());
+		if(file != null) {
+			try {
+				load(file);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
-    public void switchTo(CaesarModel newModel) {
-        tabs.getTabs().stream().filter(tab -> tab.getContent() instanceof TableTab).forEach(tab -> ((TableTab) tab.getContent()).getPuller().runningProperty().set(false));
-        tabs.getTabs().clear();
-        this.model = newModel;
-        tablesTreeView.setItems(model.getTables());
-        chartsTreeView.setItems(model.getCharts());
-        model.getTables().forEach(table -> addTable(table));
-        model.getCharts().forEach(chart -> addChart(chart));
-        tabs.getTabs().stream().filter(tab -> tab.getContent() instanceof TableTab).forEach(tab -> ((TableTab) tab.getContent()).getPuller().runningProperty().set(true));
-    }
+	public void load(File file) throws FileNotFoundException {
+		Kryo kryo = new Kryo();
+		try(Input input = new Input(new FileInputStream(file))) {
+			switchTo(kryo.readObject(input, CaesarModel.class));
+		}
+	}
 
-    public void newTable() {
-        Table table = new Table("Untitled " + (tabs.getTabs().size() + 1));
-        model.getTables().add(table);
-        addTable(table);
-    }
+	public void switchTo(CaesarModel newModel) {
+		tabs.getTabs().stream().filter(tab -> tab.getContent() instanceof TableTab).forEach(tab -> ((TableTab) tab.getContent()).getPuller().runningProperty().set(false));
+		tabs.getTabs().clear();
+		this.model = newModel;
+		tablesTreeView.setItems(model.getTables());
+		chartsTreeView.setItems(model.getCharts());
+		model.getTables().forEach(table -> addTable(table));
+		model.getCharts().forEach(chart -> addChart(chart));
+		tabs.getTabs().stream().filter(tab -> tab.getContent() instanceof TableTab).forEach(tab -> ((TableTab) tab.getContent()).getPuller().runningProperty().set(true));
+	}
 
-    public void addTable(Table table) {
-        Tab newTableTab = new RenameableTab(table.nameProperty());
-        tabs.getTabs().add(newTableTab);
-        tabs.getSelectionModel().select(newTableTab);
-        newTableTab.setContent(new TableTab(table, connection));
-    }
+	public void newTable() {
+		Table table = new Table("Untitled " + (tabs.getTabs().size() + 1));
+		model.getTables().add(table);
+		addTable(table);
+	}
 
-    public void newChart() {
-        Chart chart = new Chart("Untitled " + (tabs.getTabs().size() + 1));
-        model.getCharts().add(chart);
-        addChart(chart);
-    }
+	public void addTable(Table table) {
+		Tab newTableTab = new RenameableTab(table.nameProperty());
+		tabs.getTabs().add(newTableTab);
+		tabs.getSelectionModel().select(newTableTab);
+		newTableTab.setContent(new TableTab(table, connection));
+	}
 
-    public void addChart(Chart chart) {
-        Tab newChartTab = new RenameableTab(chart.nameProperty());
-        newChartTab.setContent(new ChartTab(chart, model.getTables()));
-        tabs.getTabs().add(newChartTab);
-        tabs.getSelectionModel().select(newChartTab);
-    }
+	public void newChart() {
+		Chart chart = new Chart("Untitled " + (tabs.getTabs().size() + 1));
+		model.getCharts().add(chart);
+		addChart(chart);
+	}
 
-    public void newDashboard() {
-        Tab newDashboardTab = new Tab();
-        newDashboardTab.setContent(new DashboardTab());
-        tabs.getTabs().add(newDashboardTab);
-        tabs.getSelectionModel().select(newDashboardTab);
-    }
+	public void addChart(Chart chart) {
+		Tab newChartTab = new RenameableTab(chart.nameProperty());
+		newChartTab.setContent(new ChartTab(chart, model.getTables()));
+		tabs.getTabs().add(newChartTab);
+		tabs.getSelectionModel().select(newChartTab);
+	}
 
-    public void queryAttributes() {
-        ObservableList<JMXObject> objects = FXCollections.observableArrayList();
-        connection.getConnection().ifPresent(connection -> {
-            try {
-                connection.queryNames(null, null).forEach(objectName -> {
-                    ObservableList<JMXAttribute> attributes = FXCollections.observableArrayList();
-                    try {
-                        MBeanInfo bean = connection.getMBeanInfo(objectName);
-                        Arrays.stream(bean.getAttributes()).forEach(attributeInfo -> {
-                            attributes.add(new JMXAttribute(objectName, attributeInfo));
-                        });
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    objects.add(new JMXObject(objectName, attributes));
-                });
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        variables.setItems(objects.sorted());
-    }
+	public void newDashboard() {
+		Tab newDashboardTab = new Tab();
+		newDashboardTab.setContent(new DashboardTab());
+		tabs.getTabs().add(newDashboardTab);
+		tabs.getSelectionModel().select(newDashboardTab);
+	}
 
-    public Connection getConnection() {
-        return connection;
-    }
+	public void queryAttributes() {
+		ObservableList<JMXObject> objects = FXCollections.observableArrayList();
+		connection.getConnection().ifPresent(connection -> {
+			try {
+				connection.queryNames(null, null).forEach(objectName -> {
+					ObservableList<JMXAttribute> attributes = FXCollections.observableArrayList();
+					try {
+						MBeanInfo bean = connection.getMBeanInfo(objectName);
+						Arrays.stream(bean.getAttributes()).forEach(attributeInfo -> {
+							attributes.add(new JMXAttribute(objectName, attributeInfo));
+						});
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
+					objects.add(new JMXObject(objectName, attributes));
+				});
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		});
+		variables.setItems(objects.sorted());
+	}
 
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
+	public Connection getConnection() {
+		return connection;
+	}
+
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
 
 }
