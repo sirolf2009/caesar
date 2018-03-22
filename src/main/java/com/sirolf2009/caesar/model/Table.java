@@ -18,7 +18,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @DefaultSerializer(Table.TableSerializer.class)
-public class Table implements IHierarchicalData<IDataPointer>, Serializable {
+public class Table implements IHierarchicalData<IDataPointer>, IDashboardNode {
 
     private final StringProperty name;
     private final LongProperty updateTimeout;

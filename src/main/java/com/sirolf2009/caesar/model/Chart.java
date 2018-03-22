@@ -12,7 +12,7 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 @DefaultSerializer(ChartSerializer.class)
-public class Chart implements IHierarchicalData<ColumnOrRow>, Serializable {
+public class Chart implements IHierarchicalData<ColumnOrRow>, IDashboardNode {
 
     private final SimpleStringProperty name;
     private final ObservableList<ColumnOrRow> seriesList;
