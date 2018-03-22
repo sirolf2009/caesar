@@ -2,6 +2,7 @@ package com.sirolf2009.caesar.component;
 
 import com.sirolf2009.caesar.Connection;
 import com.sirolf2009.caesar.JMXPuller;
+import com.sirolf2009.caesar.model.table.CurrentTime;
 import com.sirolf2009.caesar.model.table.IDataPointer;
 import com.sirolf2009.caesar.model.table.JMXAttribute;
 import com.sirolf2009.caesar.model.JMXAttributes;
@@ -122,6 +123,12 @@ public class TableTab extends AnchorPane {
 		}
 	}
 
+	public void addCurrentTime() {
+		CurrentTime time = new CurrentTime();
+		tableModel.getChildren().add(time);
+		addPointer(time);
+	}
+
 	public TableView<JMXAttributes> getTable() {
 		return table;
 	}
@@ -143,11 +150,21 @@ public class TableTab extends AnchorPane {
 			this.pointer = pointer;
 			setSortable(false);
 			pointer.nameProperty().bind(textProperty());
-			setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrDefault(pointer, "").toString()));
+			if(pointer.getType().startsWith("[L")) {
+				setCellValueFactory(cellData -> new SimpleStringProperty(Arrays.toString((Object[]) cellData.getValue().getOrDefault(pointer, new Object[0]))));
+			} else {
+				setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrDefault(pointer, "").toString()));
+			}
 		}
 
 		public List<MenuItem> getContextItems() {
 			List<MenuItem> items = new ArrayList<>();
+			MenuItem remove = new MenuItem("Remove");
+			remove.setOnAction(e -> {
+				tableModel.getChildren().remove(pointer);
+				table.getColumns().remove(this);
+			});
+			items.add(remove);
 			if(pointer.getType().equals("long") || pointer.getType().equals("java.lang.Long")) {
 				MenuItem item = new MenuItem("Map to date");
 				item.setOnAction(e -> {
@@ -155,9 +172,9 @@ public class TableTab extends AnchorPane {
 					tableModel.getChildren().add(newPointer);
 					addPointer(newPointer);
 				});
-				return Arrays.asList(item);
+				items.add(item);
 			}
-			return Arrays.asList();
+			return items;
 		}
 
 	}

@@ -137,6 +137,8 @@ public class ChartTab extends VBox {
 			return new LongSeries(table, attribute);
 		case "java.lang.Long":
 			return new LongSeries(table, attribute);
+		case "[Ljava.lang.Long;":
+			return new LongArraySeries(table, attribute);
 		case "boolean":
 			return new BooleanSeries(table, attribute);
 		case "java.lang.Boolean":

@@ -21,7 +21,6 @@ public abstract class SimpleSeries<T> {
         this.table = table;
         this.attribute = attribute;
         this.name = new SimpleStringProperty(attribute.toString());
-
         values = EasyBind.map(table.getItems(), row -> {
             if(row.containsKey(attribute)) {
                 return (T) row.get(attribute);
