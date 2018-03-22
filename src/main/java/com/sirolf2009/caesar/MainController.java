@@ -114,7 +114,7 @@ public class MainController {
 		Tab newTableTab = new RenameableTab(table.nameProperty());
 		tabs.getTabs().add(newTableTab);
 		newTableTab.setOnCloseRequest(e -> {
-			model.getCharts().remove(table);
+			model.getTables().remove(table);
 		});
 		tabs.getSelectionModel().select(newTableTab);
 		newTableTab.setContent(new TableTab(table, connection));
