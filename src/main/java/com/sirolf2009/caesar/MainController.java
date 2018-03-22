@@ -113,6 +113,9 @@ public class MainController {
 	public void addTable(Table table) {
 		Tab newTableTab = new RenameableTab(table.nameProperty());
 		tabs.getTabs().add(newTableTab);
+		newTableTab.setOnCloseRequest(e -> {
+			model.getCharts().remove(table);
+		});
 		tabs.getSelectionModel().select(newTableTab);
 		newTableTab.setContent(new TableTab(table, connection));
 	}
@@ -126,6 +129,9 @@ public class MainController {
 	public void addChart(Chart chart) {
 		Tab newChartTab = new RenameableTab(chart.nameProperty());
 		newChartTab.setContent(new ChartTab(chart, model.getTables()));
+		newChartTab.setOnCloseRequest(e -> {
+			model.getCharts().remove(chart);
+		});
 		tabs.getTabs().add(newChartTab);
 		tabs.getSelectionModel().select(newChartTab);
 	}

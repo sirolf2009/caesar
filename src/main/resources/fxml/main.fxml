@@ -88,7 +88,7 @@
         </Accordion>
     </left>
     <center>
-        <TabPane fx:id="tabs" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE"
+        <TabPane fx:id="tabs" prefHeight="200.0" prefWidth="200.0" side="BOTTOM"
                  BorderPane.alignment="CENTER"/>
     </center>
 </BorderPane>

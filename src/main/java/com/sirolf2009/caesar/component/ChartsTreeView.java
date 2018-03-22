@@ -37,6 +37,9 @@ public class ChartsTreeView extends TreeViewHierarchy {
                             } else {
                                 setText(String.valueOf(item));
                             }
+                        } else {
+                            textProperty().unbind();
+                            setText("");
                         }
                     }
                 };

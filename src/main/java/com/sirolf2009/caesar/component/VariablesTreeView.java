@@ -28,6 +28,8 @@ public class VariablesTreeView extends TreeViewHierarchy {
                         super.updateItem(item, empty);
                         if (item != null) {
                             setText(String.valueOf(item));
+                        } else {
+                            setText("");
                         }
                     }
                 };
