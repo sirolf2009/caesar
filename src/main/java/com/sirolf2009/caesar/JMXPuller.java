@@ -16,7 +16,6 @@ import java.util.concurrent.*;
 
 public class JMXPuller implements Runnable {
 
-	private final ExecutorService executor = Executors.newCachedThreadPool();
 	private final ObservableList<IDataPointer> attributes;
 	private final ObservableList<JMXAttributes> items;
 	private final SimpleBooleanProperty running = new SimpleBooleanProperty(false);
@@ -32,9 +31,13 @@ public class JMXPuller implements Runnable {
 
 	@Override public void run() {
 		while(true) {
-			while(running.get()) {
+			try {
+				Thread.sleep(timeout.get());
+			} catch(InterruptedException e) {
+				e.printStackTrace();
+			}
+			if(running.get()) {
 				try {
-					Thread.sleep(timeout.get());
 					connection.getConnection().ifPresent(connection -> {
 						try {
 							JMXAttributes attributes = pullAttributes(connection);
