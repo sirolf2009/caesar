@@ -31,6 +31,23 @@ import java.util.stream.DoubleStream;
 
 public class DashboardTab extends DockPane {
 
+	private static Constructor dockNodeEventHandlerConstructor;
+	private static Field filtersField;
+	private static Field rootField;
+
+	static {
+		try {
+			dockNodeEventHandlerConstructor = Arrays.stream(DockPane.class.getDeclaredClasses()).filter(clazz -> clazz.toString().equals("class org.dockfx.DockPane$DockNodeEventHandler")).findAny().get().getDeclaredConstructors()[0];
+			dockNodeEventHandlerConstructor.setAccessible(true);
+			filtersField = DockPane.class.getDeclaredField("dockNodeEventFilters");
+			filtersField.setAccessible(true);
+			rootField = DockPane.class.getDeclaredField("root");
+			rootField.setAccessible(true);
+		} catch(Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	private final Dashboard dashboard;
 
 	public DashboardTab(Dashboard dashboard) {
@@ -74,11 +91,7 @@ public class DashboardTab extends DockPane {
 		if(dashboard.getRoot() != null) {
 			SplitPane root = (SplitPane) dashboard.getRoot().createNode();
 			try {
-				Field field = DockPane.class.getDeclaredField("root");
-				field.setAccessible(true);
-				field.set(this, root);
-			} catch(NoSuchFieldException e) {
-				e.printStackTrace();
+				rootField.set(this, root);
 			} catch(IllegalAccessException e) {
 				e.printStackTrace();
 			}
@@ -102,20 +115,14 @@ public class DashboardTab extends DockPane {
 
 	private void initDashboardDockNode(DashboardDockNode dashboardDockNode) {
 		dashboardDockNode.setDashboard(this);
-		Arrays.stream(DockPane.class.getDeclaredClasses()).filter(clazz -> clazz.toString().equals("class org.dockfx.DockPane$DockNodeEventHandler")).forEach(clazz -> {
-			Constructor constructor = clazz.getDeclaredConstructors()[0];
-			constructor.setAccessible(true);
-			try {
-				Field filtersField = DockPane.class.getDeclaredField("dockNodeEventFilters");
-				filtersField.setAccessible(true);
-				Map filters = (Map) filtersField.get(this);
-				EventHandler handler = (EventHandler) constructor.newInstance(this, dashboardDockNode);
-				filters.put(dashboardDockNode, handler);
-				dashboardDockNode.addEventFilter(DockEvent.DOCK_OVER, handler);
-			} catch(InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
-				e.printStackTrace();
-			}
-		});
+		try {
+			Map filters = (Map) filtersField.get(this);
+			EventHandler handler = (EventHandler) dockNodeEventHandlerConstructor.newInstance(this, dashboardDockNode);
+			filters.put(dashboardDockNode, handler);
+			dashboardDockNode.addEventFilter(DockEvent.DOCK_OVER, handler);
+		} catch(InstantiationException | IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void addDockNode(DragEvent event, IDashboardNode dataNode, Node content) {
