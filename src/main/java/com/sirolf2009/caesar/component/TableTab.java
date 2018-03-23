@@ -10,9 +10,12 @@ import com.sirolf2009.caesar.model.Table;
 import com.sirolf2009.caesar.model.table.JMXCompositeAttribute;
 import com.sirolf2009.caesar.model.table.map.LongToDate;
 import com.sirolf2009.caesar.util.ControllerUtil;
+import com.sun.javafx.scene.control.skin.TableHeaderRow;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -60,10 +63,32 @@ public class TableTab extends AnchorPane {
 		runningButton.textProperty().bind(EasyBind.map(runningButton.selectedProperty(), value -> value ? "Running" : "Paused"));
 
 		puller.timeoutProperty().bind(tableModel.updateTimeoutProperty());
+		intervalTextfield.setText(tableModel.getUpdateTimeout()+"");
 		tableModel.updateTimeoutProperty().bind(EasyBind.map(intervalTextfield.textProperty(), string -> string.length() == 0 ? 0 : Integer.parseInt(string)));
 
 		table.setItems(tableModel.getItems());
 		tableModel.getChildren().forEach(pointer -> addPointer(pointer));
+		table.widthProperty().addListener(new ChangeListener<Number>() {
+			@Override public void changed(ObservableValue<? extends Number> source, Number oldWidth, Number newWidth) {
+				TableHeaderRow header = (TableHeaderRow) table.lookup("TableHeaderRow");
+				header.reorderingProperty().addListener(new ChangeListener<Boolean>() {
+					@Override public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+						if(!newValue) {
+							new Thread(() -> {
+								try {
+									Thread.sleep(100);
+								} catch(InterruptedException e) {
+									e.printStackTrace();
+								}
+								Platform.runLater(() -> {
+									tableModel.getChildren().setAll(header.getRootHeader().getColumnHeaders().stream().map(header -> (CaesarTableColumn) header.getTableColumn()).map(col -> col.pointer).collect(Collectors.toList()));
+								});
+							}).start();
+						}
+					}
+				});
+			}
+		});
 		table.setOnDragOver(event1 -> {
 			if(event1.getGestureSource() != table && event1.getDragboard().hasString() && event1.getDragboard().getString().split("@").length == 2) {
 				event1.acceptTransferModes(TransferMode.LINK);

@@ -7,88 +7,85 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<?import javafx.scene.image.Image?>
-<BorderPane prefHeight="1000.0" prefWidth="1600.0" stylesheets="@../styles/styles.css"
-            xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.sirolf2009.caesar.MainController">
+<BorderPane prefHeight="1000.0" prefWidth="1600.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sirolf2009.caesar.MainController">
     <top>
-        <ToolBar fx:id="toolbar" prefHeight="40.0" prefWidth="200.0" stylesheets="@../styles/styles.css"
-                 BorderPane.alignment="CENTER">
-            <fx:define>
-                <Image fx:id="btnImageLoad" url="/icons/load.png"/>
-            </fx:define>
-            <fx:define>
-                <Image fx:id="btnImageSave" url="/icons/save.png"/>
-            </fx:define>
-            <fx:define>
-                <Image fx:id="btnImageNewTable" url="/icons/table-new.png"/>
-            </fx:define>
-            <fx:define>
-                <Image fx:id="btnImageNewChart" url="/icons/chart-new.png"/>
-            </fx:define>
-            <fx:define>
-                <Image fx:id="btnImageNewDashboard" url="/icons/dashboard-new.png"/>
-            </fx:define>
+        <ToolBar fx:id="toolbar" prefHeight="40.0" prefWidth="200.0" stylesheets="@../styles/styles.css" BorderPane.alignment="CENTER">
             <items>
                 <Button mnemonicParsing="false" onAction="#load" text="">
                     <graphic>
-                        <ImageView image="$btnImageLoad" fitHeight="32.0" fitWidth="32.0"/>
+                        <ImageView fitHeight="32.0" fitWidth="32.0">
+                            <image>
+                                <Image url="@/icons/load.png" />
+                            </image>
+                        </ImageView>
                     </graphic>
                 </Button>
                 <Button mnemonicParsing="false" onAction="#save" text="">
                     <graphic>
-                        <ImageView image="$btnImageSave" fitHeight="32.0" fitWidth="32.0"/>
+                        <ImageView fitHeight="32.0" fitWidth="32.0">
+                     <image>
+                        <Image url="@/icons/save.png" />
+                     </image></ImageView>
                     </graphic>
                 </Button>
                 <Button mnemonicParsing="false" onAction="#newTable" text="">
                     <graphic>
-                        <ImageView image="$btnImageNewTable" fitHeight="32.0" fitWidth="32.0"/>
+                        <ImageView fitHeight="32.0" fitWidth="32.0">
+                     <image>
+                        <Image url="@/icons/table-new.png" />
+                     </image></ImageView>
                     </graphic>
                 </Button>
                 <Button mnemonicParsing="false" onAction="#newChart" text="">
                     <graphic>
-                        <ImageView image="$btnImageNewChart" fitHeight="32.0" fitWidth="32.0"/>
+                        <ImageView fitHeight="32.0" fitWidth="32.0">
+                     <image>
+                        <Image url="@/icons/chart-new.png" />
+                     </image></ImageView>
                     </graphic>
                 </Button>
                 <Button mnemonicParsing="false" onAction="#newDashboard" text="">
                     <graphic>
-                        <ImageView image="$btnImageNewDashboard" fitHeight="32.0" fitWidth="32.0"/>
+                        <ImageView fitHeight="32.0" fitWidth="32.0">
+                     <image>
+                        <Image url="@/icons/dashboard-new.png" />
+                     </image></ImageView>
                     </graphic>
                 </Button>
-                <Separator orientation="VERTICAL"/>
+                <Separator orientation="VERTICAL" />
             </items>
             <opaqueInsets>
-                <Insets/>
+                <Insets />
             </opaqueInsets>
         </ToolBar>
     </top>
-    <left>
-        <Accordion prefWidth="400.0" BorderPane.alignment="CENTER">
-            <panes>
-                <TitledPane animated="false" text="Variables">
-                    <content>
-                        <AnchorPane fx:id="variablesAnchor"/>
-                    </content>
-                </TitledPane>
-                <TitledPane animated="false" text="Tables">
-                    <content>
-                        <AnchorPane fx:id="tablesAnchor" prefHeight="200.0" prefWidth="200.0"/>
-                    </content>
-                </TitledPane>
-                <TitledPane prefHeight="200.0" prefWidth="200.0" text="Charts">
-                    <content>
-                        <AnchorPane fx:id="chartsAnchor" prefHeight="200.0" prefWidth="200.0"/>
-                    </content>
-                </TitledPane>
-            </panes>
-        </Accordion>
-    </left>
     <center>
-        <TabPane fx:id="tabs" prefHeight="200.0" prefWidth="200.0" side="BOTTOM"
-                 BorderPane.alignment="CENTER"/>
+        <TabPane fx:id="tabs" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" BorderPane.alignment="CENTER" />
     </center>
+   <left>
+          <Accordion prefWidth="400.0" BorderPane.alignment="CENTER">
+              <panes>
+                  <TitledPane animated="false" text="Variables">
+                      <content>
+                          <AnchorPane fx:id="variablesAnchor" />
+                      </content>
+                  </TitledPane>
+                  <TitledPane animated="false" text="Tables">
+                      <content>
+                          <AnchorPane fx:id="tablesAnchor" prefHeight="200.0" prefWidth="200.0" />
+                      </content>
+                  </TitledPane>
+                  <TitledPane prefHeight="200.0" prefWidth="200.0" text="Charts">
+                      <content>
+                          <AnchorPane fx:id="chartsAnchor" prefHeight="200.0" prefWidth="200.0" />
+                      </content>
+                  </TitledPane>
+              </panes>
+          </Accordion>
+   </left>
 </BorderPane>
