@@ -120,11 +120,9 @@ public class ChartTab extends VBox {
 
 	private void setupChart() {
 		chartAnchor.getChildren().clear();
-		chartTypes.stream().filter(type -> type.getPredicate().test(chart)).findAny().ifPresent(chartType -> {
-			Node chart = chartType.getChart(this.chart);
-			chartAnchor.getChildren().add(chart);
-			FXUtil.maximize(chart);
-		});
+		Node chart = this.chart.createNode();
+		chartAnchor.getChildren().add(chart);
+		FXUtil.maximize(chart);
 	}
 
 	public static ISeries getSeries(Table table, IDataPointer attribute) {

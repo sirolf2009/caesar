@@ -4,10 +4,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.component.*;
-import com.sirolf2009.caesar.model.CaesarModel;
-import com.sirolf2009.caesar.model.Chart;
-import com.sirolf2009.caesar.model.JMXObject;
-import com.sirolf2009.caesar.model.Table;
+import com.sirolf2009.caesar.model.*;
 import com.sirolf2009.caesar.model.table.JMXAttribute;
 import com.sirolf2009.caesar.util.FXUtil;
 import javafx.collections.FXCollections;
@@ -101,11 +98,12 @@ public class MainController {
 		chartsTreeView.setItems(model.getCharts());
 		model.getTables().forEach(table -> addTable(table));
 		model.getCharts().forEach(chart -> addChart(chart));
+		model.getDashboards().forEach(dashboard -> addDashboard(dashboard));
 		tabs.getTabs().stream().filter(tab -> tab.getContent() instanceof TableTab).forEach(tab -> ((TableTab) tab.getContent()).getPuller().runningProperty().set(true));
 	}
 
 	public void newTable() {
-		Table table = new Table("Untitled " + (tabs.getTabs().size() + 1));
+		Table table = new Table(getNewTabName());
 		model.getTables().add(table);
 		addTable(table);
 	}
@@ -121,7 +119,7 @@ public class MainController {
 	}
 
 	public void newChart() {
-		Chart chart = new Chart("Untitled " + (tabs.getTabs().size() + 1));
+		Chart chart = new Chart(getNewTabName());
 		model.getCharts().add(chart);
 		addChart(chart);
 	}
@@ -137,8 +135,17 @@ public class MainController {
 	}
 
 	public void newDashboard() {
-		Tab newDashboardTab = new Tab();
-		newDashboardTab.setContent(new DashboardTab());
+		Dashboard dashboard = new Dashboard(getNewTabName());
+		model.getDashboards().add(dashboard);
+		addDashboard(dashboard);
+	}
+
+	public void addDashboard(Dashboard dashboard) {
+		Tab newDashboardTab = new RenameableTab(dashboard.nameProperty());
+		newDashboardTab.setContent(new DashboardTab(dashboard));
+		newDashboardTab.setOnCloseRequest(e -> {
+			model.getDashboards().remove(dashboard);
+		});
 		tabs.getTabs().add(newDashboardTab);
 		tabs.getSelectionModel().select(newDashboardTab);
 	}
@@ -164,6 +171,10 @@ public class MainController {
 			}
 		});
 		variables.setItems(objects.sorted());
+	}
+
+	private String getNewTabName() {
+		return "Untitled " + (tabs.getTabs().size() + 1);
 	}
 
 	public Connection getConnection() {

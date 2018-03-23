@@ -14,10 +14,18 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.util.Pair;
+import org.dockfx.DockEvent;
 import org.dockfx.DockPane;
 import org.dockfx.DockPos;
+import org.fxmisc.easybind.EasyBind;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
@@ -45,37 +53,69 @@ public class DashboardTab extends DockPane {
 				try {
 					if(event.getDragboard().hasContent(TablesTreeView.TABLE)) {
 						Table table = TablesTreeView.table;
-						TableView<JMXAttributes> tableView = new TableView<>();
-						table.getChildren().forEach(pointer -> tableView.getColumns().add(new TableColumn<JMXAttributes, String>(){{
-							textProperty().bind(pointer.nameProperty());
-							setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrDefault(pointer, "").toString()));
-						}}));
-						tableView.setItems(table.getItems());
-						addDockNode(event, table, tableView);
+						addDockNode(event, table, table.createNode());
 						event.consume();
 					} else if(event.getDragboard().hasContent(TablesTreeView.TABLE_AND_POINTER)) {
-						Label label = new Label();
 						Table table = TablesTreeView.table;
 						IDataPointer pointer = TablesTreeView.pointer;
-						table.getItems().addListener((InvalidationListener) e -> {
-							label.setText(table.getItems().get(table.getItems().size() - 1).get(pointer) + "");
-						});
-						addDockNode(event, new TableAndPointer(table, pointer), label);
+						TableAndPointer tableAndPointer = new TableAndPointer(table.getName() + "/" + pointer.getName(), table, pointer);
+						addDockNode(event, tableAndPointer, tableAndPointer.createNode());
 						event.consume();
 					} else if(event.getDragboard().hasContent(ChartsTreeView.CHART)) {
 						Chart chart = ChartsTreeView.chart;
-						ChartTab.chartTypes.stream().filter(type -> type.getPredicate().test(chart)).findAny().ifPresent(chartType -> {
-							Node chartNode = chartType.getChart(chart);
-							addDockNode(event, chart, chartNode);
-							event.consume();
-						});
+						addDockNode(event, chart, chart.createNode());
+						event.consume();
 					}
 				} catch(Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
+		if(dashboard.getRoot() != null) {
+			SplitPane root = (SplitPane) dashboard.getRoot().createNode();
+			try {
+				Field field = DockPane.class.getDeclaredField("root");
+				field.setAccessible(true);
+				field.set(this, root);
+			} catch(NoSuchFieldException e) {
+				e.printStackTrace();
+			} catch(IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			getChildren().add(root);
+			initSplitPane(root);
+		}
 		DockPane.initializeDefaultUserAgentStylesheet();
+	}
+
+	private void initSplitPane(SplitPane splitPane) {
+		splitPane.getItems().forEach(child -> {
+			if(child instanceof SplitPane) {
+				initSplitPane((SplitPane) child);
+			} else if(child instanceof DashboardDockNode) {
+				initDashboardDockNode((DashboardDockNode) child);
+			} else {
+				throw new IllegalArgumentException("Unknown type: " + child);
+			}
+		});
+	}
+
+	private void initDashboardDockNode(DashboardDockNode dashboardDockNode) {
+		dashboardDockNode.setDashboard(this);
+		Arrays.stream(DockPane.class.getDeclaredClasses()).filter(clazz -> clazz.toString().equals("class org.dockfx.DockPane$DockNodeEventHandler")).forEach(clazz -> {
+			Constructor constructor = clazz.getDeclaredConstructors()[0];
+			constructor.setAccessible(true);
+			try {
+				Field filtersField = DockPane.class.getDeclaredField("dockNodeEventFilters");
+				filtersField.setAccessible(true);
+				Map filters = (Map) filtersField.get(this);
+				EventHandler handler = (EventHandler) constructor.newInstance(this, dashboardDockNode);
+				filters.put(dashboardDockNode, handler);
+				dashboardDockNode.addEventFilter(DockEvent.DOCK_OVER, handler);
+			} catch(InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
+				e.printStackTrace();
+			}
+		});
 	}
 
 	public void addDockNode(DragEvent event, IDashboardNode dataNode, Node content) {
@@ -91,7 +131,7 @@ public class DashboardTab extends DockPane {
 		Pair<DockPos, Double> distanceRight = new Pair(DockPos.RIGHT, getWidth() - event.getX());
 		Pair<DockPos, Double> distanceTop = new Pair(DockPos.TOP, event.getY());
 		Pair<DockPos, Double> distanceBottom = new Pair(DockPos.BOTTOM, getHeight() - event.getY());
-		return Arrays.asList(distanceLeft, distanceRight, distanceTop, distanceBottom).stream().min((a,b) -> a.getValue().compareTo(b.getValue())).get().getKey();
+		return Arrays.asList(distanceLeft, distanceRight, distanceTop, distanceBottom).stream().min(Comparator.comparing(Pair::getValue)).get().getKey();
 	}
 
 	public void updateModel() {
@@ -100,29 +140,16 @@ public class DashboardTab extends DockPane {
 	}
 
 	public SplitNode serialize(SplitPane root) {
-		return new SplitNode(root.getItems().stream().map(child -> serialize(child)).collect(Collectors.toList()), DoubleStream.of(root.getDividerPositions()).boxed().collect(Collectors.toList()));
+		return new SplitNode(root.getOrientation(), root.getItems().stream().map(child -> serialize(child)).collect(Collectors.toList()), DoubleStream.of(root.getDividerPositions()).boxed().collect(Collectors.toList()));
 	}
 
-	public IDataNode serialize(Node node) {
+	public IDashboardNode serialize(Node node) {
 		if(node instanceof SplitPane) {
-			return serialize((SplitPane)node);
+			return serialize((SplitPane) node);
 		} else if(node instanceof DashboardDockNode) {
-			return serialize((DashboardDockNode)node);
+			return ((DashboardDockNode) node).getData();
 		} else {
 			throw new IllegalArgumentException("Unknown childtype: " + node);
-		}
-	}
-
-	public IDataNode serialize(DashboardDockNode dockNode) {
-		IDashboardNode node = dockNode.getData();
-		if(node instanceof Chart) {
-			return new ChartNode((Chart) node);
-		} else if(node instanceof Table) {
-			return new TableNode((Table) node);
-		} else if(node instanceof TableAndPointer) {
-			return new TableAndPointerNode((TableAndPointer) node);
-		} else {
-			throw new IllegalArgumentException("Unknown nodetype: "+node);
 		}
 	}
 

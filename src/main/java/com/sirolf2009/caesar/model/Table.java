@@ -13,6 +13,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -73,8 +76,15 @@ public class Table implements IHierarchicalData<IDataPointer>, IDashboardNode {
         return name;
     }
 
-    public String getName() {
-        return name.get();
+    @Override
+    public Node createNode() {
+        TableView< JMXAttributes > tableView = new TableView<>();
+        getChildren().forEach(pointer -> tableView.getColumns().add(new TableColumn<JMXAttributes, String>(){{
+            textProperty().bind(pointer.nameProperty());
+            setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrDefault(pointer, "").toString()));
+        }}));
+        tableView.setItems(getItems());
+        return tableView;
     }
 
     @Override

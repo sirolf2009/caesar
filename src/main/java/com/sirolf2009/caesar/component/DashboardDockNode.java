@@ -1,11 +1,26 @@
 package com.sirolf2009.caesar.component;
 
-import com.sirolf2009.caesar.component.hierarchy.IHierarchicalData;
 import com.sirolf2009.caesar.model.IDashboardNode;
 import javafx.scene.Node;
+import org.dockfx.DockEvent;
 import org.dockfx.DockNode;
+import org.dockfx.DockPane;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 
 public class DashboardDockNode extends DockNode {
+
+    static Method dockImpl;
+    static {
+        try {
+            dockImpl = DockNode.class.getDeclaredMethod("dockImpl", DockPane.class);
+            dockImpl.setAccessible(true); //Fuck outta here
+        } catch(NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
 
     private final IDashboardNode data;
 
@@ -22,6 +37,16 @@ public class DashboardDockNode extends DockNode {
     public DashboardDockNode(IDashboardNode data, Node contents) {
         super(contents);
         this.data = data;
+    }
+
+    public void setDashboard(DashboardTab dashboard) {
+        try {
+            dockImpl.invoke(this, (DockPane)dashboard);
+        } catch(IllegalAccessException e) {
+            e.printStackTrace();
+        } catch(InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     public IDashboardNode getData() {
