@@ -159,7 +159,7 @@ public class ChartTab extends VBox {
 		switch(attribute.getType()) {
 		case "int":
 			return new IntegerSeries(table, attribute);
-		case "java.long.Integer":
+		case "java.lang.Integer":
 			return new IntegerSeries(table, attribute);
 		case "long":
 			return new LongSeries(table, attribute);
