@@ -22,7 +22,7 @@
 
     <build>
 
-        <finalName>jmx-client</finalName>
+        <finalName>caesar</finalName>
 
         <plugins>
 
