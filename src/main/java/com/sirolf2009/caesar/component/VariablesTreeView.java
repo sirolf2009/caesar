@@ -1,11 +1,16 @@
 package com.sirolf2009.caesar.component;
 
+import com.sirolf2009.caesar.component.hierarchy.TreeViewFilteredHierarchy;
 import com.sirolf2009.caesar.component.hierarchy.TreeViewHierarchy;
 import com.sirolf2009.caesar.model.table.JMXAttribute;
 import com.sirolf2009.caesar.model.JMXObject;
 import javafx.beans.InvalidationListener;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.EventHandler;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -13,14 +18,28 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
-public class VariablesTreeView extends TreeViewHierarchy {
+import java.util.function.Predicate;
+
+public class VariablesTreeView extends VBox {
+
+    private final TextField filter;
+    private final TreeViewFilteredHierarchy variables;
 
     public VariablesTreeView() {
-        setRoot(new TreeItem<>());
-        setShowRoot(false);
-        setCellFactory(new Callback<TreeView<Object>, TreeCell<Object>>() {
+        variables = new TreeViewFilteredHierarchy();
+        filter = new TextField();
+        filter.textProperty().addListener(e -> {
+            variables.itemPredicateProperty().set(p -> p.toString().contains(filter.getText()));
+        });
+        getChildren().addAll(filter, variables);
+        VBox.setVgrow(variables, Priority.ALWAYS);
+        variables.setRoot(new TreeItem<>());
+        variables.setShowRoot(false);
+        variables.setCellFactory(new Callback<TreeView<Object>, TreeCell<Object>>() {
             @Override
             public TreeCell<Object> call(TreeView<Object> param) {
                 TreeCell<Object> treeCell = new TreeCell<Object>() {
@@ -56,10 +75,11 @@ public class VariablesTreeView extends TreeViewHierarchy {
         });
     }
 
-    @Override public void setItems(ObservableList items) {
-        super.setItems(items);
-        if(getRoot() != null) {
-            getRoot().getChildren().forEach(treeItem -> ((TreeItem) treeItem).setExpanded(false));
-        }
+    public TextField getFilter() {
+        return filter;
+    }
+
+    public TreeViewFilteredHierarchy getVariables() {
+        return variables;
     }
 }

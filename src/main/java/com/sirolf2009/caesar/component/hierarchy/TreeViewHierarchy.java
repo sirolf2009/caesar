@@ -191,8 +191,7 @@ public class TreeViewHierarchy<T extends IHierarchicalData<T>> extends TreeView<
     private TreeItem<T> addRecursively(T value) {
         TreeItem<T> treeItem = new TreeItem<T>();
         treeItem.setValue(value);
-        treeItem.setExpanded(true);
- 
+
         if (value != null && value.getChildren() != null) {
             ListChangeListener<T> listChangeListener = getListChangeListener(treeItem.getChildren());
             WeakListChangeListener<T> weakListener = new WeakListChangeListener<T>(listChangeListener);

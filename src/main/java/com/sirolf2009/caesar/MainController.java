@@ -7,13 +7,17 @@ import com.sirolf2009.caesar.component.*;
 import com.sirolf2009.caesar.model.*;
 import com.sirolf2009.caesar.model.table.JMXAttribute;
 import com.sirolf2009.caesar.util.FXUtil;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 import javax.management.MBeanInfo;
@@ -170,7 +174,7 @@ public class MainController {
 				e.printStackTrace();
 			}
 		});
-		variables.setItems(objects.sorted());
+		variables.getVariables().setItems(objects.sorted());
 	}
 
 	private String getNewTabName() {
