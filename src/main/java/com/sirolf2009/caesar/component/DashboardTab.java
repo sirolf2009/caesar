@@ -1,23 +1,17 @@
 package com.sirolf2009.caesar.component;
 
 import com.sirolf2009.caesar.model.*;
-import com.sirolf2009.caesar.model.dashboard.*;
+import com.sirolf2009.caesar.model.dashboard.SplitNode;
 import com.sirolf2009.caesar.model.table.IDataPointer;
-import javafx.beans.InvalidationListener;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.util.Pair;
 import org.dockfx.DockEvent;
 import org.dockfx.DockPane;
 import org.dockfx.DockPos;
-import org.fxmisc.easybind.EasyBind;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -25,7 +19,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 

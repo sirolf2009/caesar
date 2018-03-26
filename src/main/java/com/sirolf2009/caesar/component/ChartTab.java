@@ -11,23 +11,24 @@ import com.sirolf2009.caesar.model.chart.type.TimeseriesChartType;
 import com.sirolf2009.caesar.model.table.IDataPointer;
 import com.sirolf2009.caesar.util.ControllerUtil;
 import com.sirolf2009.caesar.util.FXUtil;
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class ChartTab extends VBox {
-
-	public static List<IChartType> chartTypes = Arrays.asList(new LineChartType(), new BarChartType(), new TimeseriesChartType());
 
 	private final ObservableList<Table> tables;
 	private final Chart chart;
@@ -35,18 +36,36 @@ public class ChartTab extends VBox {
 	@FXML HBox columns;
 	@FXML HBox rows;
 	@FXML AnchorPane chartAnchor;
+	@FXML ChoiceBox<IChartType> chartTypeSelector;
 
 	public ChartTab(Chart chart, ObservableList<Table> tables) {
 		this.chart = chart;
 		this.tables = tables;
 		ControllerUtil.load(this, "/fxml/chart.fxml");
-		chart.getChildren().addListener((InvalidationListener) observable -> setupChart());
+		chart.getChildren().addListener((InvalidationListener) observable -> setupChartTypes());
 	}
 
 	@FXML public void initialize() {
 		chart.getColumns().forEach(series -> addColumn(series));
 		chart.getRows().forEach(series -> addRow(series));
-		setupChart();
+		setupChartTypes();
+
+		chartTypeSelector.setConverter(new StringConverter<IChartType>() {
+			@Override
+			public String toString(IChartType object) {
+				return object.getName();
+			}
+
+			@Override
+			public IChartType fromString(String string) {
+				return chart.getPossibleChartTypes().filter(type -> type.getName().equals(string)).findAny().orElse(null);
+			}
+		});
+		chartTypeSelector.getSelectionModel().selectedItemProperty().addListener(e -> {
+			chart.chartTypeProperty().set(chartTypeSelector.getSelectionModel().getSelectedItem());
+			setupChart();
+		});
+		chartTypeSelector.getSelectionModel().select(chart.getChartType());
 
 		columns.setOnDragOver(event1 -> {
 			if(event1.getGestureSource() != columns && event1.getDragboard().hasContent(TablesTreeView.TABLE_AND_POINTER)) {
@@ -118,6 +137,17 @@ public class ChartTab extends VBox {
 		rows.getChildren().add(label);
 	}
 
+	private void setupChartTypes() {
+		IChartType selected = chartTypeSelector.getSelectionModel().getSelectedItem();
+		chartTypeSelector.getItems().clear();
+		chart.getPossibleChartTypes().forEach(type -> {
+			chartTypeSelector.getItems().add(type);
+		});
+		if(selected != null && selected.getPredicate().test(chart)) {
+			chartTypeSelector.getSelectionModel().select(selected);
+		}
+	}
+
 	private void setupChart() {
 		chartAnchor.getChildren().clear();
 		Node chart = this.chart.createNode();
@@ -129,7 +159,7 @@ public class ChartTab extends VBox {
 		switch(attribute.getType()) {
 		case "int":
 			return new IntegerSeries(table, attribute);
-		case "java.long.Integer":
+		case "java.lang.Integer":
 			return new IntegerSeries(table, attribute);
 		case "long":
 			return new LongSeries(table, attribute);

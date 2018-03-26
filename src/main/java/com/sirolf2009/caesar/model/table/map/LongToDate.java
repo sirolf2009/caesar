@@ -7,6 +7,7 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.model.JMXAttributes;
 import com.sirolf2009.caesar.model.table.IDataPointer;
+import com.sirolf2009.caesar.model.table.SimplePointer;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -16,9 +17,8 @@ import javax.management.MBeanServerConnection;
 import java.util.Date;
 
 @DefaultSerializer(LongToDate.LongToDateSerializer.class)
-public class LongToDate implements IDataPointer {
+public class LongToDate extends SimplePointer {
 
-	private final StringProperty name;
 	private final IDataPointer pointer;
 
 	public LongToDate(IDataPointer pointer) {
@@ -26,12 +26,8 @@ public class LongToDate implements IDataPointer {
 	}
 
 	public LongToDate(StringProperty name, IDataPointer pointer) {
-		this.name = name;
+		super(name);
 		this.pointer = pointer;
-	}
-
-	@Override public ObservableList getChildren() {
-		return FXCollections.emptyObservableList();
 	}
 
 	@Override public void pullData(MBeanServerConnection connection, JMXAttributes attributes) throws Exception {
@@ -40,14 +36,6 @@ public class LongToDate implements IDataPointer {
 
 	@Override public String getType() {
 		return Date.class.getTypeName();
-	}
-
-	@Override public StringProperty nameProperty() {
-		return name;
-	}
-
-	@Override public String toString() {
-		return getName();
 	}
 
 	public IDataPointer getPointer() {

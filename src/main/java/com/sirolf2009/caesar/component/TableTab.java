@@ -8,8 +8,10 @@ import com.sirolf2009.caesar.model.table.JMXAttribute;
 import com.sirolf2009.caesar.model.JMXAttributes;
 import com.sirolf2009.caesar.model.Table;
 import com.sirolf2009.caesar.model.table.JMXCompositeAttribute;
+import com.sirolf2009.caesar.model.table.map.Abs;
 import com.sirolf2009.caesar.model.table.map.LongToDate;
 import com.sirolf2009.caesar.util.ControllerUtil;
+import com.sirolf2009.caesar.util.TypeUtil;
 import com.sun.javafx.scene.control.skin.TableHeaderRow;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -194,6 +196,15 @@ public class TableTab extends AnchorPane {
 				MenuItem item = new MenuItem("Map to date");
 				item.setOnAction(e -> {
 					IDataPointer newPointer = new LongToDate(pointer);
+					tableModel.getChildren().add(newPointer);
+					addPointer(newPointer);
+				});
+				items.add(item);
+			}
+			if(TypeUtil.isNumber(pointer.getType())) {
+				MenuItem item = new MenuItem("ABS");
+				item.setOnAction(e -> {
+					IDataPointer newPointer = new Abs(pointer);
 					tableModel.getChildren().add(newPointer);
 					addPointer(newPointer);
 				});

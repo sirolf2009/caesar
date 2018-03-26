@@ -123,6 +123,12 @@
             <version>0.2-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>eu.hansolo</groupId>
+            <artifactId>Medusa</artifactId>
+            <version>7.9</version>
+        </dependency>
+
     </dependencies>
 
 </project>

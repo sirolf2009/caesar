@@ -4,17 +4,18 @@
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="1000.0" prefWidth="1600.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sirolf2009.caesar.MainController">
-    <top>
-        <ToolBar fx:id="toolbar" prefHeight="40.0" prefWidth="200.0" stylesheets="@../styles/styles.css" BorderPane.alignment="CENTER">
+<VBox prefHeight="1200.0" prefWidth="1800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sirolf2009.caesar.MainController">
+   <children>
+        <ToolBar fx:id="toolbar" prefHeight="40.0" prefWidth="200.0" stylesheets="@../styles/styles.css">
             <items>
                 <Button mnemonicParsing="false" onAction="#load" text="">
                     <graphic>
@@ -30,7 +31,8 @@
                         <ImageView fitHeight="32.0" fitWidth="32.0">
                      <image>
                         <Image url="@/icons/save.png" />
-                     </image></ImageView>
+                     </image>
+                  </ImageView>
                     </graphic>
                 </Button>
                 <Button mnemonicParsing="false" onAction="#newTable" text="">
@@ -38,7 +40,8 @@
                         <ImageView fitHeight="32.0" fitWidth="32.0">
                      <image>
                         <Image url="@/icons/table-new.png" />
-                     </image></ImageView>
+                     </image>
+                  </ImageView>
                     </graphic>
                 </Button>
                 <Button mnemonicParsing="false" onAction="#newChart" text="">
@@ -46,7 +49,8 @@
                         <ImageView fitHeight="32.0" fitWidth="32.0">
                      <image>
                         <Image url="@/icons/chart-new.png" />
-                     </image></ImageView>
+                     </image>
+                  </ImageView>
                     </graphic>
                 </Button>
                 <Button mnemonicParsing="false" onAction="#newDashboard" text="">
@@ -54,7 +58,8 @@
                         <ImageView fitHeight="32.0" fitWidth="32.0">
                      <image>
                         <Image url="@/icons/dashboard-new.png" />
-                     </image></ImageView>
+                     </image>
+                  </ImageView>
                     </graphic>
                 </Button>
                 <Separator orientation="VERTICAL" />
@@ -63,29 +68,29 @@
                 <Insets />
             </opaqueInsets>
         </ToolBar>
-    </top>
-    <center>
-        <TabPane fx:id="tabs" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" BorderPane.alignment="CENTER" />
-    </center>
-   <left>
-          <Accordion prefWidth="400.0" BorderPane.alignment="CENTER">
-              <panes>
-                  <TitledPane animated="false" text="Variables">
-                      <content>
-                          <AnchorPane fx:id="variablesAnchor" />
-                      </content>
-                  </TitledPane>
-                  <TitledPane animated="false" text="Tables">
-                      <content>
-                          <AnchorPane fx:id="tablesAnchor" prefHeight="200.0" prefWidth="200.0" />
-                      </content>
-                  </TitledPane>
-                  <TitledPane prefHeight="200.0" prefWidth="200.0" text="Charts">
-                      <content>
-                          <AnchorPane fx:id="chartsAnchor" prefHeight="200.0" prefWidth="200.0" />
-                      </content>
-                  </TitledPane>
-              </panes>
-          </Accordion>
-   </left>
-</BorderPane>
+      <SplitPane dividerPositions="0.2" prefHeight="160.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+        <items>
+                <Accordion prefWidth="400.0">
+                    <panes>
+                        <TitledPane animated="false" text="Variables">
+                            <content>
+                                <AnchorPane fx:id="variablesAnchor" />
+                            </content>
+                        </TitledPane>
+                        <TitledPane animated="false" text="Tables">
+                            <content>
+                                <AnchorPane fx:id="tablesAnchor" prefHeight="200.0" prefWidth="200.0" />
+                            </content>
+                        </TitledPane>
+                        <TitledPane prefHeight="200.0" prefWidth="200.0" text="Charts">
+                            <content>
+                                <AnchorPane fx:id="chartsAnchor" prefHeight="200.0" prefWidth="200.0" />
+                            </content>
+                        </TitledPane>
+                    </panes>
+                </Accordion>
+              <TabPane fx:id="tabs" prefHeight="200.0" prefWidth="200.0" side="BOTTOM" />
+        </items>
+      </SplitPane>
+   </children>
+</VBox>

@@ -28,5 +28,6 @@
     <orderEntry type="library" name="Maven: org.objenesis:objenesis:2.5.1" level="project" />
     <orderEntry type="library" name="Maven: com.heliosapm.jmxlocal:jmxlocal:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.dockfx:dockfx:0.2-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: eu.hansolo:Medusa:7.9" level="project" />
   </component>
 </module>

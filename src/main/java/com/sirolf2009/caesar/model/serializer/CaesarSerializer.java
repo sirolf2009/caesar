@@ -5,6 +5,7 @@ import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -59,6 +60,10 @@ public abstract class CaesarSerializer<T> extends Serializer<T> {
 
 	public <T> ObservableList<T> readObservableListWithClass(Kryo kryo, Input input, Class<T> type) {
 		return FXCollections.observableArrayList(IntStream.range(0, input.readInt()).mapToObj(index -> (T) kryo.readClassAndObject(input)).collect(Collectors.toList()));
+	}
+
+	public <T> SimpleObjectProperty<T> readObjectAndClassProperty(Kryo kryo, Input input, Class<T> tClass) {
+		return new SimpleObjectProperty((T)kryo.readClassAndObject(input));
 	}
 
 	public SimpleStringProperty readStringProperty(Input input) {
