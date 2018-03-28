@@ -49,6 +49,7 @@ public class TableTab extends AnchorPane {
 	@FXML private EditableTableView<JMXAttributes> table;
 	@FXML private ToggleButton runningButton;
 	@FXML private TextField intervalTextfield;
+	@FXML private ProgressIndicator sleepProgress;
 
 	public TableTab(Table table, Connection connection) {
 		this.connection = connection;
@@ -58,6 +59,7 @@ public class TableTab extends AnchorPane {
 		Thread pullerThread = new Thread(puller);
 		pullerThread.setDaemon(true);
 		pullerThread.start();
+		sleepProgress.progressProperty().bind(puller.sleepProgressProperty());
 	}
 
 	@FXML public void initialize() {
@@ -133,6 +135,10 @@ public class TableTab extends AnchorPane {
 				}
 			}
 		});
+	}
+
+	public void checkNow() {
+		puller.update();
 	}
 
 	public void addPointer(IDataPointer pointer) {
