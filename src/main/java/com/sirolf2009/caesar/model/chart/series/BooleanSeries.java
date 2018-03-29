@@ -13,8 +13,4 @@ public class BooleanSeries extends SimpleCategorySeries<Boolean> {
         super(table, attribute);
     }
 
-    @Override
-    public Boolean getDefault() {
-        return false;
-    }
 }

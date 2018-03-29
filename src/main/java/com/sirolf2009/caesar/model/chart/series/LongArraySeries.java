@@ -12,10 +12,6 @@ public class LongArraySeries extends ArraySeries<Long> implements INumberArraySe
 		super(table, attribute);
 	}
 
-	@Override public Long[] getDefault() {
-		return new Long[0];
-	}
-
 	public static class LongArraySeriesSerializer extends SeriesSerializer {
 
 		@Override public SimpleSeries getSeries(Table table, IDataPointer attribute) {

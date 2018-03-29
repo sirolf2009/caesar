@@ -1,5 +1,7 @@
 package com.sirolf2009.caesar;
 
+import javafx.beans.property.SimpleBooleanProperty;
+
 import javax.management.MBeanServerConnection;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
@@ -14,6 +16,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class Connection {
 
 	private final AtomicReference<MBeanServerConnection> connection = new AtomicReference<>(null);
+	private final SimpleBooleanProperty connected = new SimpleBooleanProperty(false);
 	private final JMXServiceURL serviceURL;
 	private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -35,6 +38,7 @@ public class Connection {
 						if(connection.get() != null) {
 							connection.set(null);
 							System.out.println("Disconnected. Reconnecting to: "+serviceURL);
+							connected.set(false);
 						}
 						connect();
 					} catch(Exception e1) {
@@ -53,6 +57,7 @@ public class Connection {
 			MBeanServerConnection newConnection = executor.submit(() -> JMXConnectorFactory.connect(serviceURL).getMBeanServerConnection()).get(5, TimeUnit.SECONDS);
 			connection.set(newConnection);
 			System.out.println("Connected to: "+serviceURL);
+			connected.set(true);
 		} catch (Exception e) {
 			throw new IOException("Failed to connect to "+serviceURL, e);
 		}
@@ -62,4 +67,11 @@ public class Connection {
 		return Optional.ofNullable(connection.get());
 	}
 
+	public SimpleBooleanProperty connectedProperty() {
+		return connected;
+	}
+
+	public JMXServiceURL getServiceURL() {
+		return serviceURL;
+	}
 }

@@ -3,6 +3,9 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TabPane?>
@@ -11,63 +14,75 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox prefHeight="1200.0" prefWidth="1800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sirolf2009.caesar.MainController">
    <children>
-        <ToolBar fx:id="toolbar" prefHeight="40.0" prefWidth="200.0" stylesheets="@../styles/styles.css">
-            <items>
-                <Button mnemonicParsing="false" onAction="#load" text="">
-                    <graphic>
-                        <ImageView fitHeight="32.0" fitWidth="32.0">
-                            <image>
-                                <Image url="@/icons/load.png" />
-                            </image>
+      <HBox>
+         <children>
+              <ToolBar fx:id="toolbar" prefHeight="40.0" prefWidth="200.0" stylesheets="@../styles/styles.css" HBox.hgrow="ALWAYS">
+                  <items>
+                      <Button mnemonicParsing="false" onAction="#load" text="">
+                          <graphic>
+                              <ImageView fitHeight="32.0" fitWidth="32.0">
+                                  <image>
+                                      <Image url="@/icons/load.png" />
+                                  </image>
+                              </ImageView>
+                          </graphic>
+                      </Button>
+                      <Button mnemonicParsing="false" onAction="#save" text="">
+                          <graphic>
+                              <ImageView fitHeight="32.0" fitWidth="32.0">
+                           <image>
+                              <Image url="@/icons/save.png" />
+                           </image>
                         </ImageView>
-                    </graphic>
-                </Button>
-                <Button mnemonicParsing="false" onAction="#save" text="">
-                    <graphic>
-                        <ImageView fitHeight="32.0" fitWidth="32.0">
-                     <image>
-                        <Image url="@/icons/save.png" />
-                     </image>
-                  </ImageView>
-                    </graphic>
-                </Button>
-                <Button mnemonicParsing="false" onAction="#newTable" text="">
-                    <graphic>
-                        <ImageView fitHeight="32.0" fitWidth="32.0">
-                     <image>
-                        <Image url="@/icons/table-new.png" />
-                     </image>
-                  </ImageView>
-                    </graphic>
-                </Button>
-                <Button mnemonicParsing="false" onAction="#newChart" text="">
-                    <graphic>
-                        <ImageView fitHeight="32.0" fitWidth="32.0">
-                     <image>
-                        <Image url="@/icons/chart-new.png" />
-                     </image>
-                  </ImageView>
-                    </graphic>
-                </Button>
-                <Button mnemonicParsing="false" onAction="#newDashboard" text="">
-                    <graphic>
-                        <ImageView fitHeight="32.0" fitWidth="32.0">
-                     <image>
-                        <Image url="@/icons/dashboard-new.png" />
-                     </image>
-                  </ImageView>
-                    </graphic>
-                </Button>
-                <Separator orientation="VERTICAL" />
-            </items>
-            <opaqueInsets>
-                <Insets />
-            </opaqueInsets>
-        </ToolBar>
+                          </graphic>
+                      </Button>
+                      <Button mnemonicParsing="false" onAction="#newTable" text="">
+                          <graphic>
+                              <ImageView fitHeight="32.0" fitWidth="32.0">
+                           <image>
+                              <Image url="@/icons/table-new.png" />
+                           </image>
+                        </ImageView>
+                          </graphic>
+                      </Button>
+                      <Button mnemonicParsing="false" onAction="#newChart" text="">
+                          <graphic>
+                              <ImageView fitHeight="32.0" fitWidth="32.0">
+                           <image>
+                              <Image url="@/icons/chart-new.png" />
+                           </image>
+                        </ImageView>
+                          </graphic>
+                      </Button>
+                      <Button mnemonicParsing="false" onAction="#newDashboard" text="">
+                          <graphic>
+                              <ImageView fitHeight="32.0" fitWidth="32.0">
+                           <image>
+                              <Image url="@/icons/dashboard-new.png" />
+                           </image>
+                        </ImageView>
+                          </graphic>
+                      </Button>
+                      <Separator orientation="VERTICAL" />
+                  </items>
+                  <opaqueInsets>
+                      <Insets />
+                  </opaqueInsets>
+              </ToolBar>
+            <ToolBar maxHeight="54.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="54.0" HBox.hgrow="NEVER">
+              <items>
+                  <Label fx:id="lblUrl" text="Label" />
+                  <CheckBox fx:id="connected" disable="true" mnemonicParsing="false" selected="true" />
+                  <ProgressIndicator fx:id="connecting" disable="true" prefHeight="20.0" progress="0.0" />
+              </items>
+            </ToolBar>
+         </children>
+      </HBox>
       <SplitPane dividerPositions="0.2" prefHeight="160.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
         <items>
                 <Accordion prefWidth="400.0">

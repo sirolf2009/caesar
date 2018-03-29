@@ -13,8 +13,4 @@ public class DoubleSeries extends SimpleNumberSeries<Double> {
         super(table, attribute);
     }
 
-    @Override
-    public Double getDefault() {
-        return 0d;
-    }
 }

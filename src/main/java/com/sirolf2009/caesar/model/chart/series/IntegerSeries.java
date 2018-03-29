@@ -13,8 +13,4 @@ public class IntegerSeries extends SimpleNumberSeries<Integer> {
         super(table, attribute);
     }
 
-    @Override
-    public Integer getDefault() {
-        return 0;
-    }
 }

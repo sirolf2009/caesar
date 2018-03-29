@@ -13,8 +13,4 @@ public class StringSeries extends SimpleCategorySeries<String> {
         super(table, attribute);
     }
 
-    @Override
-    public String getDefault() {
-        return "";
-    }
 }

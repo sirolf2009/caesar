@@ -19,6 +19,7 @@ import nl.itopia.corendon.components.DateAxis;
 import org.fxmisc.easybind.EasyBind;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public class TimeseriesChartType implements IChartType {
@@ -33,9 +34,9 @@ public class TimeseriesChartType implements IChartType {
 		yAxis.setForceZeroInRange(false);
 		LineChart<Date, Number> lineChart = new LineChart<Date, Number>(xAxis, yAxis);
 		chart.getColumns().map(column -> (DateSeries) column.getSeries()).forEach(column -> {
-			ObservableList<Date> columnSeries = (ObservableList<Date>) column.get();
+			ObservableList<Date> columnSeries = (ObservableList<Date>) column.get().filtered(Objects::nonNull);
 			chart.getRows().map(row -> (INumberSeries) row.getSeries()).forEach(row -> {
-				ObservableList<Number> rowSeries = (ObservableList<Number>) row.get();
+				ObservableList<Number> rowSeries = (ObservableList<Number>) row.get().filtered(Objects::nonNull);
 				XYChart.Series series = new XYChart.Series();
 				series.nameProperty().bind(EasyBind.combine(row.nameProperty(), column.nameProperty(), (r, c) -> r + "/" + c));
 				series.setData(EasyBind.map(columnSeries, x -> {

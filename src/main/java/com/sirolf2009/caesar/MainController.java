@@ -11,10 +11,7 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToolBar;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -34,6 +31,9 @@ public class MainController {
 	@FXML private AnchorPane tablesAnchor;
 	@FXML private AnchorPane chartsAnchor;
 	@FXML private TabPane tabs;
+	@FXML private Label lblUrl;
+	@FXML private CheckBox connected;
+	@FXML private ProgressIndicator connecting;
 	private VariablesTreeView variables;
 	private TablesTreeView tablesTreeView;
 	private ChartsTreeView chartsTreeView;
@@ -187,6 +187,11 @@ public class MainController {
 
 	public void setConnection(Connection connection) {
 		this.connection = connection;
+
+		lblUrl.setText(connection.getServiceURL().toString());
+		connected.visibleProperty().bind(connection.connectedProperty());
+		connecting.visibleProperty().bind(connection.connectedProperty().not());
+		connecting.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
 	}
 
 }

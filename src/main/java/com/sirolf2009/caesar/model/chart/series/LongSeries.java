@@ -13,8 +13,4 @@ public class LongSeries extends SimpleNumberSeries<Long> {
         super(table, attribute);
     }
 
-    @Override
-    public Long getDefault() {
-        return 0l;
-    }
 }

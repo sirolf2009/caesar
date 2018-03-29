@@ -1,14 +1,14 @@
 package com.sirolf2009.caesar.model.chart.series;
 
-import com.sirolf2009.caesar.model.table.IDataPointer;
-import com.sirolf2009.caesar.model.table.JMXAttribute;
 import com.sirolf2009.caesar.model.Table;
+import com.sirolf2009.caesar.model.table.IDataPointer;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import org.fxmisc.easybind.EasyBind;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public abstract class SimpleSeries<T> {
 
@@ -21,12 +21,12 @@ public abstract class SimpleSeries<T> {
         this.table = table;
         this.attribute = attribute;
         this.name = new SimpleStringProperty(attribute.toString());
-        values = EasyBind.map(table.getItems(), row -> {
+        values = EasyBind.map(EasyBind.map(table.getItems(), row -> {
             if(row.containsKey(attribute)) {
-                return (T) row.get(attribute);
+                return Optional.of((T) row.get(attribute));
             }
-            return getDefault();
-        });
+            return Optional.empty();
+        }).filtered(opt -> opt.isPresent()), opt -> (T)opt.get());
     }
 
     @Override
@@ -54,8 +54,6 @@ public abstract class SimpleSeries<T> {
     public int hashCode() {
         return Objects.hash(table, attribute, values, name);
     }
-
-    public abstract T getDefault();
 
     public ObservableList get() {
         return values;

@@ -20,10 +20,6 @@ public class DateSeries extends SimpleSeries<Date> implements ICategorySeries<Da
 		super(table, attribute);
 	}
 
-	@Override public Date getDefault() {
-		return new Date(0);
-	}
-
 	public static class DateSeriesSerializer extends SeriesSerializer {
 
 		@Override public SimpleSeries getSeries(Table table, IDataPointer attribute) {
