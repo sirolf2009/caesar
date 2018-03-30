@@ -1,12 +1,8 @@
 package com.sirolf2009.caesar;
 
 import com.sirolf2009.caesar.dialogs.LocalConnectionDialog;
-import com.sirolf2009.caesar.model.JMXObject;
-import com.sirolf2009.caesar.model.table.JMXAttribute;
 import com.sirolf2009.caesar.util.JMXUtil;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,16 +10,13 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.management.MBeanInfo;
-import javax.management.remote.JMXServiceURL;
+import javax.management.MBeanServerDelegate;
 import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.Map;
 
-public class MainApp extends Application {
+public class Caesar extends Application {
 
-    private static final Logger log = LoggerFactory.getLogger(MainApp.class);
+    private static final Logger log = LoggerFactory.getLogger(Caesar.class);
 
     public static void main(String[] args) throws Exception {
         launch(args);
@@ -56,6 +49,10 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.show();
         stage.setOnCloseRequest(event -> System.exit(0));
+    }
+
+    public static void launch(int port, File file) {
+        Application.launch(Caesar.class, "--host=localhost", "--port="+port, "--file="+file);
     }
 
 }

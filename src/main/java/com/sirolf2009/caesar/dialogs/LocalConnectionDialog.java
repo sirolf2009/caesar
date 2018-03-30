@@ -37,7 +37,7 @@ public class LocalConnectionDialog extends ChoiceDialog<Supplier<JMXServiceURL>>
             }
         });
         List<JavaProcessId> localJVMs = AttachManager.listJavaProcesses();
-        localJVMs.stream().filter(pid -> !pid.getDescription().equals("com.sirolf2009.caesar.MainApp")).map(pid -> {
+        localJVMs.stream().filter(pid -> !pid.getDescription().equals("com.sirolf2009.caesar.Caesar")).map(pid -> {
             return new Supplier<JMXServiceURL>() {
                 @Override
                 public JMXServiceURL get() {

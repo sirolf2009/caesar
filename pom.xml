@@ -32,7 +32,7 @@
                 <version>8.1.5</version>
                 <configuration>
 
-                    <mainClass>com.sirolf2009.caesar.MainApp</mainClass>
+                    <mainClass>com.sirolf2009.caesar.Caesar</mainClass>
 
                     <!-- only required if signing the jar file -->
                     <keyStoreAlias>example-user</keyStoreAlias>
