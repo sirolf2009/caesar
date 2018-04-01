@@ -2,11 +2,11 @@ package com.sirolf2009.caesar.component;
 
 import com.sirolf2009.caesar.Connection;
 import com.sirolf2009.caesar.JMXPuller;
+import com.sirolf2009.caesar.model.JMXAttributes;
+import com.sirolf2009.caesar.model.Table;
 import com.sirolf2009.caesar.model.table.CurrentTime;
 import com.sirolf2009.caesar.model.table.IDataPointer;
 import com.sirolf2009.caesar.model.table.JMXAttribute;
-import com.sirolf2009.caesar.model.JMXAttributes;
-import com.sirolf2009.caesar.model.Table;
 import com.sirolf2009.caesar.model.table.JMXCompositeAttribute;
 import com.sirolf2009.caesar.model.table.map.Abs;
 import com.sirolf2009.caesar.model.table.map.LongToDate;
@@ -17,31 +17,24 @@ import com.sirolf2009.caesar.util.TypeUtil;
 import com.sun.javafx.scene.control.skin.TableHeaderRow;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Pair;
 import org.fxmisc.easybind.EasyBind;
 
-import javax.management.*;
-import javax.management.openmbean.CompositeData;
+import javax.management.ObjectName;
 import javax.management.openmbean.CompositeType;
 import javax.management.openmbean.OpenMBeanAttributeInfoSupport;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import static com.sirolf2009.caesar.util.TypeUtil.*;
 
 public class TableTab extends AnchorPane {
 
@@ -185,16 +178,8 @@ public class TableTab extends AnchorPane {
 			this.pointer = pointer;
 			setSortable(false);
 			pointer.nameProperty().bind(textProperty());
-			if(pointer.getType().startsWith("[L")) {
-				setCellValueFactory(cellData -> {
-					try {
-						return new SimpleStringProperty(Arrays.toString((Object[]) cellData.getValue().getOrDefault(pointer, new Object[0])));
-					} catch(Exception e) {
-						System.out.println(pointer.getName()+": "+pointer.getType());
-						e.printStackTrace();
-						return null;
-					}
-				});
+			if(pointer.getType().startsWith("[")) {
+				setCellValueFactory(cellData -> new SimpleStringProperty(Arrays.toString((Object[]) cellData.getValue().getOrDefault(pointer, new Object[0]))));
 			} else {
 				setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrDefault(pointer, "").toString()));
 			}
@@ -208,7 +193,7 @@ public class TableTab extends AnchorPane {
 				table.getColumns().remove(this);
 			});
 			items.add(remove);
-			if(pointer.getType().equals("long") || pointer.getType().equals("java.lang.Long")) {
+			if(isLong(pointer)) {
 				MenuItem item = new MenuItem("Map to date");
 				item.setOnAction(e -> {
 					IDataPointer newPointer = new LongToDate(pointer);
@@ -217,7 +202,7 @@ public class TableTab extends AnchorPane {
 				});
 				items.add(item);
 			}
-			if(TypeUtil.isNumber(pointer.getType())) {
+			if(isNumber(pointer)) {
 				MenuItem item = new MenuItem("ABS");
 				item.setOnAction(e -> {
 					IDataPointer newPointer = new Abs(pointer);
@@ -226,7 +211,7 @@ public class TableTab extends AnchorPane {
 				});
 				items.add(item);
 			}
-			if(TypeUtil.isNumberArrayType(pointer.getType())) {
+			if(isNumberArray(pointer.getType())) {
 				MenuItem item = new MenuItem("Max");
 				item.setOnAction(e -> {
 					IDataPointer newPointer = new Max(pointer);
@@ -235,7 +220,7 @@ public class TableTab extends AnchorPane {
 				});
 				items.add(item);
 			}
-			if(TypeUtil.isNumberArrayType(pointer.getType())) {
+			if(isNumberArray(pointer.getType())) {
 				MenuItem item = new MenuItem("Min");
 				item.setOnAction(e -> {
 					IDataPointer newPointer = new Min(pointer);

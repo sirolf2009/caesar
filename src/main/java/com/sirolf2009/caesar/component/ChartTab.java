@@ -4,14 +4,10 @@ import com.sirolf2009.caesar.model.Chart;
 import com.sirolf2009.caesar.model.ColumnOrRow;
 import com.sirolf2009.caesar.model.Table;
 import com.sirolf2009.caesar.model.chart.series.*;
-import com.sirolf2009.caesar.model.chart.type.BarChartType;
 import com.sirolf2009.caesar.model.chart.type.IChartType;
-import com.sirolf2009.caesar.model.chart.type.LineChartType;
-import com.sirolf2009.caesar.model.chart.type.TimeseriesChartType;
 import com.sirolf2009.caesar.model.table.IDataPointer;
 import com.sirolf2009.caesar.util.ControllerUtil;
 import com.sirolf2009.caesar.util.FXUtil;
-import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -23,10 +19,15 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.Pair;
 import javafx.util.StringConverter;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.function.Predicate;
+
+import static com.sirolf2009.caesar.util.TypeUtil.*;
 
 public class ChartTab extends VBox {
 
@@ -164,42 +165,29 @@ public class ChartTab extends VBox {
         FXUtil.maximize(chart);
     }
 
+    protected static Map<Predicate<IDataPointer>, Function<Pair<Table, IDataPointer>, ISeries>> seriesMapper = new HashMap<>();
+    static {
+        seriesMapper.put(type -> isByte(type), pair -> new ByteSeries(pair.getKey(), pair.getValue()));
+        seriesMapper.put(type -> isByteArray(type), pair -> new ByteArraySeries(pair.getKey(), pair.getValue()));
+        seriesMapper.put(type -> isShort(type), pair -> new ShortSeries(pair.getKey(), pair.getValue()));
+        seriesMapper.put(type -> isShortArray(type), pair -> new ShortArraySeries(pair.getKey(), pair.getValue()));
+        seriesMapper.put(type -> isInt(type), pair -> new IntegerSeries(pair.getKey(), pair.getValue()));
+        seriesMapper.put(type -> isIntArray(type), pair -> new IntegerArraySeries(pair.getKey(), pair.getValue()));
+        seriesMapper.put(type -> isLong(type), pair -> new LongSeries(pair.getKey(), pair.getValue()));
+        seriesMapper.put(type -> isLongArray(type), pair -> new LongArraySeries(pair.getKey(), pair.getValue()));
+        seriesMapper.put(type -> isFloat(type), pair -> new FloatSeries(pair.getKey(), pair.getValue()));
+        seriesMapper.put(type -> isFloatArray(type), pair -> new FloatArraySeries(pair.getKey(), pair.getValue()));
+        seriesMapper.put(type -> isDouble(type), pair -> new DoubleSeries(pair.getKey(), pair.getValue()));
+        seriesMapper.put(type -> isDoubleArray(type), pair -> new DoubleArraySeries(pair.getKey(), pair.getValue()));
+        seriesMapper.put(type -> isString(type), pair -> new StringSeries(pair.getKey(), pair.getValue()));
+        seriesMapper.put(type -> isStringArray(type), pair -> new StringArraySeries(pair.getKey(), pair.getValue()));
+        seriesMapper.put(type -> isDate(type), pair -> new DateSeries(pair.getKey(), pair.getValue()));
+        seriesMapper.put(type -> isDateArray(type), pair -> new DateArraySeries(pair.getKey(), pair.getValue()));
+    }
+
     public static ISeries getSeries(Table table, IDataPointer attribute) {
-        switch (attribute.getType()) {
-            case "int":
-                return new IntegerSeries(table, attribute);
-            case "java.lang.Integer":
-                return new IntegerSeries(table, attribute);
-            case "[Ljava.lang.Integer;":
-                return new IntegerArraySeries(table, attribute);
-            case "long":
-                return new LongSeries(table, attribute);
-            case "java.lang.Long":
-                return new LongSeries(table, attribute);
-            case "[Ljava.lang.Long;":
-                return new LongArraySeries(table, attribute);
-            case "boolean":
-                return new BooleanSeries(table, attribute);
-            case "java.lang.Boolean":
-                return new BooleanSeries(table, attribute);
-            case "[Ljava.lang.Boolean;":
-                return new BooleanArraySeries(table, attribute);
-            case "double":
-                return new DoubleSeries(table, attribute);
-            case "java.lang.Double":
-                return new DoubleSeries(table, attribute);
-            case "[Ljava.lang.Double;":
-                return new DoubleArraySeries(table, attribute);
-            case "java.lang.String":
-                return new StringSeries(table, attribute);
-            case "[Ljava.lang.String;":
-                return new StringArraySeries(table, attribute);
-            case "java.util.Date":
-                return new DateSeries(table, attribute);
-            case "[Ljava.util.Date;":
-                return new DateArraySeries(table, attribute);
-        }
-        throw new IllegalArgumentException("Unknown type: " + attribute.getType());
+        Function<Pair<Table, IDataPointer>, ISeries> converter = seriesMapper.get(seriesMapper.keySet().stream().filter(predicate -> predicate.test(attribute)).findAny().orElseThrow(() -> new IllegalArgumentException("Unknown type: " + attribute.getType())));
+        return converter.apply(new Pair(table, attribute));
     }
 
 }
