@@ -10,6 +10,8 @@ import com.sirolf2009.caesar.model.Table;
 import com.sirolf2009.caesar.model.table.JMXCompositeAttribute;
 import com.sirolf2009.caesar.model.table.map.Abs;
 import com.sirolf2009.caesar.model.table.map.LongToDate;
+import com.sirolf2009.caesar.model.table.map.Max;
+import com.sirolf2009.caesar.model.table.map.Min;
 import com.sirolf2009.caesar.util.ControllerUtil;
 import com.sirolf2009.caesar.util.TypeUtil;
 import com.sun.javafx.scene.control.skin.TableHeaderRow;
@@ -184,7 +186,15 @@ public class TableTab extends AnchorPane {
 			setSortable(false);
 			pointer.nameProperty().bind(textProperty());
 			if(pointer.getType().startsWith("[L")) {
-				setCellValueFactory(cellData -> new SimpleStringProperty(Arrays.toString((Object[]) cellData.getValue().getOrDefault(pointer, new Object[0]))));
+				setCellValueFactory(cellData -> {
+					try {
+						return new SimpleStringProperty(Arrays.toString((Object[]) cellData.getValue().getOrDefault(pointer, new Object[0])));
+					} catch(Exception e) {
+						System.out.println(pointer.getName()+": "+pointer.getType());
+						e.printStackTrace();
+						return null;
+					}
+				});
 			} else {
 				setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrDefault(pointer, "").toString()));
 			}
@@ -211,6 +221,24 @@ public class TableTab extends AnchorPane {
 				MenuItem item = new MenuItem("ABS");
 				item.setOnAction(e -> {
 					IDataPointer newPointer = new Abs(pointer);
+					tableModel.getChildren().add(newPointer);
+					addPointer(newPointer);
+				});
+				items.add(item);
+			}
+			if(TypeUtil.isNumberArrayType(pointer.getType())) {
+				MenuItem item = new MenuItem("Max");
+				item.setOnAction(e -> {
+					IDataPointer newPointer = new Max(pointer);
+					tableModel.getChildren().add(newPointer);
+					addPointer(newPointer);
+				});
+				items.add(item);
+			}
+			if(TypeUtil.isNumberArrayType(pointer.getType())) {
+				MenuItem item = new MenuItem("Min");
+				item.setOnAction(e -> {
+					IDataPointer newPointer = new Min(pointer);
 					tableModel.getChildren().add(newPointer);
 					addPointer(newPointer);
 				});
