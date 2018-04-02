@@ -27,16 +27,19 @@ public class DashboardDockNode extends DockNode {
     public DashboardDockNode(IDashboardNode data, Node contents, String title, Node graphic) {
         super(contents, title, graphic);
         this.data = data;
+        getStylesheets().add("/styles/styles.css");
     }
 
     public DashboardDockNode(IDashboardNode data, Node contents, String title) {
         super(contents, title);
         this.data = data;
+        getStylesheets().add("/styles/styles.css");
     }
 
     public DashboardDockNode(IDashboardNode data, Node contents) {
         super(contents);
         this.data = data;
+        getStylesheets().add("/styles/styles.css");
     }
 
     public void setDashboard(DashboardTab dashboard) {

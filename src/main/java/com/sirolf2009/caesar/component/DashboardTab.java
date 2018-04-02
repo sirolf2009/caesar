@@ -91,7 +91,7 @@ public class DashboardTab extends DockPane {
 			getChildren().add(root);
 			initSplitPane(root);
 		}
-		DockPane.initializeDefaultUserAgentStylesheet();
+//		DockPane.initializeDefaultUserAgentStylesheet();
 	}
 
 	private void initSplitPane(SplitPane splitPane) {

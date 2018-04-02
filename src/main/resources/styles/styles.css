@@ -28,3 +28,145 @@
 .progress-indicator  {
     -fx-padding: 0 0 -16 0;
 }
+
+.dock-area-indicator {
+  -fx-fill: -fx-selection-bar;
+  -fx-opacity: 0.5;
+  -fx-stroke: rgba(214, 107, 0, 1);
+  -fx-stroke-width: 2;
+  -fx-stroke-type: inside;
+  -fx-stroke-dash-array: 8 4;
+  -fx-stroke-line-cap: butt;
+}
+
+/* JavaFX developers really seem to have fat fingers? */
+.dock-pos-indicator .button {
+  -fx-padding: 4;
+}
+
+/* Set the icons for the indicator buttons here. */
+.dock-center {
+  -fx-graphic: url("../images/dock-center.png");
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.dock-top {
+  -fx-graphic: url("../images/dock-top.png");
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.dock-right {
+  -fx-graphic: url("../images/dock-right.png");
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.dock-bottom {
+  -fx-graphic: url("../images/dock-bottom.png");
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.dock-left {
+  -fx-graphic: url("../images/dock-left.png");
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.dock-top-root {
+  -fx-graphic: url("../images/dock-top.png");
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.dock-right-root {
+  -fx-graphic: url("../images/dock-right.png");
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.dock-bottom-root {
+  -fx-graphic: url("../images/dock-bottom.png");
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.dock-left-root {
+  -fx-graphic: url("../images/dock-left.png");
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.dock-node-border {
+  -fx-padding: 10;
+  -fx-background-color: transparent;
+  -fx-effect: dropshadow( three-pass-box, rgba(0,0,0,0.4), 10,0.2,0,0 );
+}
+
+.dock-node-border:maximized {
+  -fx-padding: 0;
+}
+
+/* It is necessary that dock node's have a background color
+ * because some panes used as content such as TabPane with empty
+ * tabs will be fully transparent.
+ */
+.dock-node {
+  -fx-background-color: -fx-background;
+  -fx-base: rgb(44, 47, 51);
+}
+
+.dock-title-bar {
+  -fx-background-color: -fx-background;
+  -fx-padding: 2;
+  -fx-spacing: 3;
+  -fx-border-width: 1;
+  -fx-border-color: -fx-outer-border;
+}
+
+.dock-title-label {
+  -fx-graphic: url(docknode.png);
+  -fx-padding: 0 0 3 0;
+  -fx-text-fill: -fx-text-base-color;
+  -fx-effect: dropshadow( gaussian, rgba(255,255,255,0.2), 0,0,0,1 );
+}
+
+.dock-title-bar .button {
+  -fx-padding: 1 4 1 4;
+}
+
+.dock-state-button {
+  -fx-graphic: url("../images/maximize.png");
+}
+
+.dock-node:floating .dock-state-button {
+  -fx-graphic: url("../images/restore.png");
+}
+
+.dock-close-button {
+  -fx-graphic: url("../images/close.png");
+}
+
+.dock-node:maximized .dock-state-button {
+  -fx-graphic: url("../images/restore.png");
+}

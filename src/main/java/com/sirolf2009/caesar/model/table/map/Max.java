@@ -46,7 +46,7 @@ public class Max extends SimplePointer {
 			case "[Ljava.lang.Long;":
 				return object -> Arrays.stream((Long[])object).max(Comparator.naturalOrder()).orElse(null);
 			case "[Ljava.lang.Float;":
-				return object -> Arrays.stream((Long[])object).max(Comparator.naturalOrder()).orElse(null);
+				return object -> Arrays.stream((Float[])object).max(Comparator.naturalOrder()).orElse(null);
 		}
 		throw new IllegalArgumentException("Unknown type: "+pointer.getType());
 	}
