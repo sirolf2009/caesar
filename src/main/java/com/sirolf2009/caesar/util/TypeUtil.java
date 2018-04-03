@@ -54,96 +54,96 @@ public class TypeUtil {
         return isByte(pointer.getType());
     }
     public static boolean isByte(String type) {
-        return type == byteType || type == ByteType;
+        return type.equals(byteType) || type.equals(ByteType);
     }
     public static boolean isByteArray(IDataPointer pointer) {
         return isByteArray(pointer.getType());
     }
     public static boolean isByteArray(String type) {
-        return type == byteArrayType || type == ByteArrayType;
+        return type.equals(byteArrayType) || type.equals(ByteArrayType);
     }
     public static boolean isShort(IDataPointer pointer) {
         return isShort(pointer.getType());
     }
     public static boolean isShort(String type) {
-        return type == shortType || type == ShortType;
+        return type.equals(shortType) || type.equals(ShortType);
     }
     public static boolean isShortArray(IDataPointer pointer) {
         return isShortArray(pointer.getType());
     }
     public static boolean isShortArray(String type) {
-        return type == shortArrayType || type == ShortArrayType;
+        return type.equals(shortArrayType) || type.equals(ShortArrayType);
     }
     public static boolean isLong(IDataPointer pointer) {
         return isLong(pointer.getType());
     }
     public static boolean isLong(String type) {
-        return type == longType || type == LongType;
+        return type.equals(longType) || type.equals(LongType);
     }
     public static boolean isLongArray(IDataPointer pointer) {
         return isLongArray(pointer.getType());
     }
     public static boolean isLongArray(String type) {
-        return type == longArrayType || type == LongArrayType;
+        return type.equals(longArrayType) || type == LongArrayType;
     }
     public static boolean isInt(IDataPointer pointer) {
         return isInt(pointer.getType());
     }
     public static boolean isInt(String type) {
-        return type == intType || type == IntType;
+        return type.equals(intType) || type.equals(IntType);
     }
     public static boolean isIntArray(IDataPointer pointer) {
         return isIntArray(pointer.getType());
     }
     public static boolean isIntArray(String type) {
-        return type == intArrayType || type == IntArrayType;
+        return (type.equals(intArrayType)) || (type.equals(IntArrayType));
     }
     public static boolean isFloat(IDataPointer pointer) {
         return isFloat(pointer.getType());
     }
     public static boolean isFloat(String type) {
-        return type == floatType || type == FloatType;
+        return type.equals(floatType) || type.equals(FloatType);
     }
     public static boolean isFloatArray(IDataPointer pointer) {
         return isFloatArray(pointer.getType());
     }
     public static boolean isFloatArray(String type) {
-        return type == floatArrayType || type == FloatArrayType;
+        return type.equals(floatArrayType) || type.equals(FloatArrayType);
     }
     public static boolean isDouble(IDataPointer pointer) {
         return isDouble(pointer.getType());
     }
     public static boolean isDouble(String type) {
-        return type == doubleType || type == DoubleType;
+        return type.equals(doubleType) || type.equals(DoubleType);
     }
     public static boolean isDoubleArray(IDataPointer pointer) {
         return isDoubleArray(pointer.getType());
     }
     public static boolean isDoubleArray(String type) {
-        return type == doubleArrayType || type == DoubleArrayType;
+        return type.equals(doubleArrayType) || type.equals(DoubleArrayType);
     }
     public static boolean isString(IDataPointer pointer) {
         return isString(pointer.getType());
     }
     public static boolean isString(String type) {
-        return type == StringType;
+        return type.equals(StringType);
     }
     public static boolean isStringArray(IDataPointer pointer) {
         return isStringArray(pointer.getType());
     }
     public static boolean isStringArray(String type) {
-        return type == StringArrayType;
+        return type.equals(StringArrayType);
     }
     public static boolean isDate(IDataPointer pointer) {
         return isDate(pointer.getType());
     }
     public static boolean isDate(String type) {
-        return type == DateType;
+        return type.equals(DateType);
     }
     public static boolean isDateArray(IDataPointer pointer) {
         return isDateArray(pointer.getType());
     }
     public static boolean isDateArray(String type) {
-        return type == DateArrayType;
+        return type.equals(DateArrayType);
     }
 }
