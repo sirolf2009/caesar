@@ -3,23 +3,16 @@ package com.sirolf2009.caesar.model.chart.type;
 import com.sirolf2009.caesar.model.Chart;
 import com.sirolf2009.caesar.model.chart.series.DateSeries;
 import com.sirolf2009.caesar.model.chart.series.INumberSeries;
+import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import nl.itopia.corendon.components.DateAxis;
 import org.fxmisc.easybind.EasyBind;
 
 import java.util.Date;
-import java.util.Objects;
 import java.util.function.Predicate;
 
 public class TimeseriesChartType implements IChartType {
@@ -39,9 +32,7 @@ public class TimeseriesChartType implements IChartType {
 				ObservableList<Number> rowSeries = (ObservableList<Number>) row.get();
 				XYChart.Series series = new XYChart.Series();
 				series.nameProperty().bind(EasyBind.combine(row.nameProperty(), column.nameProperty(), (r, c) -> r + "/" + c));
-				series.setData(EasyBind.map(columnSeries, x -> {
-					return new XYChart.Data<Date, Number>(x, rowSeries.get(columnSeries.indexOf(x)));
-				}));
+				JavaFxObservable.additionsOf(columnSeries).zipWith(JavaFxObservable.additionsOf(rowSeries), (a,b) -> new XYChart.Data<Date, Number>(a, b)).subscribe(item -> series.getData().add(item));
 				lineChart.getData().add(series);
 			});
 		});

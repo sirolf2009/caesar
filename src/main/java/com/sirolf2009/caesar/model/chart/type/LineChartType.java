@@ -3,6 +3,7 @@ package com.sirolf2009.caesar.model.chart.type;
 import com.sirolf2009.caesar.model.Chart;
 import com.sirolf2009.caesar.model.chart.series.INumberArraySeries;
 import com.sirolf2009.caesar.model.chart.series.INumberSeries;
+import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.beans.InvalidationListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -13,6 +14,7 @@ import org.fxmisc.easybind.EasyBind;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -35,9 +37,7 @@ public class LineChartType implements IChartType {
 					ObservableList<Number> rowSeries = (ObservableList<Number>) row.get();
 					XYChart.Series series = new XYChart.Series();
 					series.nameProperty().bind(EasyBind.combine(row.nameProperty(), column.nameProperty(), (r, c) -> r + "/" + c));
-					series.setData(EasyBind.map(columnSeries, x -> {
-						return new XYChart.Data<Number, Number>(x, rowSeries.get(columnSeries.indexOf(x)));
-					}));
+					JavaFxObservable.additionsOf(columnSeries).zipWith(JavaFxObservable.additionsOf(rowSeries), (a,b) -> new XYChart.Data<Number, Number>(a, b)).subscribe(item -> series.getData().add(item));
 					lineChart.getData().add(series);
 				});
 			});
