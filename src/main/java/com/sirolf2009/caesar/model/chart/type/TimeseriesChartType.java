@@ -3,6 +3,7 @@ package com.sirolf2009.caesar.model.chart.type;
 import com.sirolf2009.caesar.model.Chart;
 import com.sirolf2009.caesar.model.chart.series.DateSeries;
 import com.sirolf2009.caesar.model.chart.series.INumberSeries;
+import com.sirolf2009.caesar.util.ChartUtil;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -31,6 +32,8 @@ public class TimeseriesChartType implements IChartType {
 			chart.getRows().map(row -> (INumberSeries) row.getSeries()).forEach(row -> {
 				ObservableList<Number> rowSeries = (ObservableList<Number>) row.get();
 				XYChart.Series series = new XYChart.Series();
+				ChartUtil.showMarkers(series, false);
+
 				series.nameProperty().bind(EasyBind.combine(row.nameProperty(), column.nameProperty(), (r, c) -> r + "/" + c));
 				JavaFxObservable.additionsOf(columnSeries).zipWith(JavaFxObservable.additionsOf(rowSeries), (a,b) -> new XYChart.Data<Date, Number>(a, b)).subscribe(item -> series.getData().add(item));
 				lineChart.getData().add(series);
