@@ -46,7 +46,7 @@ public class Table implements IHierarchicalData<IDataPointer>, IDashboardNode {
         Table table = (Table) o;
         return Objects.equals(getName(), table.getName()) &&
                 Objects.equals(attributes, table.attributes) &&
-                Objects.equals(updateTimeout, table.updateTimeout) &&
+                Objects.equals(getUpdateTimeout(), table.getUpdateTimeout()) &&
                 Objects.equals(items, table.items);
     }
 
