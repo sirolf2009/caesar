@@ -7,6 +7,10 @@ import java.util.List;
 
 public class TypeUtil {
 
+    public static String booleanType = "boolean";
+    public static String booleanArrayType = "[Z";
+    public static String BooleanType = "java.lang.Boolean";
+    public static String BooleanArrayType = "[Ljava.lang.Boolean;";
     public static String byteType = "byte";
     public static String byteArrayType = "[B";
     public static String ByteType = "Byte";
@@ -49,6 +53,18 @@ public class TypeUtil {
     }
     public static boolean isNumberArray(String type) {
         return numberArrayTypes.contains(type);
+    }
+    public static boolean isBoolean(IDataPointer pointer) {
+        return isBoolean(pointer.getType());
+    }
+    public static boolean isBoolean(String type) {
+        return type.equals(booleanType) || type.equals(BooleanType);
+    }
+    public static boolean isBooleanArray(IDataPointer pointer) {
+        return isBooleanArray(pointer.getType());
+    }
+    public static boolean isBooleanArray(String type) {
+        return type.equals(booleanArrayType) || type.equals(BooleanArrayType);
     }
     public static boolean isByte(IDataPointer pointer) {
         return isByte(pointer.getType());

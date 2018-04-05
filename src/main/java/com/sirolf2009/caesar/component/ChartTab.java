@@ -167,6 +167,8 @@ public class ChartTab extends VBox {
 
     protected static Map<Predicate<IDataPointer>, Function<Pair<Table, IDataPointer>, ISeries>> seriesMapper = new HashMap<>();
     static {
+        seriesMapper.put(type -> isBoolean(type), pair -> new BooleanSeries(pair.getKey(), pair.getValue()));
+        seriesMapper.put(type -> isByteArray(type), pair -> new BooleanArraySeries(pair.getKey(), pair.getValue()));
         seriesMapper.put(type -> isByte(type), pair -> new ByteSeries(pair.getKey(), pair.getValue()));
         seriesMapper.put(type -> isByteArray(type), pair -> new ByteArraySeries(pair.getKey(), pair.getValue()));
         seriesMapper.put(type -> isShort(type), pair -> new ShortSeries(pair.getKey(), pair.getValue()));

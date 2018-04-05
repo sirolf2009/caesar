@@ -8,10 +8,7 @@ import com.sirolf2009.caesar.model.table.CurrentTime;
 import com.sirolf2009.caesar.model.table.IDataPointer;
 import com.sirolf2009.caesar.model.table.JMXAttribute;
 import com.sirolf2009.caesar.model.table.JMXCompositeAttribute;
-import com.sirolf2009.caesar.model.table.map.Abs;
-import com.sirolf2009.caesar.model.table.map.LongToDate;
-import com.sirolf2009.caesar.model.table.map.Max;
-import com.sirolf2009.caesar.model.table.map.Min;
+import com.sirolf2009.caesar.model.table.map.*;
 import com.sirolf2009.caesar.util.ControllerUtil;
 import com.sirolf2009.caesar.util.TypeUtil;
 import com.sun.javafx.scene.control.skin.TableHeaderRow;
@@ -224,6 +221,15 @@ public class TableTab extends AnchorPane {
 				MenuItem item = new MenuItem("Min");
 				item.setOnAction(e -> {
 					IDataPointer newPointer = new Min(pointer);
+					tableModel.getChildren().add(newPointer);
+					addPointer(newPointer);
+				});
+				items.add(item);
+			}
+			if(isNumber(pointer.getType()) || isBoolean(pointer)) {
+				MenuItem item = new MenuItem("Negate");
+				item.setOnAction(e -> {
+					IDataPointer newPointer = new Negate(pointer);
 					tableModel.getChildren().add(newPointer);
 					addPointer(newPointer);
 				});
