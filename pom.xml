@@ -147,6 +147,12 @@
             <version>0.3.6</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.dooapp.fxform2</groupId>
+            <artifactId>core</artifactId>
+            <version>8.2.4</version>
+        </dependency>
+
     </dependencies>
 
 </project>

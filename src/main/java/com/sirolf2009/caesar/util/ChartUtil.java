@@ -2,27 +2,33 @@ package com.sirolf2009.caesar.util;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
+import javafx.application.Platform;
 import javafx.scene.Node;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.paint.Color;
 
 public class ChartUtil {
 
+	public static void setPiePieceColor(PieChart.Data data, Color color) {
+		Platform.runLater(() -> {
+			Node line = data.getNode();//.lookup(".chart-series-area-line");
+			String rgb = String.format("%d, %d, %d", (int) (color.getRed() * 255), (int) (color.getGreen() * 255), (int) (color.getBlue() * 255));
+			line.setStyle("-fx-pie-color: rgba(" + rgb + ", 1.0);");
+		});
+	}
+
 	public static void setLineColor(XYChart.Series series, Color color) {
-		Node line = series.getNode().lookup(".chart-series-area-line");
-		String rgb = String.format("%d, %d, %d",
-				(int) (color.getRed() * 255),
-				(int) (color.getGreen() * 255),
-				(int) (color.getBlue() * 255));
-		line.setStyle("-fx-stroke: rgba(" + rgb + ", 1.0);");
+		Platform.runLater(() -> {
+			Node line = series.getNode();//.lookup(".chart-series-area-line");
+			String rgb = String.format("%d, %d, %d", (int) (color.getRed() * 255), (int) (color.getGreen() * 255), (int) (color.getBlue() * 255));
+			line.setStyle("-fx-stroke: rgba(" + rgb + ", 1.0);");
+		});
 	}
 
 	public static void setAreaColor(XYChart.Series series, Color color) {
 		Node fill = series.getNode().lookup(".chart-series-area-fill");
-		String rgb = String.format("%d, %d, %d",
-				(int) (color.getRed() * 255),
-				(int) (color.getGreen() * 255),
-				(int) (color.getBlue() * 255));
+		String rgb = String.format("%d, %d, %d", (int) (color.getRed() * 255), (int) (color.getGreen() * 255), (int) (color.getBlue() * 255));
 		fill.setStyle("-fx-fill: rgba(" + rgb + ", 0.15);");
 	}
 
@@ -32,9 +38,11 @@ public class ChartUtil {
 	}
 
 	public static void showMarker(XYChart.Data data, boolean show) {
-		if(data.getNode() != null) {
-			data.getNode().setVisible(show);
-		}
+		Platform.runLater(() -> {
+			if(data.getNode() != null) {
+				data.getNode().setVisible(show);
+			}
+		});
 	}
 
 }

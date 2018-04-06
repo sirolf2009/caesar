@@ -43,4 +43,8 @@ public class LEDType implements IChartType {
 	@Override public String getName() {
 		return "LED";
 	}
+
+	@Override public IChartTypeSetup getSetup(Chart chart) {
+		return null;
+	}
 }

@@ -1,6 +1,7 @@
 package com.sirolf2009.caesar.model.chart.type;
 
 import com.sirolf2009.caesar.model.Chart;
+import com.sirolf2009.caesar.model.chart.type.xy.LineChartType;
 import org.junit.Assert;
 import org.junit.Test;
 

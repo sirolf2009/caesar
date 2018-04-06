@@ -50,7 +50,7 @@ public abstract class SimpleSeries<T> {
         return Objects.hash(table, attribute, values, name);
     }
 
-    public ObservableList get() {
+    public ObservableList<T> get() {
         return values;
     }
 

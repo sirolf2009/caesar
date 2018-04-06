@@ -1,27 +1,30 @@
-package com.sirolf2009.caesar.model.chart.type;
+package com.sirolf2009.caesar.model.chart.type.xy;
 
 import com.sirolf2009.caesar.model.Chart;
 import com.sirolf2009.caesar.model.chart.series.INumberArraySeries;
 import com.sirolf2009.caesar.model.chart.series.INumberSeries;
+import com.sirolf2009.caesar.model.chart.type.IChartType;
+import com.sirolf2009.caesar.model.chart.type.IChartTypeSetup;
+import com.sirolf2009.caesar.model.chart.type.xy.AbstractLineChartSetup;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.beans.InvalidationListener;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.chart.Axis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import org.fxmisc.easybind.EasyBind;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
 
 public class LineChartType implements IChartType {
 
 	@Override public Predicate<Chart> getPredicate() {
-		return (hasColumns.and(areColumnsNumbers).and(hasRows).and(areRowsNumbers)).or(hasColumns.negate().and(hasRows).and(areRowsNumberArrays));
+		return hasColumns.and(areColumnsNumbers).and(hasRows).and(areRowsNumbers);
 	}
 
 	@Override public Node getChart(Chart chart) {
@@ -67,4 +70,24 @@ public class LineChartType implements IChartType {
 	@Override public String getName() {
 		return "Line Chart";
 	}
+
+	@Override public IChartTypeSetup getSetup(Chart chart) {
+		return new LineChartTypeSetup(chart, FXCollections.observableArrayList());
+	}
+
+	public static class LineChartTypeSetup extends AbstractLineChartSetup<Number, Number> {
+
+		public LineChartTypeSetup(Chart chart, ObservableList<XYSeries<Number, Number>> series) {
+			super(chart, series);
+		}
+
+		@Override protected Axis createXAxis() {
+			return new NumberAxis();
+		}
+
+		@Override protected Axis createYAxis() {
+			return new NumberAxis();
+		}
+	}
+
 }

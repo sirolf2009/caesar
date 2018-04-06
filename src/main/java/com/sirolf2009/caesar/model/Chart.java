@@ -6,6 +6,9 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.component.hierarchy.IHierarchicalData;
 import com.sirolf2009.caesar.model.chart.type.*;
+import com.sirolf2009.caesar.model.chart.type.xy.GaugeChartType;
+import com.sirolf2009.caesar.model.chart.type.xy.LineChartType;
+import com.sirolf2009.caesar.model.chart.type.xy.TimeseriesChartType;
 import com.sirolf2009.caesar.model.serializer.CaesarSerializer;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -24,16 +27,16 @@ import java.util.stream.Stream;
 
 	private final SimpleStringProperty name;
 	private final ObservableList<ColumnOrRow> seriesList;
-	private final ObjectProperty<IChartType> chartType;
+	private final ObjectProperty<IChartTypeSetup> chartTypeSetup;
 
 	public Chart(String name) {
 		this(new SimpleStringProperty(name), FXCollections.observableArrayList(), new SimpleObjectProperty<>(null));
 	}
 
-	public Chart(SimpleStringProperty name, ObservableList<ColumnOrRow> seriesList, ObjectProperty<IChartType> chartType) {
+	public Chart(SimpleStringProperty name, ObservableList<ColumnOrRow> seriesList, ObjectProperty<IChartTypeSetup> chartTypeSetup) {
 		this.name = name;
 		this.seriesList = seriesList;
-		this.chartType = chartType;
+		this.chartTypeSetup = chartTypeSetup;
 	}
 
 	public Stream<IChartType> getPossibleChartTypes() {
@@ -45,7 +48,7 @@ import java.util.stream.Stream;
 		return "Chart{" +
 				"name=" + name +
 				", seriesList=" + seriesList +
-				", chartType=" + chartType +
+				", chartTypeSetup=" + chartTypeSetup +
 				'}';
 	}
 
@@ -56,24 +59,24 @@ import java.util.stream.Stream;
 		Chart chart = (Chart) o;
 		return Objects.equals(getName(), chart.getName()) &&
 				Objects.equals(seriesList, chart.seriesList) &&
-				Objects.equals(getChartType(), chart.getChartType());
+				Objects.equals(getChartTypeSetup(), chart.getChartTypeSetup());
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(getName(), seriesList, getChartType());
+		return Objects.hash(getName(), seriesList, getChartTypeSetup());
 	}
 
 	public SimpleStringProperty nameProperty() {
 		return name;
 	}
 
-	public ObjectProperty<IChartType> chartTypeProperty() {
-		return chartType;
+	public ObjectProperty<IChartTypeSetup> chartTypeSetupProperty() {
+		return chartTypeSetup;
 	}
 
-	public IChartType getChartType() {
-		return chartType.get();
+	public IChartTypeSetup getChartTypeSetup() {
+		return chartTypeSetup.get();
 	}
 
 	@Override public ObservableList<ColumnOrRow> getChildren() {
@@ -81,7 +84,7 @@ import java.util.stream.Stream;
 	}
 
 	@Override public Node createNode() {
-		return Optional.ofNullable(getChartType()).map(chartType -> chartType.getChart(this)).orElse(new Label("No suitable chart found"));
+		return Optional.ofNullable(getChartTypeSetup()).map(chartType -> chartType.createChart()).orElse(new Label("No suitable chart found"));
 	}
 
 	public Stream<ColumnOrRow.Column> getColumns() {
@@ -97,13 +100,13 @@ import java.util.stream.Stream;
 		@Override public void write(Kryo kryo, Output output, Chart object) {
 			output.writeString(object.getName());
 			writeObservableListWithClass(kryo, output, object.getChildren());
-			kryo.writeClassAndObject(output, object.getChartType());
+			kryo.writeClassAndObject(output, object.getChartTypeSetup());
 		}
 
 		@Override public Chart read(Kryo kryo, Input input, Class<Chart> type) {
 			SimpleStringProperty name = readStringProperty(input);
 			ObservableList<ColumnOrRow> series = readObservableListWithClass(kryo, input, ColumnOrRow.class);
-			ObjectProperty<IChartType> chartType = readObjectAndClassProperty(kryo, input, IChartType.class);
+			ObjectProperty<IChartTypeSetup> chartType = readObjectAndClassProperty(kryo, input, IChartTypeSetup.class);
 			return new Chart(name, series, chartType);
 		}
 	}

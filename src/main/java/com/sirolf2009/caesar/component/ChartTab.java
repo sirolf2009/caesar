@@ -5,6 +5,7 @@ import com.sirolf2009.caesar.model.ColumnOrRow;
 import com.sirolf2009.caesar.model.Table;
 import com.sirolf2009.caesar.model.chart.series.*;
 import com.sirolf2009.caesar.model.chart.type.IChartType;
+import com.sirolf2009.caesar.model.chart.type.IChartTypeSetup;
 import com.sirolf2009.caesar.model.table.IDataPointer;
 import com.sirolf2009.caesar.util.ControllerUtil;
 import com.sirolf2009.caesar.util.FXUtil;
@@ -41,6 +42,8 @@ public class ChartTab extends VBox {
     @FXML
     AnchorPane chartAnchor;
     @FXML
+    AnchorPane configAnchor;
+    @FXML
     ChoiceBox<IChartType> chartTypeSelector;
 
     public ChartTab(Chart chart, ObservableList<Table> tables) {
@@ -67,11 +70,11 @@ public class ChartTab extends VBox {
                 return chart.getPossibleChartTypes().filter(type -> type.getName().equals(string)).findAny().orElse(null);
             }
         });
-        chartTypeSelector.getSelectionModel().selectedItemProperty().addListener(e -> {
-            chart.chartTypeProperty().set(chartTypeSelector.getSelectionModel().getSelectedItem());
+        chartTypeSelector.getSelectionModel().selectedItemProperty().addListener((a, b, c) -> {
+            chart.chartTypeSetupProperty().set(chartTypeSelector.getSelectionModel().getSelectedItem().getSetup(chart));
             setupChart();
         });
-        chartTypeSelector.getSelectionModel().select(chart.getChartType());
+//        chartTypeSelector.getSelectionModel().select(chart.getChartType());
 
         columns.setOnDragOver(event1 -> {
             if (event1.getGestureSource() != columns && event1.getDragboard().hasContent(TablesTreeView.TABLE_AND_POINTER)) {
@@ -159,8 +162,13 @@ public class ChartTab extends VBox {
     }
 
     private void setupChart() {
+        configAnchor.getChildren().clear();
+        IChartTypeSetup type = this.chart.getChartTypeSetup();
+        Node config = type.createConfiguration();
+        configAnchor.getChildren().add(config);
+        FXUtil.maximize(config);
         chartAnchor.getChildren().clear();
-        Node chart = this.chart.createNode();
+        Node chart = type.createChart();
         chartAnchor.getChildren().add(chart);
         FXUtil.maximize(chart);
     }

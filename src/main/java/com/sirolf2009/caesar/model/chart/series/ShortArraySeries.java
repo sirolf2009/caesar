@@ -6,7 +6,7 @@ import com.sirolf2009.caesar.model.serializer.SeriesSerializer;
 import com.sirolf2009.caesar.model.table.IDataPointer;
 
 @DefaultSerializer(ShortArraySeries.ShortArraySeriesSerializer.class)
-public class ShortArraySeries extends ArraySeries<Byte> implements INumberArraySeries<Short> {
+public class ShortArraySeries extends ArraySeries<Short> implements INumberArraySeries<Short> {
 
 	public ShortArraySeries(Table table, IDataPointer attribute) {
 		super(table, attribute);

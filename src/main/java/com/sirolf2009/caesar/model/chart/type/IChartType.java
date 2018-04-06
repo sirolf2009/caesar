@@ -29,6 +29,7 @@ public interface IChartType {
 
 	Predicate<Chart> getPredicate();
 	Node getChart(Chart chart);
+	IChartTypeSetup getSetup(Chart chart);
 	String getName();
 
 	static Predicate<Chart> areAllColumns(Predicate<ColumnOrRow> predicate) {
