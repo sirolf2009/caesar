@@ -2,6 +2,7 @@ package com.sirolf2009.caesar.model.chart.type;
 
 import com.dooapp.fxform.FXForm;
 import com.dooapp.fxform.annotation.NonVisual;
+import com.esotericsoftware.kryo.DefaultSerializer;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
@@ -60,6 +61,7 @@ public class BarChartType implements IChartType {
 		return new BarChartSetup(chart, FXCollections.observableArrayList());
 	}
 
+	@DefaultSerializer(BarChartTypeSetupSerializer.class)
 	public static class BarChartSetup implements IChartTypeSetup {
 
 		private final Chart chart;
@@ -113,7 +115,7 @@ public class BarChartType implements IChartType {
 		}
 	}
 
-	public static class GaugeChartTypeSetupSerializer extends CaesarSerializer<BarChartSetup> {
+	public static class BarChartTypeSetupSerializer extends CaesarSerializer<BarChartSetup> {
 
 		@Override
 		public void write(Kryo kryo, Output output, BarChartSetup object) {
@@ -129,6 +131,7 @@ public class BarChartType implements IChartType {
 		}
 	}
 
+	@DefaultSerializer(BarSerializer.class)
 	public static class Bar {
 
 		@NonVisual
