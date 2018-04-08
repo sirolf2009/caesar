@@ -2,9 +2,14 @@ package com.sirolf2009.caesar.model.chart.type;
 
 import com.dooapp.fxform.FXForm;
 import com.dooapp.fxform.annotation.NonVisual;
+import com.esotericsoftware.kryo.DefaultSerializer;
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.model.Chart;
 import com.sirolf2009.caesar.model.chart.series.INumberSeries;
 import com.sirolf2009.caesar.model.chart.series.ISeries;
+import com.sirolf2009.caesar.model.serializer.CaesarSerializer;
 import com.sirolf2009.caesar.util.ChartUtil;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.beans.InvalidationListener;
@@ -53,6 +58,7 @@ public class PieChartType implements IChartType {
 		return new PieChartSetup(chart, FXCollections.observableArrayList());
 	}
 
+	@DefaultSerializer(GaugeChartTypeSetupSerializer.class)
 	public static class PieChartSetup implements IChartTypeSetup {
 
 		private final Chart chart;
@@ -94,8 +100,33 @@ public class PieChartType implements IChartType {
 				return new Piece(values, name, new SimpleObjectProperty<>(Color.RED));
 			}).forEach(piece -> pieces.add(piece));
 		}
+
+		public Chart getChart() {
+			return chart;
+		}
+
+		public ObservableList<Piece> getPieces() {
+			return pieces;
+		}
 	}
 
+	public static class GaugeChartTypeSetupSerializer extends CaesarSerializer<PieChartSetup> {
+
+		@Override
+		public void write(Kryo kryo, Output output, PieChartSetup object) {
+			kryo.writeObject(output, object.getChart());
+			writeObservableList(kryo, output, object.getPieces());
+		}
+
+		@Override
+		public PieChartSetup read(Kryo kryo, Input input, Class<PieChartSetup> type) {
+			Chart chart = kryo.readObject(input, Chart.class);
+			ObservableList<Piece> pieces = readObservableList(kryo, input, Piece.class);
+			return new PieChartSetup(chart, pieces);
+		}
+	}
+
+	@DefaultSerializer(PieceSerializer.class)
 	public static class Piece {
 
 		@NonVisual private final ISeries<Number> values;
@@ -131,6 +162,37 @@ public class PieChartType implements IChartType {
 		public String getName() {
 			return name.get();
 		}
+
+		public ISeries<Number> getValues() {
+			return values;
+		}
+	}
+
+	public static class PieceSerializer extends CaesarSerializer<Piece> {
+
+		@Override
+		public void write(Kryo kryo, Output output, Piece object) {
+			kryo.writeClassAndObject(output, object.getValues());
+			output.writeString(object.getName());
+			output.writeBoolean(object.getColor().isPresent());
+			object.getColor().ifPresent(color -> kryo.writeObject(output, color));
+		}
+
+		@Override
+		public Piece read(Kryo kryo, Input input, Class<Piece> type) {
+			ISeries<Number> values = (ISeries<Number>) kryo.readClassAndObject(input);
+			StringProperty name = readStringProperty(input);
+			ObjectProperty<Color> color = readColor(kryo, input);
+			return new Piece(values, name, color);
+		}
+
+		public ObjectProperty<Color> readColor(Kryo kryo, Input input) {
+			if(input.readBoolean()) {
+				return new SimpleObjectProperty<>(kryo.readObject(input, Color.class));
+			}
+			return new SimpleObjectProperty<>();
+		}
+
 	}
 
 }

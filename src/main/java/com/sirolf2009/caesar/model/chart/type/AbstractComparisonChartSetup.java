@@ -1,8 +1,7 @@
-package com.sirolf2009.caesar.model.chart.type.xy;
+package com.sirolf2009.caesar.model.chart.type;
 
 import com.sirolf2009.caesar.model.Chart;
 import com.sirolf2009.caesar.model.chart.series.ISeries;
-import com.sirolf2009.caesar.model.chart.type.IChartTypeSetup;
 import javafx.beans.InvalidationListener;
 import javafx.collections.ObservableList;
 import javafx.util.Pair;
@@ -39,6 +38,10 @@ public abstract class AbstractComparisonChartSetup<X, Y, T extends AbstractCompa
 	}
 
 	protected abstract T createContainer(ISeries<X> x, ISeries<Y> y);
+
+	public Chart getChart() {
+		return chart;
+	}
 
 	public ObservableList<T> getSeries() {
 		return series;

@@ -1,4 +1,4 @@
-package com.sirolf2009.caesar.model.chart.type.xy;
+package com.sirolf2009.caesar.model.chart.type;
 
 import com.dooapp.fxform.FXForm;
 import com.dooapp.fxform.annotation.NonVisual;
@@ -8,8 +8,7 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.model.Chart;
 import com.sirolf2009.caesar.model.chart.series.ISeries;
-import com.sirolf2009.caesar.model.chart.type.IChartType;
-import com.sirolf2009.caesar.model.chart.type.IChartTypeSetup;
+import com.sirolf2009.caesar.model.chart.type.xy.XYSeries;
 import com.sirolf2009.caesar.model.serializer.CaesarSerializer;
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.GaugeBuilder;
@@ -62,6 +61,7 @@ public class GaugeChartType implements IChartType {
         return new GaugeChartTypeSetup(chart, FXCollections.observableArrayList());
     }
 
+    @DefaultSerializer(GaugeChartTypeSetupSerializer.class)
     public static class GaugeChartTypeSetup extends AbstractComparisonChartSetup<Number, Number, GaugeSeries> {
 
         public GaugeChartTypeSetup(Chart chart, ObservableList<GaugeSeries> series) {
@@ -94,6 +94,23 @@ public class GaugeChartType implements IChartType {
         }
     }
 
+    public static class GaugeChartTypeSetupSerializer extends CaesarSerializer<GaugeChartTypeSetup> {
+
+        @Override
+        public void write(Kryo kryo, Output output, GaugeChartTypeSetup object) {
+            kryo.writeObject(output, object.getChart());
+            writeObservableList(kryo, output, object.getSeries());
+        }
+
+        @Override
+        public GaugeChartTypeSetup read(Kryo kryo, Input input, Class<GaugeChartTypeSetup> type) {
+            Chart chart = kryo.readObject(input, Chart.class);
+            ObservableList<GaugeSeries> series = readObservableList(kryo, input, GaugeSeries.class);
+            return new GaugeChartTypeSetup(chart, series);
+        }
+    }
+
+    @DefaultSerializer(GaugeSeriesSerializer.class)
     public static class GaugeSeries implements AbstractComparisonChartSetup.ComparisonSeries<Number, Number> {
 
         @NonVisual
@@ -132,12 +149,46 @@ public class GaugeChartType implements IChartType {
             return skinType;
         }
 
+        public Gauge.SkinType getSkinType() {
+            return skinType.get();
+        }
+
         public StringProperty titleProperty() {
             return title;
         }
 
+        public String getTitle() {
+            return title.get();
+        }
+
         public StringProperty subTitleProperty() {
             return subTitle;
+        }
+
+        public String getSubTitle() {
+            return subTitle.get();
+        }
+    }
+
+    public static class GaugeSeriesSerializer extends CaesarSerializer<GaugeSeries> {
+
+        @Override
+        public void write(Kryo kryo, Output output, GaugeSeries object) {
+            kryo.writeClassAndObject(output, object.getValueSeries());
+            kryo.writeClassAndObject(output, object.getMaxSeries());
+            kryo.writeObject(output, object.getSkinType());
+            output.writeString(object.getTitle());
+            output.writeString(object.getSubTitle());
+        }
+
+        @Override
+        public GaugeSeries read(Kryo kryo, Input input, Class<GaugeSeries> type) {
+            ISeries<Number> values = (ISeries<Number>) kryo.readClassAndObject(input);
+            ISeries<Number> max = (ISeries<Number>) kryo.readClassAndObject(input);
+            ObjectProperty<Gauge.SkinType> skinType = new SimpleObjectProperty<Gauge.SkinType>(kryo.readObject(input, Gauge.SkinType.class));
+            StringProperty title = readStringProperty(input);
+            StringProperty subTitle = readStringProperty(input);
+            return new GaugeSeries(values, max, skinType, title, subTitle);
         }
     }
 

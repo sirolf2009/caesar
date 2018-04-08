@@ -4,6 +4,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -13,6 +14,7 @@ import javafx.collections.ObservableList;
 import javax.management.MBeanAttributeInfo;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -59,7 +61,11 @@ public abstract class CaesarSerializer<T> extends Serializer<T> {
 	}
 
 	public <T> ObservableList<T> readObservableListWithClass(Kryo kryo, Input input, Class<T> type) {
-		return FXCollections.observableArrayList(IntStream.range(0, input.readInt()).mapToObj(index -> (T) kryo.readClassAndObject(input)).collect(Collectors.toList()));
+		return readObservableListWithClassAndCast(kryo, input, o -> (T) o);
+	}
+
+	public <T> ObservableList<T> readObservableListWithClassAndCast(Kryo kryo, Input input, Function<Object, T> cast) {
+		return FXCollections.observableArrayList(IntStream.range(0, input.readInt()).mapToObj(index -> cast.apply(kryo.readClassAndObject(input))).collect(Collectors.toList()));
 	}
 
 	public <T> SimpleObjectProperty<T> readObjectAndClassProperty(Kryo kryo, Input input, Class<T> tClass) {
@@ -72,6 +78,10 @@ public abstract class CaesarSerializer<T> extends Serializer<T> {
 
 	public SimpleLongProperty readLongProperty(Input input) {
 		return new SimpleLongProperty(input.readLong());
+	}
+
+	public SimpleBooleanProperty readBooleanProperty(Input input) {
+		return new SimpleBooleanProperty(input.readBoolean());
 	}
 
 

@@ -6,7 +6,7 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.component.hierarchy.IHierarchicalData;
 import com.sirolf2009.caesar.model.chart.type.*;
-import com.sirolf2009.caesar.model.chart.type.xy.GaugeChartType;
+import com.sirolf2009.caesar.model.chart.type.GaugeChartType;
 import com.sirolf2009.caesar.model.chart.type.xy.LineChartType;
 import com.sirolf2009.caesar.model.chart.type.xy.TimeseriesChartType;
 import com.sirolf2009.caesar.model.serializer.CaesarSerializer;

@@ -2,9 +2,13 @@ package com.sirolf2009.caesar.model.chart.type;
 
 import com.dooapp.fxform.FXForm;
 import com.dooapp.fxform.annotation.NonVisual;
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.model.Chart;
 import com.sirolf2009.caesar.model.chart.series.INumberSeries;
 import com.sirolf2009.caesar.model.chart.series.ISeries;
+import com.sirolf2009.caesar.model.serializer.CaesarSerializer;
 import com.sirolf2009.caesar.util.ChartUtil;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.beans.InvalidationListener;
@@ -96,8 +100,32 @@ public class BarChartType implements IChartType {
 			List<INumberSeries> toBeCreated = requiredSeries.stream().filter(required -> !bars.stream().filter(serie -> required == serie.values).findAny().isPresent()).collect(Collectors.toList());
 			toBeCreated.stream().map(values -> {
 				StringProperty name = new SimpleStringProperty(values.nameProperty().get());
-				return new Bar(values, name, new SimpleObjectProperty<>(Color.RED));
+				return new Bar(values, name);
 			}).forEach(bar -> bars.add(bar));
+		}
+
+		public Chart getChart() {
+			return chart;
+		}
+
+		public ObservableList<Bar> getBars() {
+			return bars;
+		}
+	}
+
+	public static class GaugeChartTypeSetupSerializer extends CaesarSerializer<BarChartSetup> {
+
+		@Override
+		public void write(Kryo kryo, Output output, BarChartSetup object) {
+			kryo.writeObject(output, object.getChart());
+			writeObservableList(kryo, output, object.getBars());
+		}
+
+		@Override
+		public BarChartSetup read(Kryo kryo, Input input, Class<BarChartSetup> type) {
+			Chart chart = kryo.readObject(input, Chart.class);
+			ObservableList<Bar> bars = readObservableList(kryo, input, Bar.class);
+			return new BarChartSetup(chart, bars);
 		}
 	}
 
@@ -110,7 +138,7 @@ public class BarChartType implements IChartType {
 		private final StringProperty name;
 //		private final ObjectProperty<Color> color;
 
-		public Bar(ISeries<Number> values, StringProperty name, ObjectProperty<Color> color) {
+		public Bar(ISeries<Number> values, StringProperty name) {
 			this.values = values;
 			this.name = name;
 //			this.color = color;
@@ -134,6 +162,10 @@ public class BarChartType implements IChartType {
 //			return Optional.ofNullable(color.get());
 //		}
 
+		public ISeries<Number> getValues() {
+			return values;
+		}
+
 		public StringProperty nameProperty() {
 			return name;
 		}
@@ -143,5 +175,20 @@ public class BarChartType implements IChartType {
 		}
 	}
 
+	public static class BarSerializer extends CaesarSerializer<Bar> {
+
+		@Override
+		public void write(Kryo kryo, Output output, Bar object) {
+			kryo.writeClassAndObject(output, object.getValues());
+			output.writeString(object.getName());
+		}
+
+		@Override
+		public Bar read(Kryo kryo, Input input, Class<Bar> type) {
+			ISeries<Number> values = (ISeries<Number>) kryo.readClassAndObject(input);
+			StringProperty name = readStringProperty(input);
+			return new Bar(values, name);
+		}
+	}
 
 }

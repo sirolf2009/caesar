@@ -1,11 +1,18 @@
 package com.sirolf2009.caesar.model.chart.type.xy;
 
 import com.dooapp.fxform.annotation.NonVisual;
+import com.esotericsoftware.kryo.DefaultSerializer;
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.model.chart.series.ISeries;
+import com.sirolf2009.caesar.model.chart.type.AbstractComparisonChartSetup;
+import com.sirolf2009.caesar.model.serializer.CaesarSerializer;
 import com.sirolf2009.caesar.util.ChartUtil;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.chart.XYChart;
 import javafx.scene.paint.Color;
@@ -13,6 +20,7 @@ import javafx.scene.paint.Color;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
+@DefaultSerializer(XYSeries.XYSeriesSerializer.class)
 public class XYSeries<X, Y> implements AbstractComparisonChartSetup.ComparisonSeries<X, Y> {
 
 	@NonVisual
@@ -58,11 +66,47 @@ public class XYSeries<X, Y> implements AbstractComparisonChartSetup.ComparisonSe
 		return Optional.ofNullable(color.get());
 	}
 
+	public boolean isShowMarkers() {
+		return showMarkers.get();
+	}
+
 	public StringProperty nameProperty() {
 		return name;
 	}
 
 	public String getName() {
 		return name.get();
+	}
+
+	public static class XYSeriesSerializer extends CaesarSerializer<XYSeries> {
+
+		@Override
+		public void write(Kryo kryo, Output output, XYSeries object) {
+			kryo.writeClassAndObject(output, object.getX());
+			kryo.writeClassAndObject(output, object.getY());
+			output.writeString(object.getName());
+			output.writeBoolean(object.getColor().isPresent());
+			object.getColor().ifPresent(c -> {
+				kryo.writeObject(output, c);
+			});
+			output.writeBoolean(object.isShowMarkers());
+		}
+
+		@Override
+		public XYSeries read(Kryo kryo, Input input, Class<XYSeries> type) {
+			ISeries x = (ISeries) kryo.readClassAndObject(input);
+			ISeries y = (ISeries) kryo.readClassAndObject(input);
+			StringProperty name = readStringProperty(input);
+			ObjectProperty<Color> color = readColor(kryo, input);
+			BooleanProperty showMarkers = readBooleanProperty(input);
+			return new XYSeries(x, y, name, color, showMarkers);
+		}
+
+		public ObjectProperty<Color> readColor(Kryo kryo, Input input) {
+			if(input.readBoolean()) {
+				return new SimpleObjectProperty<>(kryo.readObject(input, Color.class));
+			}
+			return new SimpleObjectProperty<>();
+		}
 	}
 }

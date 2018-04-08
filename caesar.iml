@@ -29,5 +29,11 @@
     <orderEntry type="library" name="Maven: com.heliosapm.jmxlocal:jmxlocal:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.dockfx:dockfx:0.2-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: eu.hansolo:Medusa:7.9" level="project" />
+    <orderEntry type="library" name="Maven: io.reactivex.rxjava2:rxjava:2.1.12" level="project" />
+    <orderEntry type="library" name="Maven: org.reactivestreams:reactive-streams:1.0.2" level="project" />
+    <orderEntry type="library" name="Maven: io.reactivex.rxjava2:rxjavafx:2.2.2" level="project" />
+    <orderEntry type="library" name="Maven: eu.hansolo.enzo:Enzo:0.3.6" level="project" />
+    <orderEntry type="library" name="Maven: com.dooapp.fxform2:core:8.2.4" level="project" />
+    <orderEntry type="library" name="Maven: javax.validation:validation-api:1.1.0.Final" level="project" />
   </component>
 </module>

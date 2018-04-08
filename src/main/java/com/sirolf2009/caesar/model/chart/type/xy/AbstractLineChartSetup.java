@@ -3,6 +3,7 @@ package com.sirolf2009.caesar.model.chart.type.xy;
 import com.dooapp.fxform.FXForm;
 import com.sirolf2009.caesar.model.Chart;
 import com.sirolf2009.caesar.model.chart.series.ISeries;
+import com.sirolf2009.caesar.model.chart.type.AbstractComparisonChartSetup;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;

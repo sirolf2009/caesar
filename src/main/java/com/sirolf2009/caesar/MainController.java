@@ -5,6 +5,7 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.component.*;
 import com.sirolf2009.caesar.model.*;
+import com.sirolf2009.caesar.model.serializer.CaesarKryo;
 import com.sirolf2009.caesar.model.table.JMXAttribute;
 import com.sirolf2009.caesar.util.FXUtil;
 import javafx.beans.binding.Bindings;
@@ -65,7 +66,7 @@ public class MainController {
 		File file = chooser.showSaveDialog(toolbar.getScene().getWindow());
 		if(file != null) {
 			try {
-				Kryo kryo = new Kryo();
+				CaesarKryo kryo = new CaesarKryo();
 				Output out = new Output(new FileOutputStream(file));
 				kryo.writeObject(out, model);
 				out.close();
@@ -88,7 +89,7 @@ public class MainController {
 	}
 
 	public void load(File file) throws FileNotFoundException {
-		Kryo kryo = new Kryo();
+		CaesarKryo kryo = new CaesarKryo();
 		try(Input input = new Input(new FileInputStream(file))) {
 			switchTo(kryo.readObject(input, CaesarModel.class));
 		}
