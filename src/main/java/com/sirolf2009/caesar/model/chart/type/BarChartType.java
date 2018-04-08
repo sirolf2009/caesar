@@ -103,7 +103,7 @@ public class BarChartType implements IChartType {
 			toBeCreated.stream().map(values -> {
 				StringProperty name = new SimpleStringProperty(values.nameProperty().get());
 				return new Bar(values, name);
-			}).forEach(bar -> bars.add(bar));
+			}).forEach(bar -> getBars().add(bar));
 		}
 
 		public Chart getChart() {
