@@ -35,27 +35,6 @@ public class LEDChartType implements IChartType {
 		return hasColumns.negate().and(hasRows).and(IChartType.areAllRows(row -> row.getSeries() instanceof BooleanSeries));
 	}
 
-	@Override public Node getChart(Chart chart) {
-		HBox container = new HBox();
-		container.setSpacing(4);
-		chart.getRows().map(row -> {
-			Label name = new Label();
-			name.textProperty().bind(row.getSeries().nameProperty());
-			Led led = new Led();
-			if(row.getSeries().nameProperty().get().contains("Warning")) {
-				led.setLedColor(Color.YELLOW);
-			}
-			JavaFxObservable.emitOnChanged((ObservableList<? extends Boolean>) row.getSeries().get()).map(list -> {
-				if(list.isEmpty()) {
-					return false;
-				}
-				return list.get(list.size()-1);
-			}).subscribe(state -> led.setOn(state));
-			return new VBox(name, led);
-		}).forEach(led -> container.getChildren().add(led));
-		return container;
-	}
-
 	@Override public String getName() {
 		return "LED";
 	}

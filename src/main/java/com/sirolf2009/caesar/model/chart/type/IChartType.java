@@ -28,7 +28,6 @@ public interface IChartType {
 	Predicate<Chart> hasRows = chart -> chart.getRows().count() > 0;
 
 	Predicate<Chart> getPredicate();
-	Node getChart(Chart chart);
 	IChartTypeSetup getSetup(Chart chart);
 	String getName();
 

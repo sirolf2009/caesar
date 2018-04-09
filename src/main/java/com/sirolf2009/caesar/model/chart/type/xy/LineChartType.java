@@ -34,46 +34,6 @@ public class LineChartType implements IChartType {
 		return hasColumns.and(areColumnsNumbers).and(hasRows).and(areRowsNumbers);
 	}
 
-	@Override public Node getChart(Chart chart) {
-		NumberAxis xAxis = new NumberAxis();
-		xAxis.setForceZeroInRange(false);
-		NumberAxis yAxis = new NumberAxis();
-		yAxis.setForceZeroInRange(false);
-		LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxis, yAxis);
-		if(hasColumns.test(chart)) {
-			chart.getColumns().map(column -> (INumberSeries) column.getSeries()).forEach(column -> {
-				ObservableList<Number> columnSeries = (ObservableList<Number>) column.get();
-				chart.getRows().map(row -> (INumberSeries) row.getSeries()).forEach(row -> {
-					ObservableList<Number> rowSeries = (ObservableList<Number>) row.get();
-					XYChart.Series series = new XYChart.Series();
-					series.nameProperty().bind(EasyBind.combine(row.nameProperty(), column.nameProperty(), (r, c) -> r + "/" + c));
-					JavaFxObservable.additionsOf(columnSeries).zipWith(JavaFxObservable.additionsOf(rowSeries), (a,b) -> new XYChart.Data<Number, Number>(a, b)).subscribe(item -> series.getData().add(item));
-					lineChart.getData().add(series);
-				});
-			});
-		} else {
-			chart.getRows().map(row -> (INumberArraySeries) row.getSeries()).forEach(row -> {
-				ObservableList<Number[]> rowSeries = (ObservableList<Number[]>) row.get();
-				XYChart.Series series = new XYChart.Series();
-				series.nameProperty().bind(row.nameProperty());
-				row.get().addListener((InvalidationListener) event -> {
-					try {
-						Number[] values = (Number[]) row.get().get(row.get().size() - 1);
-						List<XYChart.Data<Number, Number>> data = new ArrayList<>();
-						for(int i = 0; i < values.length; i++) {
-							data.add(new XYChart.Data<>(i, values[i]));
-						}
-						series.getData().setAll(data);
-					} catch(Exception e) {
-						e.printStackTrace();
-					}
-				});
-				lineChart.getData().add(series);
-			});
-		}
-		return lineChart;
-	}
-
 	@Override public String getName() {
 		return "Line Chart";
 	}

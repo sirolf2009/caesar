@@ -37,24 +37,6 @@ public class BarChartType implements IChartType {
 		return hasColumns.and(areColumnsNumbers).and(hasRows.negate());
 	}
 
-	@Override public Node getChart(Chart chart) {
-		CategoryAxis xAxis = new CategoryAxis();
-		NumberAxis yAxis = new NumberAxis();
-		BarChart<String, Number> barChart = new BarChart<String, Number>(xAxis, yAxis);
-		chart.getColumns().map(column -> (INumberSeries)column.getSeries()).forEach(column -> {
-			XYChart.Series series = new XYChart.Series();
-			ObservableList<Number> columnSeries = (ObservableList<Number>) column.get();
-			series.nameProperty().bindBidirectional(column.nameProperty());
-			XYChart.Data<String, Number> data = new XYChart.Data<>(column.getName(), columnSeries.isEmpty() ? 0d : columnSeries.get(columnSeries.size()-1));
-			columnSeries.addListener((InvalidationListener) event -> {
-				data.setYValue(columnSeries.get(columnSeries.size() - 1));
-			});
-			series.getData().add(data);
-			barChart.getData().add(series);
-		});
-		return barChart;
-	}
-
 	@Override public String getName() {
 		return "Bar Chart";
 	}

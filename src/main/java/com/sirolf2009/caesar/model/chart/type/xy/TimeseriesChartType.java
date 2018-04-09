@@ -25,10 +25,6 @@ public class TimeseriesChartType implements IChartType {
 		return hasColumns.and(areColumnsDates).and(hasRows).and(areRowsNumbers);
 	}
 
-	@Override public Node getChart(Chart chart) {
-		throw new IllegalArgumentException("no");
-	}
-
 	@Override public IChartTypeSetup getSetup(Chart chart) {
 		return new TimeseriesChartTypeSetup(chart.getChildren(), FXCollections.observableArrayList());
 	}

@@ -34,15 +34,6 @@ public class GaugeChartType implements IChartType {
         return has1Col.and(areColumnsNumbers).and(has1Row).and(areRowsNumbers);
     }
 
-    @Override public Node getChart(Chart chart) {
-        Gauge gauge = GaugeBuilder.create().skinType(Gauge.SkinType.DASHBOARD).build();
-        ObservableList<Number> column = (ObservableList<Number>) chart.getColumns().findAny().get().getSeries().get();
-        column.addListener((InvalidationListener) e -> gauge.setMaxValue(column.get(column.size()-1).doubleValue()));
-        ObservableList<Number> row = (ObservableList<Number>) chart.getRows().findAny().get().getSeries().get();
-        row.addListener((InvalidationListener) e -> gauge.setValue(row.get(row.size()-1).doubleValue()));
-        return gauge;
-    }
-
     @Override public String getName() {
         return "Gauge";
     }
@@ -124,6 +115,8 @@ public class GaugeChartType implements IChartType {
         private final StringProperty subTitle;
 
         public GaugeSeries(ISeries<Number> valueSeries, ISeries<Number> maxSeries, ObjectProperty<Gauge.SkinType> skinType, StringProperty title, StringProperty subTitle) {
+            System.out.println(skinType);
+            Thread.dumpStack();
             this.valueSeries = valueSeries;
             this.maxSeries = maxSeries;
             this.skinType = skinType;
@@ -149,7 +142,7 @@ public class GaugeChartType implements IChartType {
         }
 
         @Override public ISeries<Number> getX() {
-            return valueSeries;
+            return maxSeries;
         }
 
         public ISeries<Number> getMaxSeries() {
@@ -157,7 +150,7 @@ public class GaugeChartType implements IChartType {
         }
 
         @Override public ISeries<Number> getY() {
-            return maxSeries;
+            return valueSeries;
         }
 
         public ObjectProperty<Gauge.SkinType> skinTypeProperty() {

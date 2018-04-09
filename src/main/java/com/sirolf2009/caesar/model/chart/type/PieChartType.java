@@ -38,20 +38,6 @@ public class PieChartType implements IChartType {
 		return hasColumns.and(areColumnsNumbers).and(hasRows.negate());
 	}
 
-	@Override public Node getChart(Chart chart) {
-		PieChart pieChart = new PieChart();
-		pieChart.setData(FXCollections.observableArrayList(chart.getColumns().map(column -> (INumberSeries) column.getSeries()).map(column -> {
-			ObservableList<Number> columnSeries = (ObservableList<Number>) column.get();
-			PieChart.Data data = new PieChart.Data(column.getName(), columnSeries.isEmpty() ? 0d : columnSeries.get(columnSeries.size() - 1).doubleValue());
-			data.nameProperty().bind(column.nameProperty());
-			columnSeries.addListener((InvalidationListener) event -> {
-				data.setPieValue(columnSeries.get(columnSeries.size() - 1).doubleValue());
-			});
-			return data;
-		}).collect(Collectors.toList())));
-		return pieChart;
-	}
-
 	@Override public String getName() {
 		return "Pie Chart";
 	}
@@ -127,6 +113,7 @@ public class PieChartType implements IChartType {
 	public static class Piece {
 
 		@NonVisual private final ISeries<Number> values;
+		@NonVisual private PieChart.Data data;
 		private final StringProperty name;
 		private final ObjectProperty<Color> color;
 
@@ -137,16 +124,18 @@ public class PieChartType implements IChartType {
 		}
 
 		public PieChart.Data getData() {
-			PieChart.Data data = new PieChart.Data(name.get(), 0);
-			data.nameProperty().bind(name);
-			if(values.get().isEmpty()) {
-				data.pieValueProperty().set(0);
-			} else {
-				data.pieValueProperty().set((values.get().get(values.get().size() - 1)).doubleValue());
+			if(data == null) {
+				data = new PieChart.Data(name.get(), 0);
+				data.nameProperty().bind(name);
+				if(values.get().isEmpty()) {
+					data.pieValueProperty().set(0);
+				} else {
+					data.pieValueProperty().set((values.get().get(values.get().size() - 1)).doubleValue());
+				}
+				JavaFxObservable.additionsOf(values.get()).subscribe(newValue -> data.pieValueProperty().set(newValue.doubleValue()));
+				color.addListener(e -> getColor().ifPresent(selectedColor -> ChartUtil.setPiePieceColor(data, selectedColor)));
+				getColor().ifPresent(selectedColor -> ChartUtil.setPiePieceColor(data, selectedColor));
 			}
-			JavaFxObservable.additionsOf(values.get()).subscribe(newValue -> data.pieValueProperty().set(newValue.doubleValue()));
-			color.addListener(e -> getColor().ifPresent(selectedColor -> ChartUtil.setPiePieceColor(data, selectedColor)));
-			getColor().ifPresent(selectedColor -> ChartUtil.setPiePieceColor(data, selectedColor));
 			return data;
 		}
 
