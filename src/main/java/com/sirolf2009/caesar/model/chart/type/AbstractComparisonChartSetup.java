@@ -1,29 +1,30 @@
 package com.sirolf2009.caesar.model.chart.type;
 
-import com.sirolf2009.caesar.model.Chart;
+import com.sirolf2009.caesar.model.ColumnOrRow;
 import com.sirolf2009.caesar.model.chart.series.ISeries;
 import javafx.beans.InvalidationListener;
 import javafx.collections.ObservableList;
 import javafx.util.Pair;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public abstract class AbstractComparisonChartSetup<X, Y, T extends AbstractComparisonChartSetup.ComparisonSeries<X, Y>> implements IChartTypeSetup {
+public abstract class AbstractComparisonChartSetup<X, Y, T extends AbstractComparisonChartSetup.ComparisonSeries<X, Y>> extends AbstractChartSetup {
 
-	private final Chart chart;
 	private final ObservableList<T> series;
 
-	public AbstractComparisonChartSetup(Chart chart, ObservableList<T> series) {
-		this.chart = chart;
+	public AbstractComparisonChartSetup(ObservableList<ColumnOrRow> chartSeries, ObservableList<T> series) {
+		super(chartSeries);
 		this.series = series;
-		chart.getChildren().addListener((InvalidationListener) e -> update());
 		update();
 	}
 
-	private void update() {
-		List<Pair<ISeries<X>, ISeries<Y>>> requiredSeries = chart.getColumns().map(column -> (ISeries<X>) column.getSeries()).flatMap(column -> {
-			return chart.getRows().map(row -> (ISeries<Y>) row.getSeries()).map(row -> {
+	@Override
+	public void update() {
+		List<Pair<ISeries<X>, ISeries<Y>>> requiredSeries = getColumns().map(column -> (ISeries<X>) column.getSeries()).flatMap(column -> {
+			return getRows().map(row -> (ISeries<Y>) row.getSeries()).map(row -> {
 				return new Pair<ISeries<X>, ISeries<Y>>(column, row);
 			});
 		}).collect(Collectors.toList());
@@ -37,11 +38,22 @@ public abstract class AbstractComparisonChartSetup<X, Y, T extends AbstractCompa
 		}).forEach(serie -> series.add(serie));
 	}
 
-	protected abstract T createContainer(ISeries<X> x, ISeries<Y> y);
-
-	public Chart getChart() {
-		return chart;
+	@Override public boolean equals(Object o) {
+		if(this == o)
+			return true;
+		if(!(o instanceof AbstractComparisonChartSetup))
+			return false;
+		if(!super.equals(o))
+			return false;
+		AbstractComparisonChartSetup<?, ?, ?> that = (AbstractComparisonChartSetup<?, ?, ?>) o;
+		return Objects.equals(getSeries(), that.getSeries());
 	}
+
+	@Override public int hashCode() {
+		return Objects.hash(super.hashCode(), getSeries());
+	}
+
+	protected abstract T createContainer(ISeries<X> x, ISeries<Y> y);
 
 	public ObservableList<T> getSeries() {
 		return series;

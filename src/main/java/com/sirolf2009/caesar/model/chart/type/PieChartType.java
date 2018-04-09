@@ -7,6 +7,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.model.Chart;
+import com.sirolf2009.caesar.model.ColumnOrRow;
 import com.sirolf2009.caesar.model.chart.series.INumberSeries;
 import com.sirolf2009.caesar.model.chart.series.ISeries;
 import com.sirolf2009.caesar.model.serializer.CaesarSerializer;
@@ -26,6 +27,7 @@ import javafx.scene.paint.Color;
 import org.fxmisc.easybind.EasyBind;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -55,25 +57,23 @@ public class PieChartType implements IChartType {
 	}
 
 	@Override public IChartTypeSetup getSetup(Chart chart) {
-		return new PieChartSetup(chart, FXCollections.observableArrayList());
+		return new PieChartSetup(chart.getChildren(), FXCollections.observableArrayList());
 	}
 
-	@DefaultSerializer(GaugeChartTypeSetupSerializer.class)
-	public static class PieChartSetup implements IChartTypeSetup {
+	@DefaultSerializer(PieChartTypeSetupSerializer.class)
+	public static class PieChartSetup extends AbstractChartSetup {
 
-		private final Chart chart;
 		private final ObservableList<Piece> pieces;
 
-		public PieChartSetup(Chart chart, ObservableList<Piece> pieces) {
-			this.chart = chart;
+		public PieChartSetup(ObservableList<ColumnOrRow> chartSeries, ObservableList<Piece> pieces) {
+			super(chartSeries);
 			this.pieces = pieces;
-			chart.getChildren().addListener((InvalidationListener) e -> update());
 			update();
 		}
 
 		@Override public Node createChart() {
 			PieChart pieChart = new PieChart();
-			pieChart.setData(EasyBind.map(pieces, piece -> piece.data));
+			pieChart.setData(EasyBind.map(pieces, piece -> piece.getData()));
 			return pieChart;
 		}
 
@@ -88,8 +88,9 @@ public class PieChartType implements IChartType {
 			return container;
 		}
 
-		private void update() {
-			List<INumberSeries> requiredSeries = chart.getColumns().map(column -> (INumberSeries) column.getSeries()).collect(Collectors.toList());
+		@Override
+		public void update() {
+			List<INumberSeries> requiredSeries = getColumns().map(column -> (INumberSeries) column.getSeries()).collect(Collectors.toList());
 
 			List<Piece> noLongerRequired = pieces.stream().filter(serie -> !requiredSeries.stream().filter(required -> required == serie.values).findAny().isPresent()).collect(Collectors.toList());
 			pieces.removeAll(noLongerRequired);
@@ -101,28 +102,24 @@ public class PieChartType implements IChartType {
 			}).forEach(piece -> pieces.add(piece));
 		}
 
-		public Chart getChart() {
-			return chart;
-		}
-
 		public ObservableList<Piece> getPieces() {
 			return pieces;
 		}
 	}
 
-	public static class GaugeChartTypeSetupSerializer extends CaesarSerializer<PieChartSetup> {
+	public static class PieChartTypeSetupSerializer extends CaesarSerializer<PieChartSetup> {
 
 		@Override
 		public void write(Kryo kryo, Output output, PieChartSetup object) {
-			kryo.writeObject(output, object.getChart());
+			writeObservableListWithClass(kryo, output, object.getChartSeries());
 			writeObservableList(kryo, output, object.getPieces());
 		}
 
 		@Override
 		public PieChartSetup read(Kryo kryo, Input input, Class<PieChartSetup> type) {
-			Chart chart = kryo.readObject(input, Chart.class);
+			ObservableList<ColumnOrRow> chartSeries = readObservableListWithClass(kryo, input, ColumnOrRow.class);
 			ObservableList<Piece> pieces = readObservableList(kryo, input, Piece.class);
-			return new PieChartSetup(chart, pieces);
+			return new PieChartSetup(chartSeries, pieces);
 		}
 	}
 
@@ -130,7 +127,6 @@ public class PieChartType implements IChartType {
 	public static class Piece {
 
 		@NonVisual private final ISeries<Number> values;
-		@NonVisual private final PieChart.Data data;
 		private final StringProperty name;
 		private final ObjectProperty<Color> color;
 
@@ -138,8 +134,10 @@ public class PieChartType implements IChartType {
 			this.values = values;
 			this.name = name;
 			this.color = color;
+		}
 
-			data = new PieChart.Data(name.get(), 0);
+		public PieChart.Data getData() {
+			PieChart.Data data = new PieChart.Data(name.get(), 0);
 			data.nameProperty().bind(name);
 			if(values.get().isEmpty()) {
 				data.pieValueProperty().set(0);
@@ -149,6 +147,21 @@ public class PieChartType implements IChartType {
 			JavaFxObservable.additionsOf(values.get()).subscribe(newValue -> data.pieValueProperty().set(newValue.doubleValue()));
 			color.addListener(e -> getColor().ifPresent(selectedColor -> ChartUtil.setPiePieceColor(data, selectedColor)));
 			getColor().ifPresent(selectedColor -> ChartUtil.setPiePieceColor(data, selectedColor));
+			return data;
+		}
+
+		@Override public boolean equals(Object o) {
+			if(this == o)
+				return true;
+			if(!(o instanceof Piece))
+				return false;
+			Piece piece = (Piece) o;
+			return Objects.equals(getValues(), piece.getValues()) && Objects.equals(getName(), piece.getName()) && Objects.equals(getColor(), piece.getColor());
+		}
+
+		@Override public int hashCode() {
+
+			return Objects.hash(getValues(), getName(), getColor());
 		}
 
 		public Optional<Color> getColor() {

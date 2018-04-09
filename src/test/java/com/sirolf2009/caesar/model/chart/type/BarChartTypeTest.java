@@ -1,8 +1,11 @@
 package com.sirolf2009.caesar.model.chart.type;
 
 import com.sirolf2009.caesar.model.Chart;
+import com.sirolf2009.caesar.model.chart.type.xy.LineChartType;
 import org.junit.Assert;
 import org.junit.Test;
+
+import static com.sirolf2009.caesar.SerializationTest.testCloning;
 
 public class BarChartTypeTest extends ChartTypeTest {
 
@@ -32,6 +35,14 @@ public class BarChartTypeTest extends ChartTypeTest {
 			chart.getChildren().add(doubleColumn());
 			Assert.assertFalse("Multiple double/string columns should not be allowed", type.getPredicate().test(chart));
 		}
+	}
+
+	@Test public void testSerialization() {
+		Chart chart = new Chart("test-chart");
+		chart.getChildren().add(longColumn());
+		chart.getChildren().add(doubleColumn());
+		chart.chartTypeSetupProperty().set(new BarChartType().getSetup(chart));
+		testCloning(chart, Chart.class);
 	}
 
 }

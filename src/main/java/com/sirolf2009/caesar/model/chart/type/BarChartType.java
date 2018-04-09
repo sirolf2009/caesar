@@ -7,6 +7,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.model.Chart;
+import com.sirolf2009.caesar.model.ColumnOrRow;
 import com.sirolf2009.caesar.model.chart.series.INumberSeries;
 import com.sirolf2009.caesar.model.chart.series.ISeries;
 import com.sirolf2009.caesar.model.serializer.CaesarSerializer;
@@ -24,6 +25,7 @@ import javafx.util.Pair;
 import org.fxmisc.easybind.EasyBind;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -58,19 +60,17 @@ public class BarChartType implements IChartType {
 	}
 
 	@Override public IChartTypeSetup getSetup(Chart chart) {
-		return new BarChartSetup(chart, FXCollections.observableArrayList());
+		return new BarChartSetup(chart.getChildren(), FXCollections.observableArrayList());
 	}
 
 	@DefaultSerializer(BarChartTypeSetupSerializer.class)
-	public static class BarChartSetup implements IChartTypeSetup {
+	public static class BarChartSetup extends AbstractChartSetup {
 
-		private final Chart chart;
 		private final ObservableList<Bar> bars;
 
-		public BarChartSetup(Chart chart, ObservableList<Bar> bars) {
-			this.chart = chart;
+		public BarChartSetup(ObservableList<ColumnOrRow> chartSeries, ObservableList<Bar> bars) {
+			super(chartSeries);
 			this.bars = bars;
-			chart.getChildren().addListener((InvalidationListener) e -> update());
 			update();
 		}
 
@@ -78,7 +78,7 @@ public class BarChartType implements IChartType {
 			CategoryAxis xAxis = new CategoryAxis();
 			NumberAxis yAxis = new NumberAxis();
 			BarChart<String, Number> barChart = new BarChart<String, Number>(xAxis, yAxis);
-			barChart.setData(EasyBind.map(bars, serie -> serie.series));
+			barChart.setData(EasyBind.map(bars, serie -> serie.getSeries()));
 			return barChart;
 		}
 
@@ -93,8 +93,9 @@ public class BarChartType implements IChartType {
 			return container;
 		}
 
-		private void update() {
-			List<INumberSeries> requiredSeries = chart.getColumns().map(column -> (INumberSeries) column.getSeries()).collect(Collectors.toList());
+		@Override
+		public void update() {
+			List<INumberSeries> requiredSeries = getColumns().map(column -> (INumberSeries) column.getSeries()).collect(Collectors.toList());
 
 			List<Bar> noLongerRequired = bars.stream().filter(serie -> !requiredSeries.stream().filter(required -> required == serie.values).findAny().isPresent()).collect(Collectors.toList());
 			bars.removeAll(noLongerRequired);
@@ -103,11 +104,7 @@ public class BarChartType implements IChartType {
 			toBeCreated.stream().map(values -> {
 				StringProperty name = new SimpleStringProperty(values.nameProperty().get());
 				return new Bar(values, name);
-			}).forEach(bar -> getBars().add(bar));
-		}
-
-		public Chart getChart() {
-			return chart;
+			}).forEach(bar -> getBars().add((Bar)bar));
 		}
 
 		public ObservableList<Bar> getBars() {
@@ -119,15 +116,15 @@ public class BarChartType implements IChartType {
 
 		@Override
 		public void write(Kryo kryo, Output output, BarChartSetup object) {
-			kryo.writeObject(output, object.getChart());
+			writeObservableListWithClass(kryo, output, object.getChartSeries());
 			writeObservableList(kryo, output, object.getBars());
 		}
 
 		@Override
 		public BarChartSetup read(Kryo kryo, Input input, Class<BarChartSetup> type) {
-			Chart chart = kryo.readObject(input, Chart.class);
+			ObservableList<ColumnOrRow> chartSeries = readObservableListWithClass(kryo, input, ColumnOrRow.class);
 			ObservableList<Bar> bars = readObservableList(kryo, input, Bar.class);
-			return new BarChartSetup(chart, bars);
+			return new BarChartSetup(chartSeries, bars);
 		}
 	}
 
@@ -136,8 +133,6 @@ public class BarChartType implements IChartType {
 
 		@NonVisual
 		private final ISeries<Number> values;
-		@NonVisual
-		private final XYChart.Series<String, Number> series;
 		private final StringProperty name;
 //		private final ObjectProperty<Color> color;
 
@@ -145,8 +140,12 @@ public class BarChartType implements IChartType {
 			this.values = values;
 			this.name = name;
 //			this.color = color;
+//			color.addListener(e -> getColor().ifPresent(selectedColor -> ChartUtil.setLineColor(series, selectedColor)));
+//			getColor().ifPresent(selectedColor -> ChartUtil.setLineColor(series, selectedColor));
+		}
 
-			series = new XYChart.Series<>();
+		public XYChart.Series<String, Number> getSeries() {
+			XYChart.Series<String, Number> series = new XYChart.Series<>();
 			series.nameProperty().bind(name);
 			XYChart.Data<String, Number> data = new XYChart.Data();
 			data.XValueProperty().bind(name);
@@ -157,11 +156,24 @@ public class BarChartType implements IChartType {
 			}
 			JavaFxObservable.additionsOf(values.get()).subscribe(newValue -> data.YValueProperty().set(newValue));
 			series.getData().add(data);
-//			color.addListener(e -> getColor().ifPresent(selectedColor -> ChartUtil.setLineColor(series, selectedColor)));
-//			getColor().ifPresent(selectedColor -> ChartUtil.setLineColor(series, selectedColor));
+			return series;
 		}
 
-//		public Optional<Color> getColor() {
+		@Override public boolean equals(Object o) {
+			if(this == o)
+				return true;
+			if(!(o instanceof Bar))
+				return false;
+			Bar bar = (Bar) o;
+			return Objects.equals(getValues(), bar.getValues()) && Objects.equals(getName(), bar.getName());
+		}
+
+		@Override public int hashCode() {
+
+			return Objects.hash(getValues(), getName());
+		}
+
+		//		public Optional<Color> getColor() {
 //			return Optional.ofNullable(color.get());
 //		}
 

@@ -58,6 +58,9 @@ public class ChartTab extends VBox {
         chart.getColumns().forEach(series -> addColumn(series));
         chart.getRows().forEach(series -> addRow(series));
         setupChartTypes();
+        if(chart.getChartTypeSetup() != null) {
+            setupChart();
+        }
 
         chartTypeSelector.setConverter(new StringConverter<IChartType>() {
             @Override
@@ -74,7 +77,6 @@ public class ChartTab extends VBox {
             chart.chartTypeSetupProperty().set(chartTypeSelector.getSelectionModel().getSelectedItem().getSetup(chart));
             setupChart();
         });
-//        chartTypeSelector.getSelectionModel().select(chart.getChartType());
 
         columns.setOnDragOver(event1 -> {
             if (event1.getGestureSource() != columns && event1.getDragboard().hasContent(TablesTreeView.TABLE_AND_POINTER)) {

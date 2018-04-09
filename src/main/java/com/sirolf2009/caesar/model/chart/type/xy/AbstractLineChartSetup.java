@@ -1,7 +1,7 @@
 package com.sirolf2009.caesar.model.chart.type.xy;
 
 import com.dooapp.fxform.FXForm;
-import com.sirolf2009.caesar.model.Chart;
+import com.sirolf2009.caesar.model.ColumnOrRow;
 import com.sirolf2009.caesar.model.chart.series.ISeries;
 import com.sirolf2009.caesar.model.chart.type.AbstractComparisonChartSetup;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractLineChartSetup<X, Y> extends AbstractComparisonChartSetup<X, Y, XYSeries<X, Y>> {
 
-	public AbstractLineChartSetup(Chart chart, ObservableList<XYSeries<X, Y>> series) {
-		super(chart, series);
+	public AbstractLineChartSetup(ObservableList<ColumnOrRow> chartSeries, ObservableList<XYSeries<X, Y>> series) {
+		super(chartSeries, series);
 	}
 
 	@Override public Node createChart() {
@@ -46,4 +46,5 @@ public abstract class AbstractLineChartSetup<X, Y> extends AbstractComparisonCha
 	@Override protected XYSeries<X, Y> createContainer(ISeries<X> x, ISeries<Y> y) {
 		return new XYSeries<>(x, y, new SimpleStringProperty(x.getName()+"/"+y.getName()), new SimpleObjectProperty<>(null), new SimpleBooleanProperty(false));
 	}
+
 }

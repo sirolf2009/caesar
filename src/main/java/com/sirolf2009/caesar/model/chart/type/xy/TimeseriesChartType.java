@@ -5,6 +5,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.model.Chart;
+import com.sirolf2009.caesar.model.ColumnOrRow;
 import com.sirolf2009.caesar.model.chart.type.IChartType;
 import com.sirolf2009.caesar.model.chart.type.IChartTypeSetup;
 import com.sirolf2009.caesar.model.serializer.CaesarSerializer;
@@ -29,7 +30,7 @@ public class TimeseriesChartType implements IChartType {
 	}
 
 	@Override public IChartTypeSetup getSetup(Chart chart) {
-		return new TimeseriesChartTypeSetup(chart, FXCollections.observableArrayList());
+		return new TimeseriesChartTypeSetup(chart.getChildren(), FXCollections.observableArrayList());
 	}
 
 	@Override public String getName() {
@@ -39,8 +40,8 @@ public class TimeseriesChartType implements IChartType {
 	@DefaultSerializer(TimeseriesChartTypeSetupSerializer.class)
 	public static class TimeseriesChartTypeSetup extends AbstractLineChartSetup<Date, Number> {
 
-		public TimeseriesChartTypeSetup(Chart chart, ObservableList<XYSeries<Date, Number>> series) {
-			super(chart, series);
+		public TimeseriesChartTypeSetup(ObservableList<ColumnOrRow> chartSeries, ObservableList<XYSeries<Date, Number>> series) {
+			super(chartSeries, series);
 		}
 
 		@Override protected Axis createXAxis() {
@@ -58,15 +59,15 @@ public class TimeseriesChartType implements IChartType {
 
 		@Override
 		public void write(Kryo kryo, Output output, TimeseriesChartTypeSetup object) {
-			kryo.writeObject(output, object.getChart());
+			writeObservableListWithClass(kryo, output, object.getChartSeries());
 			writeObservableListWithClass(kryo, output, object.getSeries());
 		}
 
 		@Override
 		public TimeseriesChartTypeSetup read(Kryo kryo, Input input, Class<TimeseriesChartTypeSetup> type) {
-			Chart chart = kryo.readObject(input, Chart.class);
+			ObservableList<ColumnOrRow> chartSeries = readObservableListWithClass(kryo, input, ColumnOrRow.class);
 			ObservableList<XYSeries<Date, Number>> series = readObservableListWithClassAndCast(kryo, input, o -> (XYSeries<Date, Number>) o);
-			return new TimeseriesChartTypeSetup(chart, series);
+			return new TimeseriesChartTypeSetup(chartSeries, series);
 		}
 	}
 }

@@ -17,6 +17,7 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.chart.XYChart;
 import javafx.scene.paint.Color;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -28,7 +29,7 @@ public class XYSeries<X, Y> implements AbstractComparisonChartSetup.ComparisonSe
 	@NonVisual
 	private final ISeries<Y> y;
 	@NonVisual
-	private final XYChart.Series<X, Y> series;
+	private XYChart.Series<X, Y> series;
 	private final StringProperty name;
 	private final ObjectProperty<Color> color;
 	private final BooleanProperty showMarkers;
@@ -39,15 +40,6 @@ public class XYSeries<X, Y> implements AbstractComparisonChartSetup.ComparisonSe
 		this.name = name;
 		this.color = color;
 		this.showMarkers = showMarkers;
-
-		series = new XYChart.Series<>();
-		series.nameProperty().bind(name);
-		color.addListener(e -> getColor().ifPresent(selectedColor -> ChartUtil.setLineColor(series, selectedColor)));
-		getColor().ifPresent(selectedColor -> ChartUtil.setLineColor(series, selectedColor));
-		ChartUtil.showMarkers(series, showMarkers.get());
-		showMarkers.addListener(e -> ChartUtil.showMarkers(series, showMarkers.get()));
-		IntStream.range(0, Math.min(x.get().size(), y.get().size())).forEach(i -> series.getData().add(new XYChart.Data<>(x.get().get(i), y.get().get(i))));
-		JavaFxObservable.additionsOf(x.get()).zipWith(JavaFxObservable.additionsOf(y.get()), (a, b) -> new XYChart.Data<X, Y>(a, b)).subscribe((item -> series.getData().add(item)));
 	}
 
 	@Override public ISeries<X> getX() {
@@ -59,7 +51,30 @@ public class XYSeries<X, Y> implements AbstractComparisonChartSetup.ComparisonSe
 	}
 
 	public XYChart.Series<X, Y> getSeries() {
+		if(series == null) {
+			series = new XYChart.Series<>();
+			series.nameProperty().bind(name);
+			color.addListener(e -> getColor().ifPresent(selectedColor -> ChartUtil.setLineColor(series, selectedColor)));
+			getColor().ifPresent(selectedColor -> ChartUtil.setLineColor(series, selectedColor));
+			ChartUtil.showMarkers(series, showMarkers.get());
+			showMarkers.addListener(e -> ChartUtil.showMarkers(series, showMarkers.get()));
+			IntStream.range(0, Math.min(x.get().size(), y.get().size())).forEach(i -> series.getData().add(new XYChart.Data<>(x.get().get(i), y.get().get(i))));
+			JavaFxObservable.additionsOf(x.get()).zipWith(JavaFxObservable.additionsOf(y.get()), (a, b) -> new XYChart.Data<X, Y>(a, b)).subscribe((item -> series.getData().add(item)));
+		}
 		return series;
+	}
+
+	@Override public boolean equals(Object o) {
+		if(this == o)
+			return true;
+		if(!(o instanceof XYSeries))
+			return false;
+		XYSeries<?, ?> xySeries = (XYSeries<?, ?>) o;
+		return Objects.equals(getX(), xySeries.getX()) && Objects.equals(getY(), xySeries.getY()) && Objects.equals(getName(), xySeries.getName()) && Objects.equals(getColor(), xySeries.getColor()) && Objects.equals(isShowMarkers(), xySeries.isShowMarkers());
+	}
+
+	@Override public int hashCode() {
+		return Objects.hash(getX(), getY(), getName(), getColor(), isShowMarkers());
 	}
 
 	public Optional<Color> getColor() {

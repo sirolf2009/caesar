@@ -7,6 +7,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.model.Chart;
+import com.sirolf2009.caesar.model.ColumnOrRow;
 import com.sirolf2009.caesar.model.chart.series.BooleanSeries;
 import com.sirolf2009.caesar.model.chart.series.ISeries;
 import com.sirolf2009.caesar.model.serializer.CaesarSerializer;
@@ -28,7 +29,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class LEDType implements IChartType {
+public class LEDChartType implements IChartType {
 
 	@Override public Predicate<Chart> getPredicate() {
 		return hasColumns.negate().and(hasRows).and(IChartType.areAllRows(row -> row.getSeries() instanceof BooleanSeries));
@@ -60,19 +61,17 @@ public class LEDType implements IChartType {
 	}
 
 	@Override public IChartTypeSetup getSetup(Chart chart) {
-		return new LEDChartSetup(chart, FXCollections.observableArrayList());
+		return new LEDChartSetup(chart.getChildren(), FXCollections.observableArrayList());
 	}
 
 	@DefaultSerializer(LEDTypeSetupSerializer.class)
-	public static class LEDChartSetup implements IChartTypeSetup {
+	public static class LEDChartSetup extends AbstractChartSetup {
 
-		private final Chart chart;
 		private final ObservableList<LEDSeries> series;
 
-		public LEDChartSetup(Chart chart, ObservableList<LEDSeries> series) {
-			this.chart = chart;
+		public LEDChartSetup(ObservableList<ColumnOrRow> chartSeries, ObservableList<LEDSeries> series) {
+			super(chartSeries);
 			this.series = series;
-			chart.getChildren().addListener((InvalidationListener) e -> update());
 			update();
 		}
 
@@ -103,8 +102,9 @@ public class LEDType implements IChartType {
 			return container;
 		}
 
-		private void update() {
-			List<ISeries<Boolean>> requiredSeries = chart.getRows().map(column -> (ISeries<Boolean>) column.getSeries()).collect(Collectors.toList());
+		@Override
+		public void update() {
+			List<ISeries<Boolean>> requiredSeries = getRows().map(column -> (ISeries<Boolean>) column.getSeries()).collect(Collectors.toList());
 
 			List<LEDSeries> noLongerRequired = series.stream().filter(serie -> !requiredSeries.stream().filter(required -> required == serie.values).findAny().isPresent()).collect(Collectors.toList());
 			series.removeAll(noLongerRequired);
@@ -116,10 +116,6 @@ public class LEDType implements IChartType {
 			}).forEach(piece -> series.add(piece));
 		}
 
-		public Chart getChart() {
-			return chart;
-		}
-
 		public ObservableList<LEDSeries> getSeries() {
 			return series;
 		}
@@ -129,15 +125,15 @@ public class LEDType implements IChartType {
 
 		@Override
 		public void write(Kryo kryo, Output output, LEDChartSetup object) {
-			kryo.writeObject(output, object.getChart());
+			writeObservableListWithClass(kryo, output, object.getChartSeries());
 			writeObservableList(kryo, output, object.getSeries());
 		}
 
 		@Override
 		public LEDChartSetup read(Kryo kryo, Input input, Class<LEDChartSetup> type) {
-			Chart chart = kryo.readObject(input, Chart.class);
+			ObservableList<ColumnOrRow> chartSeries = readObservableListWithClass(kryo, input, ColumnOrRow.class);
 			ObservableList<LEDSeries> pieces = readObservableList(kryo, input, LEDSeries.class);
-			return new LEDChartSetup(chart, pieces);
+			return new LEDChartSetup(chartSeries, pieces);
 		}
 	}
 
@@ -149,19 +145,12 @@ public class LEDType implements IChartType {
 		private final StringProperty name;
 		private final ObjectProperty<Color> color;
 		private final ObjectProperty<Led.LedType> ledType;
-		@NonVisual
-		private final SimpleBooleanProperty on;
 
 		public LEDSeries(ISeries<Boolean> values, StringProperty name, ObjectProperty<Color> color, ObjectProperty<Led.LedType> ledType) {
 			this.values = values;
 			this.name = name;
 			this.color = color;
 			this.ledType = ledType;
-			on = new SimpleBooleanProperty();
-			if(!values.get().isEmpty()) {
-				on.set(values.get().get(values.get().size()-1));
-			}
-			JavaFxObservable.additionsOf(values.get()).subscribe(newValue -> on.set(newValue));
 		}
 
 		public ObjectProperty<Color> colorProperty() {
@@ -192,7 +181,12 @@ public class LEDType implements IChartType {
 			return ledType.get();
 		}
 
-		public SimpleBooleanProperty onProperty() {
+		public BooleanProperty onProperty() {
+			BooleanProperty on = new SimpleBooleanProperty();
+			if(!values.get().isEmpty()) {
+				on.set(values.get().get(values.get().size()-1));
+			}
+			JavaFxObservable.additionsOf(values.get()).subscribe(newValue -> on.set(newValue));
 			return on;
 		}
 	}

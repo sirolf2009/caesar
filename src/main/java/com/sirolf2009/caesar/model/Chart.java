@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 
 @DefaultSerializer(Chart.ChartSerializer.class) public class Chart implements IHierarchicalData<ColumnOrRow>, IDashboardNode {
 
-	public static List<IChartType> chartTypes = new ArrayList(Arrays.asList(new LineChartType(), new BarChartType(), new TimeseriesChartType(), new PieChartType(), new GaugeChartType(), new LEDType()));
+	public static List<IChartType> chartTypes = new ArrayList(Arrays.asList(new LineChartType(), new BarChartType(), new TimeseriesChartType(), new PieChartType(), new GaugeChartType(), new LEDChartType()));
 
 	private final SimpleStringProperty name;
 	private final ObservableList<ColumnOrRow> seriesList;
