@@ -115,8 +115,6 @@ public class GaugeChartType implements IChartType {
         private final StringProperty subTitle;
 
         public GaugeSeries(ISeries<Number> valueSeries, ISeries<Number> maxSeries, ObjectProperty<Gauge.SkinType> skinType, StringProperty title, StringProperty subTitle) {
-            System.out.println(skinType);
-            Thread.dumpStack();
             this.valueSeries = valueSeries;
             this.maxSeries = maxSeries;
             this.skinType = skinType;
