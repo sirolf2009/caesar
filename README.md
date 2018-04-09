@@ -21,10 +21,10 @@ Everything can be saved and loaded up later.
  - [x] Save/load
  - [x] Create tables from attributes
  - [x] Create charts from tables
- - [ ] Create dashboards
+ - [X] Create dashboards
  - [ ] Create buttons (operations)
  - [ ] Support notifications
- - [ ] Pie chart
+ - [X] Pie chart
  - [ ] Area chart
  - [ ] Stacked Area chart
  - [ ] Scatter chart
