@@ -8,6 +8,7 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.model.Chart;
 import com.sirolf2009.caesar.model.ColumnOrRow;
+import com.sirolf2009.caesar.model.ColumnOrRows;
 import com.sirolf2009.caesar.model.chart.series.ISeries;
 import com.sirolf2009.caesar.model.chart.type.xy.XYSeries;
 import com.sirolf2009.caesar.model.serializer.CaesarSerializer;
@@ -28,6 +29,8 @@ import java.util.function.Predicate;
 @DefaultSerializer(GaugeChartType.GaugeChartTypeSerializer.class)
 public class GaugeChartType implements IChartType {
 
+    public static String name = "Gauge";
+
     private static Predicate<Chart> has1Col = chart -> chart.getColumns().count() == 1;
     private static Predicate<Chart> has1Row = chart -> chart.getRows().count() == 1;
     @Override public Predicate<Chart> getPredicate() {
@@ -35,7 +38,7 @@ public class GaugeChartType implements IChartType {
     }
 
     @Override public String getName() {
-        return "Gauge";
+        return name;
     }
 
     public static class GaugeChartTypeSerializer extends CaesarSerializer<GaugeChartType> {
@@ -51,13 +54,13 @@ public class GaugeChartType implements IChartType {
     }
 
     @Override public IChartTypeSetup getSetup(Chart chart) {
-        return new GaugeChartTypeSetup(chart.getChildren(), FXCollections.observableArrayList());
+        return new GaugeChartTypeSetup(chart.getSeriesList(), FXCollections.observableArrayList());
     }
 
     @DefaultSerializer(GaugeChartTypeSetupSerializer.class)
     public static class GaugeChartTypeSetup extends AbstractComparisonChartSetup<Number, Number, GaugeSeries> {
 
-        public GaugeChartTypeSetup(ObservableList<ColumnOrRow> chartSeries, ObservableList<GaugeSeries> series) {
+        public GaugeChartTypeSetup(ColumnOrRows chartSeries, ObservableList<GaugeSeries> series) {
             super(chartSeries, series);
         }
 
@@ -85,19 +88,23 @@ public class GaugeChartType implements IChartType {
         @Override public Node createConfiguration() {
             return new FXForm<GaugeSeries>(getGaugeSeries());
         }
+
+        @Override public String getName() {
+            return name;
+        }
     }
 
     public static class GaugeChartTypeSetupSerializer extends CaesarSerializer<GaugeChartTypeSetup> {
 
         @Override
         public void write(Kryo kryo, Output output, GaugeChartTypeSetup object) {
-            writeObservableListWithClass(kryo, output, object.getChartSeries());
+            kryo.writeObject(output, object.getChartSeries());
             writeObservableList(kryo, output, object.getSeries());
         }
 
         @Override
         public GaugeChartTypeSetup read(Kryo kryo, Input input, Class<GaugeChartTypeSetup> type) {
-            ObservableList<ColumnOrRow> chartSeries = readObservableListWithClass(kryo, input, ColumnOrRow.class);
+            ColumnOrRows chartSeries = kryo.readObject(input, ColumnOrRows.class);
             ObservableList<GaugeSeries> series = readObservableList(kryo, input, GaugeSeries.class);
             return new GaugeChartTypeSetup(chartSeries, series);
         }

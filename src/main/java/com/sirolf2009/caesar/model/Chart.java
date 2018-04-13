@@ -26,14 +26,14 @@ import java.util.stream.Stream;
 	public static List<IChartType> chartTypes = new ArrayList(Arrays.asList(new LineChartType(), new BarChartType(), new TimeseriesChartType(), new PieChartType(), new GaugeChartType(), new LEDChartType()));
 
 	private final SimpleStringProperty name;
-	private final ObservableList<ColumnOrRow> seriesList;
+	private final ColumnOrRows seriesList;
 	private final ObjectProperty<IChartTypeSetup> chartTypeSetup;
 
 	public Chart(String name) {
-		this(new SimpleStringProperty(name), FXCollections.observableArrayList(), new SimpleObjectProperty<>(null));
+		this(new SimpleStringProperty(name), new ColumnOrRows(FXCollections.observableArrayList()), new SimpleObjectProperty<>(null));
 	}
 
-	public Chart(SimpleStringProperty name, ObservableList<ColumnOrRow> seriesList, ObjectProperty<IChartTypeSetup> chartTypeSetup) {
+	public Chart(SimpleStringProperty name, ColumnOrRows seriesList, ObjectProperty<IChartTypeSetup> chartTypeSetup) {
 		this.name = name;
 		this.seriesList = seriesList;
 		this.chartTypeSetup = chartTypeSetup;
@@ -43,27 +43,20 @@ import java.util.stream.Stream;
 		return chartTypes.stream().filter(type -> type.getPredicate().test(this));
 	}
 
-	@Override
-	public String toString() {
-		return "Chart{" +
-				"name=" + name +
-				", seriesList=" + seriesList +
-				", chartTypeSetup=" + chartTypeSetup +
-				'}';
+	@Override public String toString() {
+		return "Chart{" + "name=" + name + ", seriesList=" + seriesList + ", chartTypeSetup=" + chartTypeSetup + '}';
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+	@Override public boolean equals(Object o) {
+		if(this == o)
+			return true;
+		if(o == null || getClass() != o.getClass())
+			return false;
 		Chart chart = (Chart) o;
-		return Objects.equals(getName(), chart.getName()) &&
-				Objects.equals(seriesList, chart.seriesList) &&
-				Objects.equals(getChartTypeSetup(), chart.getChartTypeSetup());
+		return Objects.equals(getName(), chart.getName()) && Objects.equals(seriesList, chart.seriesList) && Objects.equals(getChartTypeSetup(), chart.getChartTypeSetup());
 	}
 
-	@Override
-	public int hashCode() {
+	@Override public int hashCode() {
 		return Objects.hash(getName(), seriesList, getChartTypeSetup());
 	}
 
@@ -80,6 +73,10 @@ import java.util.stream.Stream;
 	}
 
 	@Override public ObservableList<ColumnOrRow> getChildren() {
+		return seriesList.getData();
+	}
+
+	public ColumnOrRows getSeriesList() {
 		return seriesList;
 	}
 
@@ -88,24 +85,24 @@ import java.util.stream.Stream;
 	}
 
 	public Stream<ColumnOrRow.Column> getColumns() {
-		return seriesList.stream().filter(series -> series.isColumn()).map(series -> (ColumnOrRow.Column) series);
+		return seriesList.getData().stream().filter(series -> series.isColumn()).map(series -> (ColumnOrRow.Column) series);
 	}
 
 	public Stream<ColumnOrRow.Row> getRows() {
-		return seriesList.stream().filter(series -> series.isRow()).map(series -> (ColumnOrRow.Row) series);
+		return seriesList.getData().stream().filter(series -> series.isRow()).map(series -> (ColumnOrRow.Row) series);
 	}
 
 	public static class ChartSerializer extends CaesarSerializer<Chart> {
 
 		@Override public void write(Kryo kryo, Output output, Chart object) {
 			output.writeString(object.getName());
-			writeObservableListWithClass(kryo, output, object.getChildren());
+			kryo.writeObject(output, object.getSeriesList());
 			kryo.writeClassAndObject(output, object.getChartTypeSetup());
 		}
 
 		@Override public Chart read(Kryo kryo, Input input, Class<Chart> type) {
 			SimpleStringProperty name = readStringProperty(input);
-			ObservableList<ColumnOrRow> series = readObservableListWithClass(kryo, input, ColumnOrRow.class);
+			ColumnOrRows series = kryo.readObject(input, ColumnOrRows.class);
 			ObjectProperty<IChartTypeSetup> chartType = readObjectAndClassProperty(kryo, input, IChartTypeSetup.class);
 			return new Chart(name, series, chartType);
 		}

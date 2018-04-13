@@ -8,6 +8,7 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.model.Chart;
 import com.sirolf2009.caesar.model.ColumnOrRow;
+import com.sirolf2009.caesar.model.ColumnOrRows;
 import com.sirolf2009.caesar.model.chart.series.INumberSeries;
 import com.sirolf2009.caesar.model.chart.series.ISeries;
 import com.sirolf2009.caesar.model.serializer.CaesarSerializer;
@@ -33,16 +34,18 @@ import java.util.stream.IntStream;
 
 public class BarChartType implements IChartType {
 
+	public static final String name = "Bar Chart";
+
 	@Override public Predicate<Chart> getPredicate() {
 		return hasColumns.and(areColumnsNumbers).and(hasRows.negate());
 	}
 
 	@Override public String getName() {
-		return "Bar Chart";
+		return name;
 	}
 
 	@Override public IChartTypeSetup getSetup(Chart chart) {
-		return new BarChartSetup(chart.getChildren(), FXCollections.observableArrayList());
+		return new BarChartSetup(chart.getSeriesList(), FXCollections.observableArrayList());
 	}
 
 	@DefaultSerializer(BarChartTypeSetupSerializer.class)
@@ -50,7 +53,7 @@ public class BarChartType implements IChartType {
 
 		private final ObservableList<Bar> bars;
 
-		public BarChartSetup(ObservableList<ColumnOrRow> chartSeries, ObservableList<Bar> bars) {
+		public BarChartSetup(ColumnOrRows chartSeries, ObservableList<Bar> bars) {
 			super(chartSeries);
 			this.bars = bars;
 			update();
@@ -92,19 +95,23 @@ public class BarChartType implements IChartType {
 		public ObservableList<Bar> getBars() {
 			return bars;
 		}
+
+		@Override public String getName() {
+			return name;
+		}
 	}
 
 	public static class BarChartTypeSetupSerializer extends CaesarSerializer<BarChartSetup> {
 
 		@Override
 		public void write(Kryo kryo, Output output, BarChartSetup object) {
-			writeObservableListWithClass(kryo, output, object.getChartSeries());
+			kryo.writeObject(output, object.getChartSeries());
 			writeObservableList(kryo, output, object.getBars());
 		}
 
 		@Override
 		public BarChartSetup read(Kryo kryo, Input input, Class<BarChartSetup> type) {
-			ObservableList<ColumnOrRow> chartSeries = readObservableListWithClass(kryo, input, ColumnOrRow.class);
+			ColumnOrRows chartSeries = kryo.readObject(input, ColumnOrRows.class);
 			ObservableList<Bar> bars = readObservableList(kryo, input, Bar.class);
 			return new BarChartSetup(chartSeries, bars);
 		}

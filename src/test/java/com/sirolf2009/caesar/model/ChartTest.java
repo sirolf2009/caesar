@@ -2,7 +2,9 @@ package com.sirolf2009.caesar.model;
 
 import com.sirolf2009.caesar.SerializationTest;
 import com.sirolf2009.caesar.model.chart.series.IntegerSeries;
+import com.sirolf2009.caesar.model.chart.type.xy.LineChartType;
 import com.sirolf2009.caesar.model.table.JMXAttribute;
+import org.junit.Assert;
 import org.junit.Test;
 
 import javax.management.MBeanAttributeInfo;
@@ -22,6 +24,9 @@ public class ChartTest {
 		Chart chart = new Chart("series");
 		chart.getChildren().add(new ColumnOrRow.Column(new IntegerSeries(table, attribute1)));
 		chart.getChildren().add(new ColumnOrRow.Row(new IntegerSeries(table, attribute2)));
+
+		chart.chartTypeSetupProperty().set(new LineChartType().getSetup(chart));
 		SerializationTest.testCloning(chart, Chart.class);
+		Assert.assertTrue(((LineChartType.LineChartTypeSetup)chart.getChartTypeSetup()).getChartSeries() == chart.getChildren());
 	}
 }

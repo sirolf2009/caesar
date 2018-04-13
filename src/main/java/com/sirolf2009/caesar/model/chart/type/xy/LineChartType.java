@@ -6,6 +6,7 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.model.Chart;
 import com.sirolf2009.caesar.model.ColumnOrRow;
+import com.sirolf2009.caesar.model.ColumnOrRows;
 import com.sirolf2009.caesar.model.chart.series.INumberArraySeries;
 import com.sirolf2009.caesar.model.chart.series.INumberSeries;
 import com.sirolf2009.caesar.model.chart.type.IChartType;
@@ -30,22 +31,24 @@ import java.util.function.Predicate;
 
 public class LineChartType implements IChartType {
 
+	public static final String name = "Line Chart";
+
 	@Override public Predicate<Chart> getPredicate() {
 		return hasColumns.and(areColumnsNumbers).and(hasRows).and(areRowsNumbers);
 	}
 
 	@Override public String getName() {
-		return "Line Chart";
+		return name;
 	}
 
 	@Override public IChartTypeSetup getSetup(Chart chart) {
-		return new LineChartTypeSetup(chart.getChildren(), FXCollections.observableArrayList());
+		return new LineChartTypeSetup(chart.getSeriesList(), FXCollections.observableArrayList());
 	}
 
 	@DefaultSerializer(LineChartTypeSetupSerializer.class)
 	public static class LineChartTypeSetup extends AbstractLineChartSetup<Number, Number> {
 
-		public LineChartTypeSetup(ObservableList<ColumnOrRow> chartSeries, ObservableList<XYSeries<Number, Number>> series) {
+		public LineChartTypeSetup(ColumnOrRows chartSeries, ObservableList<XYSeries<Number, Number>> series) {
 			super(chartSeries, series);
 		}
 
@@ -57,19 +60,23 @@ public class LineChartType implements IChartType {
 			return new NumberAxis();
 		}
 
+		@Override public String getName() {
+			return name;
+		}
+
 	}
 
 	public static class LineChartTypeSetupSerializer extends CaesarSerializer<LineChartTypeSetup> {
 
 		@Override
 		public void write(Kryo kryo, Output output, LineChartTypeSetup object) {
-			writeObservableListWithClass(kryo, output, object.getChartSeries());
+			kryo.writeObject(output, object.getChartSeries());
 			writeObservableListWithClass(kryo, output, object.getSeries());
 		}
 
 		@Override
 		public LineChartTypeSetup read(Kryo kryo, Input input, Class<LineChartTypeSetup> type) {
-			ObservableList<ColumnOrRow> chartSeries = readObservableListWithClass(kryo, input, ColumnOrRow.class);
+			ColumnOrRows chartSeries = kryo.readObject(input, ColumnOrRows.class);
 			ObservableList<XYSeries<Number, Number>> series = readObservableListWithClassAndCast(kryo, input, o -> (XYSeries<Number, Number>) o);
 			return new LineChartTypeSetup(chartSeries, series);
 		}

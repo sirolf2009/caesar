@@ -59,9 +59,15 @@ public class XYSeries<X, Y> implements AbstractComparisonChartSetup.ComparisonSe
 			ChartUtil.showMarkers(series, showMarkers.get());
 			showMarkers.addListener(e -> ChartUtil.showMarkers(series, showMarkers.get()));
 			IntStream.range(0, Math.min(x.get().size(), y.get().size())).forEach(i -> series.getData().add(new XYChart.Data<>(x.get().get(i), y.get().get(i))));
-			JavaFxObservable.additionsOf(x.get()).zipWith(JavaFxObservable.additionsOf(y.get()), (a, b) -> new XYChart.Data<X, Y>(a, b)).subscribe((item -> series.getData().add(item)));
+			JavaFxObservable.additionsOf(x.get()).zipWith(JavaFxObservable.additionsOf(y.get()), (a, b) -> {
+				return new XYChart.Data<X, Y>(a, b);
+			}).subscribe((item -> series.getData().add(item)));
 		}
 		return series;
+	}
+
+	@Override public String toString() {
+		return "XYSeries{" + "x=" + x + ", y=" + y + ", series=" + series + ", name=" + name + ", color=" + color + ", showMarkers=" + showMarkers + '}';
 	}
 
 	@Override public boolean equals(Object o) {
@@ -81,8 +87,16 @@ public class XYSeries<X, Y> implements AbstractComparisonChartSetup.ComparisonSe
 		return Optional.ofNullable(color.get());
 	}
 
+	public ObjectProperty<Color> colorProperty() {
+		return color;
+	}
+
 	public boolean isShowMarkers() {
 		return showMarkers.get();
+	}
+
+	public BooleanProperty showMarkersProperty() {
+		return showMarkers;
 	}
 
 	public StringProperty nameProperty() {

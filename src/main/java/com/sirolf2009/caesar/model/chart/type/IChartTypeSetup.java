@@ -4,6 +4,7 @@ import javafx.scene.Node;
 
 public interface IChartTypeSetup {
 
+	String getName();
 	Node createChart();
 	Node createConfiguration();
 

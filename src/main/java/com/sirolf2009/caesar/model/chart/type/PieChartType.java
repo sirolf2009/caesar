@@ -8,6 +8,7 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.model.Chart;
 import com.sirolf2009.caesar.model.ColumnOrRow;
+import com.sirolf2009.caesar.model.ColumnOrRows;
 import com.sirolf2009.caesar.model.chart.series.INumberSeries;
 import com.sirolf2009.caesar.model.chart.series.ISeries;
 import com.sirolf2009.caesar.model.serializer.CaesarSerializer;
@@ -34,16 +35,18 @@ import java.util.stream.Collectors;
 
 public class PieChartType implements IChartType {
 
+	public static String name = "Pie Chart";
+
 	@Override public Predicate<Chart> getPredicate() {
 		return hasColumns.and(areColumnsNumbers).and(hasRows.negate());
 	}
 
 	@Override public String getName() {
-		return "Pie Chart";
+		return name;
 	}
 
 	@Override public IChartTypeSetup getSetup(Chart chart) {
-		return new PieChartSetup(chart.getChildren(), FXCollections.observableArrayList());
+		return new PieChartSetup(chart.getSeriesList(), FXCollections.observableArrayList());
 	}
 
 	@DefaultSerializer(PieChartTypeSetupSerializer.class)
@@ -51,7 +54,7 @@ public class PieChartType implements IChartType {
 
 		private final ObservableList<Piece> pieces;
 
-		public PieChartSetup(ObservableList<ColumnOrRow> chartSeries, ObservableList<Piece> pieces) {
+		public PieChartSetup(ColumnOrRows chartSeries, ObservableList<Piece> pieces) {
 			super(chartSeries);
 			this.pieces = pieces;
 			update();
@@ -91,19 +94,23 @@ public class PieChartType implements IChartType {
 		public ObservableList<Piece> getPieces() {
 			return pieces;
 		}
+
+		@Override public String getName() {
+			return name;
+		}
 	}
 
 	public static class PieChartTypeSetupSerializer extends CaesarSerializer<PieChartSetup> {
 
 		@Override
 		public void write(Kryo kryo, Output output, PieChartSetup object) {
-			writeObservableListWithClass(kryo, output, object.getChartSeries());
+			kryo.writeObject(output, object.getChartSeries());
 			writeObservableList(kryo, output, object.getPieces());
 		}
 
 		@Override
 		public PieChartSetup read(Kryo kryo, Input input, Class<PieChartSetup> type) {
-			ObservableList<ColumnOrRow> chartSeries = readObservableListWithClass(kryo, input, ColumnOrRow.class);
+			ColumnOrRows chartSeries = kryo.readObject(input, ColumnOrRows.class);
 			ObservableList<Piece> pieces = readObservableList(kryo, input, Piece.class);
 			return new PieChartSetup(chartSeries, pieces);
 		}

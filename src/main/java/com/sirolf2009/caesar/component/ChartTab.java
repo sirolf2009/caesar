@@ -4,8 +4,10 @@ import com.sirolf2009.caesar.model.Chart;
 import com.sirolf2009.caesar.model.ColumnOrRow;
 import com.sirolf2009.caesar.model.Table;
 import com.sirolf2009.caesar.model.chart.series.*;
+import com.sirolf2009.caesar.model.chart.type.AbstractComparisonChartSetup;
 import com.sirolf2009.caesar.model.chart.type.IChartType;
 import com.sirolf2009.caesar.model.chart.type.IChartTypeSetup;
+import com.sirolf2009.caesar.model.chart.type.xy.TimeseriesChartType;
 import com.sirolf2009.caesar.model.table.IDataPointer;
 import com.sirolf2009.caesar.util.ControllerUtil;
 import com.sirolf2009.caesar.util.FXUtil;
@@ -58,9 +60,6 @@ public class ChartTab extends VBox {
         chart.getColumns().forEach(series -> addColumn(series));
         chart.getRows().forEach(series -> addRow(series));
         setupChartTypes();
-        if(chart.getChartTypeSetup() != null) {
-            setupChart();
-        }
 
         chartTypeSelector.setConverter(new StringConverter<IChartType>() {
             @Override
@@ -73,9 +72,15 @@ public class ChartTab extends VBox {
                 return chart.getPossibleChartTypes().filter(type -> type.getName().equals(string)).findAny().orElse(null);
             }
         });
-        chartTypeSelector.getSelectionModel().selectedItemProperty().addListener((a, b, c) -> {
-            chart.chartTypeSetupProperty().set(chartTypeSelector.getSelectionModel().getSelectedItem().getSetup(chart));
+        if(chart.getChartTypeSetup() != null) {
             setupChart();
+            chartTypeSelector.getItems().stream().filter(type -> type.getName().equals(chart.getChartTypeSetup().getName())).findAny().ifPresent(type -> chartTypeSelector.getSelectionModel().select(type));
+        }
+        chartTypeSelector.getSelectionModel().selectedItemProperty().addListener((a, b, c) -> {
+            if(chartTypeSelector.getSelectionModel().getSelectedItem() != null) {
+                chart.chartTypeSetupProperty().set(chartTypeSelector.getSelectionModel().getSelectedItem().getSetup(chart));
+                setupChart();
+            }
         });
 
         columns.setOnDragOver(event1 -> {

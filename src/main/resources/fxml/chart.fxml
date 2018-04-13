@@ -6,6 +6,7 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -48,7 +49,11 @@
       <Separator prefWidth="200.0" />
       <SplitPane dividerPositions="0.2" VBox.vgrow="ALWAYS">
          <items>
-            <AnchorPane fx:id="configAnchor" prefHeight="200.0" prefWidth="200.0" />
+            <ScrollPane>
+               <content>
+                  <AnchorPane fx:id="configAnchor" prefHeight="200.0" prefWidth="200.0" />
+               </content>
+            </ScrollPane>
             <AnchorPane fx:id="chartAnchor">
                <children>
                   <LineChart AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

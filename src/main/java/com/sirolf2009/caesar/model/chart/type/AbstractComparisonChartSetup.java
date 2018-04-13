@@ -1,6 +1,7 @@
 package com.sirolf2009.caesar.model.chart.type;
 
 import com.sirolf2009.caesar.model.ColumnOrRow;
+import com.sirolf2009.caesar.model.ColumnOrRows;
 import com.sirolf2009.caesar.model.chart.series.ISeries;
 import javafx.beans.InvalidationListener;
 import javafx.collections.ObservableList;
@@ -15,7 +16,7 @@ public abstract class AbstractComparisonChartSetup<X, Y, T extends AbstractCompa
 
 	private final ObservableList<T> series;
 
-	public AbstractComparisonChartSetup(ObservableList<ColumnOrRow> chartSeries, ObservableList<T> series) {
+	public AbstractComparisonChartSetup(ColumnOrRows chartSeries, ObservableList<T> series) {
 		super(chartSeries);
 		this.series = series;
 		update();

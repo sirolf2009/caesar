@@ -1,6 +1,8 @@
 package com.sirolf2009.caesar.model.chart.type;
 
 import com.sirolf2009.caesar.model.ColumnOrRow;
+import com.sirolf2009.caesar.model.ColumnOrRows;
+import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.beans.InvalidationListener;
 import javafx.collections.ObservableList;
 
@@ -9,11 +11,13 @@ import java.util.stream.Stream;
 
 public abstract class AbstractChartSetup implements IChartTypeSetup {
 
-	private final ObservableList<ColumnOrRow> chartSeries;
+	private final ColumnOrRows chartSeries;
 
-	public AbstractChartSetup(ObservableList<ColumnOrRow> chartSeries) {
+	public AbstractChartSetup(ColumnOrRows chartSeries) {
 		this.chartSeries = chartSeries;
-		chartSeries.addListener((InvalidationListener) e -> update());
+		chartSeries.getData().addListener((InvalidationListener) e -> {
+			update();
+		});
 	}
 
 	public abstract void update();
@@ -31,16 +35,16 @@ public abstract class AbstractChartSetup implements IChartTypeSetup {
 		return Objects.hash(getChartSeries());
 	}
 
-	public ObservableList<ColumnOrRow> getChartSeries() {
+	public ColumnOrRows getChartSeries() {
 		return chartSeries;
 	}
 
 	public Stream<ColumnOrRow.Column> getColumns() {
-		return chartSeries.stream().filter(series -> series.isColumn()).map(series -> (ColumnOrRow.Column) series);
+		return chartSeries.getData().stream().filter(series -> series.isColumn()).map(series -> (ColumnOrRow.Column) series);
 	}
 
 	public Stream<ColumnOrRow.Row> getRows() {
-		return chartSeries.stream().filter(series -> series.isRow()).map(series -> (ColumnOrRow.Row) series);
+		return chartSeries.getData().stream().filter(series -> series.isRow()).map(series -> (ColumnOrRow.Row) series);
 	}
 
 }

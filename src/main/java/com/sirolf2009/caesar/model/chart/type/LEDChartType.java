@@ -8,6 +8,7 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.sirolf2009.caesar.model.Chart;
 import com.sirolf2009.caesar.model.ColumnOrRow;
+import com.sirolf2009.caesar.model.ColumnOrRows;
 import com.sirolf2009.caesar.model.chart.series.BooleanSeries;
 import com.sirolf2009.caesar.model.chart.series.ISeries;
 import com.sirolf2009.caesar.model.serializer.CaesarSerializer;
@@ -31,16 +32,18 @@ import java.util.stream.Collectors;
 
 public class LEDChartType implements IChartType {
 
+	public static final String name = "LED";
+
 	@Override public Predicate<Chart> getPredicate() {
 		return hasColumns.negate().and(hasRows).and(IChartType.areAllRows(row -> row.getSeries() instanceof BooleanSeries));
 	}
 
 	@Override public String getName() {
-		return "LED";
+		return name;
 	}
 
 	@Override public IChartTypeSetup getSetup(Chart chart) {
-		return new LEDChartSetup(chart.getChildren(), FXCollections.observableArrayList());
+		return new LEDChartSetup(chart.getSeriesList(), FXCollections.observableArrayList());
 	}
 
 	@DefaultSerializer(LEDTypeSetupSerializer.class)
@@ -48,7 +51,7 @@ public class LEDChartType implements IChartType {
 
 		private final ObservableList<LEDSeries> series;
 
-		public LEDChartSetup(ObservableList<ColumnOrRow> chartSeries, ObservableList<LEDSeries> series) {
+		public LEDChartSetup(ColumnOrRows chartSeries, ObservableList<LEDSeries> series) {
 			super(chartSeries);
 			this.series = series;
 			update();
@@ -98,19 +101,23 @@ public class LEDChartType implements IChartType {
 		public ObservableList<LEDSeries> getSeries() {
 			return series;
 		}
+
+		@Override public String getName() {
+			return name;
+		}
 	}
 
 	public static class LEDTypeSetupSerializer extends CaesarSerializer<LEDChartSetup> {
 
 		@Override
 		public void write(Kryo kryo, Output output, LEDChartSetup object) {
-			writeObservableListWithClass(kryo, output, object.getChartSeries());
+			kryo.writeObject(output, object.getChartSeries());
 			writeObservableList(kryo, output, object.getSeries());
 		}
 
 		@Override
 		public LEDChartSetup read(Kryo kryo, Input input, Class<LEDChartSetup> type) {
-			ObservableList<ColumnOrRow> chartSeries = readObservableListWithClass(kryo, input, ColumnOrRow.class);
+			ColumnOrRows chartSeries = kryo.readObject(input, ColumnOrRows.class);
 			ObservableList<LEDSeries> pieces = readObservableList(kryo, input, LEDSeries.class);
 			return new LEDChartSetup(chartSeries, pieces);
 		}
