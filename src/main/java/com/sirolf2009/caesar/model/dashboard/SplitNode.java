@@ -38,6 +38,7 @@ public class SplitNode implements IDashboardNode {
     public Node createNode() {
         SplitPane pane = new SplitPane();
         pane.setOrientation(orientation);
+        pane.getStyleClass().add("dashboard-split-pane");
         children.forEach(child -> {
             if(child instanceof SplitNode) {
                 pane.getItems().add(child.createNode());

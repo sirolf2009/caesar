@@ -21,6 +21,10 @@
     -fx-background-color: #d66b00;
 }
 
+.dashboard-split-pane > .split-pane-divider {
+    -fx-padding: 0 0.05em 0 0.05em;
+}
+
 .progress-indicator .percentage {
     -fx-fill:null;
 }
