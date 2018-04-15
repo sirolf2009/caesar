@@ -3,9 +3,11 @@ package com.sirolf2009.caesar.component;
 import com.sirolf2009.caesar.model.*;
 import com.sirolf2009.caesar.model.dashboard.SplitNode;
 import com.sirolf2009.caesar.model.table.IDataPointer;
+import com.sirolf2009.caesar.util.DragDrop;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
+import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.util.Pair;
@@ -45,40 +47,21 @@ public class DashboardTab extends DockPane implements ITab {
 
 	public DashboardTab(Dashboard dashboard) {
 		this.dashboard = dashboard;
-		setOnDragOver(event1 -> {
-			if(event1.getGestureSource() != this && event1.getDragboard().hasContent(TablesTreeView.TABLE) || event1.getDragboard().hasContent(TablesTreeView.TABLE_AND_POINTER) || event1.getDragboard().hasContent(ChartsTreeView.CHART)) {
-				event1.acceptTransferModes(TransferMode.LINK);
-				setStyle("-fx-effect: innershadow(gaussian, rgb(114, 137, 218), 10, 1.0, 0, 0);");
-			}
-			event1.consume();
-		});
-		setOnDragExited(new EventHandler<DragEvent>() {
-			@Override public void handle(DragEvent event) {
-				setStyle("");
+		DragDrop.initializeDragDrop(this, new DataFormat[] {TablesTreeView.TABLE, TablesTreeView.TABLE_AND_POINTER, ChartsTreeView.CHART}, event -> {
+			if(event.getDragboard().hasContent(TablesTreeView.TABLE)) {
+				Table table = TablesTreeView.table;
+				addDockNode(event, table, table.createNode());
 				event.consume();
-			}
-		});
-		setOnDragDropped(new EventHandler<DragEvent>() {
-			@Override public void handle(DragEvent event) {
-				try {
-					if(event.getDragboard().hasContent(TablesTreeView.TABLE)) {
-						Table table = TablesTreeView.table;
-						addDockNode(event, table, table.createNode());
-						event.consume();
-					} else if(event.getDragboard().hasContent(TablesTreeView.TABLE_AND_POINTER)) {
-						Table table = TablesTreeView.table;
-						IDataPointer pointer = TablesTreeView.pointer;
-						TableAndPointer tableAndPointer = new TableAndPointer(table.getName() + "/" + pointer.getName(), table, pointer);
-						addDockNode(event, tableAndPointer, tableAndPointer.createNode());
-						event.consume();
-					} else if(event.getDragboard().hasContent(ChartsTreeView.CHART)) {
-						Chart chart = ChartsTreeView.chart;
-						addDockNode(event, chart, chart.createNode());
-						event.consume();
-					}
-				} catch(Exception e) {
-					e.printStackTrace();
-				}
+			} else if(event.getDragboard().hasContent(TablesTreeView.TABLE_AND_POINTER)) {
+				Table table = TablesTreeView.table;
+				IDataPointer pointer = TablesTreeView.pointer;
+				TableAndPointer tableAndPointer = new TableAndPointer(table.getName() + "/" + pointer.getName(), table, pointer);
+				addDockNode(event, tableAndPointer, tableAndPointer.createNode());
+				event.consume();
+			} else if(event.getDragboard().hasContent(ChartsTreeView.CHART)) {
+				Chart chart = ChartsTreeView.chart;
+				addDockNode(event, chart, chart.createNode());
+				event.consume();
 			}
 		});
 		if(dashboard.getRoot() != null) {

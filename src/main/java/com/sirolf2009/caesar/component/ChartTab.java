@@ -3,6 +3,7 @@ package com.sirolf2009.caesar.component;
 import com.sirolf2009.caesar.model.Chart;
 import com.sirolf2009.caesar.model.ColumnOrRow;
 import com.sirolf2009.caesar.model.Table;
+import com.sirolf2009.caesar.model.TableAndPointer;
 import com.sirolf2009.caesar.model.chart.series.*;
 import com.sirolf2009.caesar.model.chart.type.AbstractComparisonChartSetup;
 import com.sirolf2009.caesar.model.chart.type.IChartType;
@@ -10,6 +11,7 @@ import com.sirolf2009.caesar.model.chart.type.IChartTypeSetup;
 import com.sirolf2009.caesar.model.chart.type.xy.TimeseriesChartType;
 import com.sirolf2009.caesar.model.table.IDataPointer;
 import com.sirolf2009.caesar.util.ControllerUtil;
+import com.sirolf2009.caesar.util.DragDrop;
 import com.sirolf2009.caesar.util.FXUtil;
 import javafx.beans.InvalidationListener;
 import javafx.collections.ObservableList;
@@ -17,6 +19,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
@@ -83,58 +86,24 @@ public class ChartTab extends VBox implements ITab {
             }
         });
 
-        columns.setOnDragOver(event1 -> {
-            if (event1.getGestureSource() != columns && event1.getDragboard().hasContent(TablesTreeView.TABLE_AND_POINTER)) {
-                event1.acceptTransferModes(TransferMode.LINK);
-                columns.setStyle("-fx-effect: innershadow(gaussian, #039ed3, 10, 1.0, 0, 0);");
-            }
-            event1.consume();
-        });
-        columns.setOnDragExited(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                columns.setStyle("");
+        DragDrop.initializeDragDrop(columns, new DataFormat[] {TablesTreeView.TABLE_AND_POINTER}, event -> {
+            try {
+                ColumnOrRow.Column column = new ColumnOrRow.Column(getSeries(TablesTreeView.table, TablesTreeView.pointer));
+                chart.getChildren().add(column);
+                addColumn(column);
                 event.consume();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
-        columns.setOnDragDropped(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                try {
-                    ColumnOrRow.Column column = new ColumnOrRow.Column(getSeries(TablesTreeView.table, TablesTreeView.pointer));
-                    chart.getChildren().add(column);
-                    addColumn(column);
-                    event.consume();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        rows.setOnDragOver(event1 -> {
-            if (event1.getGestureSource() != rows && event1.getDragboard().hasContent(TablesTreeView.TABLE_AND_POINTER)) {
-                event1.acceptTransferModes(TransferMode.LINK);
-                rows.setStyle("-fx-effect: innershadow(gaussian, #039ed3, 10, 1.0, 0, 0);");
-            }
-            event1.consume();
-        });
-        rows.setOnDragExited(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                rows.setStyle("");
+        DragDrop.initializeDragDrop(rows, new DataFormat[] {TablesTreeView.TABLE_AND_POINTER}, event -> {
+            try {
+                ColumnOrRow.Row row = new ColumnOrRow.Row(getSeries(TablesTreeView.table, TablesTreeView.pointer));
+                chart.getChildren().add(row);
+                addRow(row);
                 event.consume();
-            }
-        });
-        rows.setOnDragDropped(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                try {
-                    ColumnOrRow.Row row = new ColumnOrRow.Row(getSeries(TablesTreeView.table, TablesTreeView.pointer));
-                    chart.getChildren().add(row);
-                    addRow(row);
-                    event.consume();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }

@@ -2,14 +2,17 @@ package com.sirolf2009.caesar.component;
 
 import com.sirolf2009.caesar.Connection;
 import com.sirolf2009.caesar.JMXPuller;
+import com.sirolf2009.caesar.model.Chart;
 import com.sirolf2009.caesar.model.JMXAttributes;
 import com.sirolf2009.caesar.model.Table;
+import com.sirolf2009.caesar.model.TableAndPointer;
 import com.sirolf2009.caesar.model.table.CurrentTime;
 import com.sirolf2009.caesar.model.table.IDataPointer;
 import com.sirolf2009.caesar.model.table.JMXAttribute;
 import com.sirolf2009.caesar.model.table.JMXCompositeAttribute;
 import com.sirolf2009.caesar.model.table.map.*;
 import com.sirolf2009.caesar.util.ControllerUtil;
+import com.sirolf2009.caesar.util.DragDrop;
 import com.sirolf2009.caesar.util.TypeUtil;
 import com.sun.javafx.scene.control.skin.TableHeaderRow;
 import javafx.application.Platform;
@@ -19,6 +22,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
@@ -85,46 +89,32 @@ public class TableTab extends AnchorPane implements ITab {
 				});
 			}
 		});
-		table.setOnDragOver(event1 -> {
-			if(event1.getGestureSource() != table && event1.getDragboard().hasString() && event1.getDragboard().getString().split("@").length == 2) {
-				event1.acceptTransferModes(TransferMode.LINK);
-				table.setStyle("-fx-effect: innershadow(gaussian, #039ed3, 10, 1.0, 0, 0);");
-			}
-			event1.consume();
-		});
-		table.setOnDragExited(new EventHandler<DragEvent>() {
-			@Override public void handle(DragEvent event) {
-				table.setStyle("");
-				event.consume();
-			}
-		});
-		table.setOnDragDropped(new EventHandler<DragEvent>() {
-			@Override public void handle(DragEvent event) {
-				try {
-					String newVariable = event.getDragboard().getString();
-					String[] data = newVariable.split("@");
-					ObjectName objectName = new ObjectName(data[1]);
-					connection.getConnection().ifPresent(connection -> {
-						try {
-							Arrays.stream(connection.getMBeanInfo(objectName).getAttributes()).filter(mBeanAttributeInfo -> {
-								return mBeanAttributeInfo.getName().equals(data[0]);
-							}).findAny().ifPresent(mBeanAttributeInfo -> {
-								JMXAttribute attribute = new JMXAttribute(objectName, mBeanAttributeInfo);
-								getDataPointers(attribute).forEach(pointer -> {
-									Platform.runLater(() -> {
-										tableModel.getChildren().add(pointer);
-										addPointer(pointer);
-									});
+
+		DragDrop.initializeDragDrop(table, event -> event.getDragboard().hasString() && event.getDragboard().getString().split("@").length == 2, event -> {
+			try {
+				String newVariable = event.getDragboard().getString();
+				String[] data = newVariable.split("@");
+				ObjectName objectName = new ObjectName(data[1]);
+				connection.getConnection().ifPresent(connection -> {
+					try {
+						Arrays.stream(connection.getMBeanInfo(objectName).getAttributes()).filter(mBeanAttributeInfo -> {
+							return mBeanAttributeInfo.getName().equals(data[0]);
+						}).findAny().ifPresent(mBeanAttributeInfo -> {
+							JMXAttribute attribute = new JMXAttribute(objectName, mBeanAttributeInfo);
+							getDataPointers(attribute).forEach(pointer -> {
+								Platform.runLater(() -> {
+									tableModel.getChildren().add(pointer);
+									addPointer(pointer);
 								});
 							});
-						} catch(Exception e) {
-							e.printStackTrace();
-						}
-						event.consume();
-					});
-				} catch(Exception e) {
-					e.printStackTrace();
-				}
+						});
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
+					event.consume();
+				});
+			} catch(Exception e) {
+				e.printStackTrace();
 			}
 		});
 	}
