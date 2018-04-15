@@ -32,7 +32,7 @@ import java.util.function.Predicate;
 
 import static com.sirolf2009.caesar.util.TypeUtil.*;
 
-public class ChartTab extends VBox {
+public class ChartTab extends VBox implements ITab {
 
     private final ObservableList<Table> tables;
     private final Chart chart;

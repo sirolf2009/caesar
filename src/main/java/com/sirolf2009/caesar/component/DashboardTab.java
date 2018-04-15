@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
-public class DashboardTab extends DockPane {
+public class DashboardTab extends DockPane implements ITab {
 
 	private static Constructor dockNodeEventHandlerConstructor;
 	private static Field filtersField;
@@ -91,7 +91,6 @@ public class DashboardTab extends DockPane {
 			getChildren().add(root);
 			initSplitPane(root);
 		}
-//		DockPane.initializeDefaultUserAgentStylesheet();
 	}
 
 	private void initSplitPane(SplitPane splitPane) {
@@ -132,6 +131,11 @@ public class DashboardTab extends DockPane {
 		Pair<DockPos, Double> distanceTop = new Pair(DockPos.TOP, event.getY());
 		Pair<DockPos, Double> distanceBottom = new Pair(DockPos.BOTTOM, getHeight() - event.getY());
 		return Arrays.asList(distanceLeft, distanceRight, distanceTop, distanceBottom).stream().min(Comparator.comparing(Pair::getValue)).get().getKey();
+	}
+
+	@Override
+	public void preSave() {
+		updateModel();
 	}
 
 	public void updateModel() {

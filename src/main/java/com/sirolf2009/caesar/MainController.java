@@ -21,6 +21,7 @@ import javafx.stage.FileChooser;
 import javax.management.MBeanInfo;
 import java.io.*;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 public class MainController {
 
@@ -66,10 +67,12 @@ public class MainController {
 		File file = chooser.showSaveDialog(toolbar.getScene().getWindow());
 		if(file != null) {
 			try {
+			    getTabs().forEach(tab -> tab.preSave());
 				CaesarKryo kryo = new CaesarKryo();
 				Output out = new Output(new FileOutputStream(file));
 				kryo.writeObject(out, model);
 				out.close();
+                getTabs().forEach(tab -> tab.postSave());
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -181,6 +184,10 @@ public class MainController {
 	private String getNewTabName() {
 		return "Untitled " + (tabs.getTabs().size() + 1);
 	}
+
+	private Stream<ITab> getTabs() {
+        return tabs.getTabs().stream().filter(tab -> tab.getContent() instanceof ITab).map(tab -> (ITab) tab.getContent());
+    }
 
 	public Connection getConnection() {
 		return connection;

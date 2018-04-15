@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import static com.sirolf2009.caesar.util.TypeUtil.*;
 
-public class TableTab extends AnchorPane {
+public class TableTab extends AnchorPane implements ITab {
 
 	private final Table tableModel;
 	private final Connection connection;
